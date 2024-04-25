@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extract method &apos;private static void extracted(Scanner lector)&apos; from &apos;primerEjemplo.Principal.main(...)&apos; to &apos;primerEjemplo.Principal&apos;&#x0D;&#x0A;- Original project: &apos;EJ1Sintaxis&apos;&#x0D;&#x0A;- Method name: &apos;extracted&apos;&#x0D;&#x0A;- Destination type: &apos;primerEjemplo.Principal&apos;&#x0D;&#x0A;- Declared visibility: &apos;private&apos;" comments="false" description="Extract method &apos;extracted&apos;" destination="0" exceptions="false" flags="786434" id="org.eclipse.jdt.ui.extract.method" input="/src&lt;primerEjemplo{Principal.java" name="extracted" replace="false" selection="242 343" stamp="1711321631019" version="1.0" visibility="2"/>
+</session>
