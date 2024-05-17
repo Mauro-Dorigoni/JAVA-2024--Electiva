@@ -40,3 +40,5 @@ Se trata de una simple Biblioteca, donde el cliente podra realizar prestamos de 
 |Listado|Clientes con prestamos sin devolver|
 |Niveles de Acceso|Usuario/Administrador|
 
+### Implementacion DER Tablas
+![](TPI/Media/DER.png)
