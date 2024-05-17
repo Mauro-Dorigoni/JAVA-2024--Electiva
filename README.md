@@ -41,4 +41,4 @@ Se trata de una simple Biblioteca, donde el cliente podra realizar prestamos de 
 |Niveles de Acceso|Usuario/Administrador|
 
 ### Implementacion DER Tablas
-![](TPI/Media/DER.png)
+![](TPI/Media/DER.drawio.png)
