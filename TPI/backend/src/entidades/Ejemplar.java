@@ -1,6 +1,6 @@
 package entidades;
 
-public class ejemplar extends libro {
+public class Ejemplar extends Libro {
 	private int idEjemplar;
 	private int nroEdicion;
 	private String fechaEdicion;

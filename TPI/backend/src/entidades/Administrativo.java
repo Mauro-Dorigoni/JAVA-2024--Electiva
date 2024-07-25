@@ -1,6 +1,6 @@
 package entidades;
 
-public class administrativo {
+public class Administrativo {
 	private int idAdministrativo;
 	private String legajo;
 	private String contra;

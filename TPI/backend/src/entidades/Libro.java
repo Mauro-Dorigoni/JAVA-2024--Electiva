@@ -1,6 +1,6 @@
 package entidades;
 
-public class libro {
+public class Libro {
 	private int idLibro;
 	private int idCategoria;
 	private String autor;

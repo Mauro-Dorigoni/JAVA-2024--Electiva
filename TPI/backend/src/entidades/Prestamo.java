@@ -1,6 +1,6 @@
 package entidades;
 
-public class prestamo {
+public class Prestamo {
 	private String fechaRealizacion;
 	private String estado;
 	private int idCliente;

@@ -1,6 +1,6 @@
 package entidades;
 
-public class review extends prestamo{
+public class Review extends Prestamo{
 	private int idReview;
 	private String fechaReview;
 	private int puntaje;
