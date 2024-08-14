@@ -6,7 +6,7 @@ public class Menu {
 	private String name;
 	private double unitCost;
 	private int quantity;
-	private LinkedList<Catering> caterings;
+	private LinkedList<Event> caterings;
 	
 	public String getName() {
 		return name;
@@ -26,10 +26,10 @@ public class Menu {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public LinkedList<Catering> getCaterings() {
+	public LinkedList<Event> getCaterings() {
 		return caterings;
 	}
-	public void setCaterings(LinkedList<Catering> caterings) {
+	public void setCaterings(LinkedList<Event> caterings) {
 		this.caterings = caterings;
 	}
 	
