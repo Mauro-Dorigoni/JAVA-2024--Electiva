@@ -18,15 +18,15 @@
                         <form id="login-form" class="form" action="<%=request.getContextPath()%>/login" method="post">
                             <h3 class="text-center text-info">Login</h3>
                             <div class="form-group">
-                                <label for="username" class="text-info">Usuario o e-mail</label>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <label for="username" class="text-info">Direccion de e-mail</label>
+                                <input type="email" name="username" id="username" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Contraseña</label>
                                 <input type="password" name="password" id="password" class="form-control">
                             </div>
                             <div class="form-group d-flex justify-content-between align-items-center">
-                                <a href="#" id="register-link" class="text-info">Registrarse</a>
+                                <a href="<%=request.getContextPath()%>/register.jsp" id="register-link" class="text-info">Registrarse</a>
                                 <input type="submit" name="submit" class="btn btn-custom btn-md" value="INGRESAR">
                             </div>
                         </form>
