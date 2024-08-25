@@ -2,7 +2,7 @@ package entidades;
 
 public class Libro {
 	private int idLibro;
-	private int idCategoria;
+	private Categoria_libro categoria;
 	private String autor;
 	private String ISBN;
 	private String sumario;
@@ -14,11 +14,12 @@ public class Libro {
 	public void setIdLibro(int idLibro) {
 		this.idLibro = idLibro;
 	}
-	public int getIdCategoria() {
-		return idCategoria;
+
+	public Categoria_libro getCategoria() {
+		return categoria;
 	}
-	public void setIdCategoria(int idCategoria) {
-		this.idCategoria = idCategoria;
+	public void setCategoria(Categoria_libro categoria) {
+		this.categoria = categoria;
 	}
 	public String getAutor() {
 		return autor;

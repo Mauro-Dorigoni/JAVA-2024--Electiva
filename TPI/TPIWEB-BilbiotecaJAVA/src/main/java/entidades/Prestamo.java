@@ -1,15 +1,17 @@
 package entidades;
+import java.time.*;
 
 public class Prestamo {
-	private String fechaRealizacion;
+	private LocalDate fechaRealizacion;
 	private String estado;
-	private int idCliente;
-	private int idEjemplar;
+	private Cliente cliente;
+	private Ejemplar ejemplar;
 	private int idLibro;
-	public String getFechaRealizacion() {
+
+	public LocalDate getFechaRealizacion() {
 		return fechaRealizacion;
 	}
-	public void setFechaRealizacion(String fechaRealizacion) {
+	public void setFechaRealizacion(LocalDate fechaRealizacion) {
 		this.fechaRealizacion = fechaRealizacion;
 	}
 	public String getEstado() {
@@ -18,17 +20,17 @@ public class Prestamo {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	public int getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
-	public void setIdCliente(int idCliente) {
-		this.idCliente = idCliente;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
-	public int getIdEjemplar() {
-		return idEjemplar;
+	public Ejemplar getEjemplar() {
+		return ejemplar;
 	}
-	public void setIdEjemplar(int idEjemplar) {
-		this.idEjemplar = idEjemplar;
+	public void setEjemplar(Ejemplar ejemplar) {
+		this.ejemplar = ejemplar;
 	}
 	public int getIdLibro() {
 		return idLibro;

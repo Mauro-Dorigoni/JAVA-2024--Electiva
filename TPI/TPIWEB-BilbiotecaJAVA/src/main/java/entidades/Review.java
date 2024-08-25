@@ -1,23 +1,33 @@
 package entidades;
+import java.time.*;
 
 public class Review extends Prestamo{
 	private int idReview;
-	private String fechaReview;
+	private LocalDate fechaReview;
 	private int puntaje;
 	private String descripcion;
 	private String estado_review;
+	private Cliente administrativo;
+	
+	public LocalDate getFechaReview() {
+		return fechaReview;
+	}
+	public void setFechaReview(LocalDate fechaReview) {
+		this.fechaReview = fechaReview;
+	}
+	public Cliente getAdministrativo() {
+		return administrativo;
+	}
+	public void setAdministrativo(Cliente administrativo) {
+		this.administrativo = administrativo;
+	}
 	public int getIdReview() {
 		return idReview;
 	}
 	public void setIdReview(int idReview) {
 		this.idReview = idReview;
 	}
-	public String getFechaReview() {
-		return fechaReview;
-	}
-	public void setFechaReview(String fechaReview) {
-		this.fechaReview = fechaReview;
-	}
+
 	public int getPuntaje() {
 		return puntaje;
 	}
