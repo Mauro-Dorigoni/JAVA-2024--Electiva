@@ -26,13 +26,13 @@ public class LoginServlet extends HttpServlet {
         Login login = new Login();
         Cliente user = login.validate(c);
         if(user == null) {
-        	HttpSession session = request.getSession();
-            session.setAttribute("user", mail);
 			response.sendRedirect("login.jsp");;
 		}
 		else {
-			if(user.isAdmin()) {response.sendRedirect("loginSuccess.jsp");}
-			else {response.sendRedirect("loginSuccess.jsp");}
+			HttpSession session = request.getSession();
+		    session.setAttribute("userEmail", mail); 
+		    session.setAttribute("userRole", user.isAdmin() ? "admin" : "client");
+		    response.sendRedirect(user.isAdmin() ? "adminDashboard.jsp" : "loginSuccess.jsp");
 		}
         
     }

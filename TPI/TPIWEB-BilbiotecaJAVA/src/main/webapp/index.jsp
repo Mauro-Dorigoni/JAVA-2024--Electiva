@@ -62,6 +62,20 @@
         .info-box h1 {
             color: #e08b72;
         }
+        .footer {
+	        background-color: #e08b72;
+	        padding: 20px;
+	        text-align: center;
+	        position: fixed;
+	        width: 100%;
+	        bottom: 0;
+	    }
+
+	    .footer p {
+	        color: white;
+	        font-weight: bold;
+	        margin: 0;
+	    }
     </style>
 </head>
 <body>
@@ -86,5 +100,10 @@
             <p>Profesores: Meca Adrian, Tabacman Ricardo</p>
         </div>
     </div>
+    <!-- Footer -->
+	<div class="footer">
+	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+	</div>
+ 
 </body>
 </html>

@@ -34,6 +34,20 @@
             color: red;
             display: none;
         }
+        .footer {
+	        background-color: #e08b72;
+	        padding: 20px;
+	        text-align: center;
+	        position: fixed;
+	        width: 100%;
+	        bottom: 0;
+	    }
+	
+	    .footer p {
+	        color: white;
+	        font-weight: bold;
+	        margin: 0;
+    	}
     </style>
 </head>
 <body>
@@ -109,6 +123,9 @@
             </div>
         </div>
     </div>
+    <div class="footer">
+	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+	</div>
 
     <script>
         function validatePasswords() {
