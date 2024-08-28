@@ -123,6 +123,37 @@
             </div>
         </div>
     </div>
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Volver a intentar</button>
+                
+                <button type="button" class="btn btn-custom btn-md" onclick="window.location.href='<%=request.getContextPath()%>/login.jsp'">Login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        if (messageType) {
+            $('#messageModal').modal('show');
+        }
+    });
+</script>
     <div class="footer">
 	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
 	</div>

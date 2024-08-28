@@ -29,11 +29,14 @@ public class RegisterServlet extends HttpServlet {
 		
 		if(cc.getByMail(c)==null) {
 			cc.registrarCliente(c);
-			response.sendRedirect("loginSuccess.jsp");
+			request.setAttribute("messageType", "success");
+            request.setAttribute("message", "Cliente registrado con éxito.");
 		}
 		else {
-			response.sendRedirect("login.jsp");
+			request.setAttribute("messageType", "error");
+            request.setAttribute("message", "Ese mail ya se encuentra registrado.");
 		}
+		request.getRequestDispatcher("register.jsp").forward(request, response);
 	}
 
 }
