@@ -26,7 +26,9 @@ public class LoginServlet extends HttpServlet {
         Login login = new Login();
         Cliente user = login.validate(c);
         if(user == null) {
-			response.sendRedirect("login.jsp");;
+        	request.setAttribute("messageType", "error");
+            request.setAttribute("message", "Usuario no encontrado");
+		    request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 		else {
 			HttpSession session = request.getSession();

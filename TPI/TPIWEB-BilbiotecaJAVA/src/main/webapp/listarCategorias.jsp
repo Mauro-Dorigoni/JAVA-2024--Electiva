@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.List" %>
+<%@ page import="entidades.Categoria_libro" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="entidades.Cliente" %>
 
 <%
     String userEmail = (String) session.getAttribute("userEmail");
@@ -10,13 +11,16 @@
         response.sendRedirect("index.jsp");
         return;
     }
+
+    // Recuperar la lista de categorías desde el request
+    List<Categoria_libro> categorias = (List<Categoria_libro>) request.getAttribute("categorias");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard - Listado de Categorías</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -105,6 +109,10 @@
             background-color: #3C7D93; /* Darker shade of #4FA5BF */
             text-decoration: underline; /* Subrayado al hacer hover */
         }
+        .sidebar .active {
+	        background-color: #3C7D93;
+	        text-decoration: underline;
+	    }
 
         .dropdown-container {
             display: none;
@@ -128,39 +136,77 @@
         .main-content {
             margin-left: 250px;
             flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             padding: 20px;
         }
 
-        .info-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px;
+        .card-container {
+            display: flex;
+            flex-direction: column;
         }
 
-        .info-box h1 {
-            color: #e08b72;
+        .card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .card img {
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .card-content {
+            flex-grow: 1;
+        }
+
+        .card-content h5 {
+            margin: 0;
+            color: #e08b72;
+            font-weight: bold;
+        }
+
+        .card-content p {
+            margin: 5px 0;
+        }
+
+        .card button {
+            background-color: #e08b72;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #c76a57;
+        }
+
         .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
-	    }
-	
-	    .footer p {
-	        color: white;
-	        font-weight: bold;
-	        margin: 0;
-    	}
+            background-color: #e08b72;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .footer p {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -172,16 +218,14 @@
         <div class="nav-links">
             <div class="user-icon">
                 <span class="welcome-message">Bienvenido <%= userEmail %></span>
-                <a href="#"><i class="fas fa-ssuser"></i></a>
+                <a href="#"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Container with Sidebar and Main Content -->
     <div class="container-fluid">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <a href="#" class="dropdown-btn">Categorías</a>
+			<a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -223,43 +267,44 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="info-box">
-                <img src="assets/logojavabiblioteca.jpg" alt="Logo">
-                <h1>Bienvenido al TPI Lenguaje Programacion JAVA</h1>
-                <p>Se trata de un sistema de Biblioteca, donde se pueden registrar préstamos de libros y reseñas de estos.</p>
-                <p>Integrantes: Dorigoni Mauro</p>
-                <p>Profesores: Meca Adrian, Tabacman Ricardo</p>
+            <div class="card-container">
+                <% for(Categoria_libro categoria : categorias) { %>
+                <div class="card">
+                    <img src="assets/categorias/academico.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
+                    <div class="card-content">
+                        <h5><%= categoria.getNombre_categoria() %></h5>
+                        <p>ID: <%= categoria.getIdCategoria() %></p>
+                    </div>
+                    <form action="<%=request.getContextPath()%>/categoriaDetail" method="get">
+                        <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
+                        <button type="submit">Detalles</button>
+                    </form>
+                </div>
+                <% } %>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
     <div class="footer">
-	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
-	</div>
+        <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+    </div>
 
     <script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            // Primero, cerrar todos los dropdowns
-            for (var j = 0; j < dropdown.length; j++) {
-                if (dropdown[j] !== this) {
-                    dropdown[j].classList.remove("active");
-                    dropdown[j].nextElementSibling.style.display = "none";
-                }
-            }
-
-            // Alternar el estado del dropdown actual
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdowns = document.getElementsByClassName('dropdown-btn');
+            for (var i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === 'block') {
+                        dropdownContent.style.display = 'none';
+                    } else {
+                        dropdownContent.style.display = 'block';
+                    }
+                });
             }
         });
-    }
-</script>
+    </script>
 </body>
 </html>

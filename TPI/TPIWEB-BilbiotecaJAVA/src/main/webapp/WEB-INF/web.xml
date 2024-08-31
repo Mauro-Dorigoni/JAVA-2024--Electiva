@@ -25,4 +25,14 @@
     <servlet-name>RegisterCategoriaServlet</servlet-name>
     <url-pattern>/RegisterCategoriaServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListCategoriasServlet</display-name>
+    <servlet-name>ListCategoriasServlet</servlet-name>
+    <servlet-class>servlets.ListCategoriasServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListCategoriasServlet</servlet-name>
+    <url-pattern>/ListCategoriasServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

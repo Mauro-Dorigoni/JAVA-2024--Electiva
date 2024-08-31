@@ -44,6 +44,39 @@ public class DataCategoriaLibro {
         return cats;
     }
     
+    public Categoria_libro getOne(Categoria_libro c) {
+    	PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Categoria_libro cat = new Categoria_libro();
+        try {
+			stmt=DbConnector.getInstancia().getConn().prepareStatement(
+					"select * from categoria_libro where idCategoria = ?"
+					);
+			stmt.setString(1, Integer.toString(c.getIdCategoria()));
+			rs=stmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    cat.setIdCategoria(rs.getInt(1));
+                    cat.setNombre_categoria(rs.getString(2));
+                    cat.setDescripcion_apliada(rs.getString(3));
+
+                }
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cat;
+    }
+    
     public LinkedList<Categoria_libro> getByDatos(Categoria_libro c) {
     	PreparedStatement stmt = null;
         ResultSet rs = null;

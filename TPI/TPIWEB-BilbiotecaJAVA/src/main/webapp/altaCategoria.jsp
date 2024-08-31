@@ -210,16 +210,16 @@
         .sidebar .active {
         background-color: #3C7D93;
         text-decoration: underline;
-    }
-    .form-container {
-        background-color: white;
-        padding: 30px;
-        border-radius: 2px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        margin: 20px;
-        width: 100%;
-        border: 2px solid #e08b72;
+	    }
+	    .form-container {
+	        background-color: white;
+	        padding: 30px;
+	        border-radius: 2px;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        max-width: 600px;
+	        margin: 20px;
+	        width: 100%;
+	        border: 2px solid #e08b72;
 }
     </style>
 </head>
@@ -237,17 +237,24 @@
         </div>
     </div>
 
-    <!-- Container with Sidebar and Main Content -->
     <div class="container-fluid">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <a href="#" class="dropdown-btn active">Categorías</a>
+            <a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
-                <a href="#">Listado</a>
-                <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
-                <a href="#">Modificar Categoria</a>
-                <a href="#">Baja Categoria</a>
+               	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
+					<input type="hidden" id="action" name="action" value="">
+				</form>
+                <a href="#" onclick="setActionAndSubmit('listado'); return false;">Listado</a>
+			    <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
+			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
+			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
             </div>
+      		<script>
+			    function setActionAndSubmit(actionValue) {
+			        document.getElementById('action').value = actionValue;
+			        document.getElementById('listadoCategoriasForm').submit();
+			    }
+			</script>
             <a href="#" class="dropdown-btn">Libros</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
@@ -295,6 +302,7 @@
                 </form>
         </div>
     </div>
+</div>
     
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

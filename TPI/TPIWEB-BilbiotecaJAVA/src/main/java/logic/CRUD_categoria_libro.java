@@ -14,6 +14,9 @@ public class CRUD_categoria_libro {
     public LinkedList<Categoria_libro> getAll(){
         return dc.getAll();
     }
+    public Categoria_libro getOne(Categoria_libro c) {
+    	return dc.getOne(c);
+    }
     
     public LinkedList<Categoria_libro> getByDatos(Categoria_libro c){
         return dc.getByDatos(c);
