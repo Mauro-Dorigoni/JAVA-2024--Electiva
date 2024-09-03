@@ -29,4 +29,7 @@ public class CRUD_categoria_libro {
     public void modify_desc(Categoria_libro c) {
     	dc.modify_desc(c);
     }
+    public void baja(Categoria_libro c) {
+    	dc.deleteLogic(c);
+    }
 }

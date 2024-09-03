@@ -1,5 +1,5 @@
 package entidades;
-import java.sql.Date;
+import java.time.*;
 
 public class Cliente {
 	private int id;
@@ -8,8 +8,9 @@ public class Cliente {
 	private String mail;
 	private String dni;
 	private String contra;
-	private Date fechaUltimoPago;
+	private LocalDate fechaUltimoPago;
 	private boolean isAdmin;
+	private LocalDate fechaBaja;
 	
 	public int getId() {
 		return id;
@@ -47,10 +48,10 @@ public class Cliente {
 	public void setContra(String contra) {
 		this.contra = contra;
 	}
-	public Date getFechaUltimoPago() {
+	public LocalDate getFechaUltimoPago() {
 		return fechaUltimoPago;
 	}
-	public void setFechaUltimoPago(Date fechaUltimoPago) {
+	public void setFechaUltimoPago(LocalDate fechaUltimoPago) {
 		this.fechaUltimoPago = fechaUltimoPago;
 	}
 	public boolean isAdmin() {
@@ -58,6 +59,12 @@ public class Cliente {
 	}
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	public LocalDate getFechaBaja() {
+		return fechaBaja;
+	}
+	public void setFechaBaja(LocalDate fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 	
 }

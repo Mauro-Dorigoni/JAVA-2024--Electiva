@@ -1,9 +1,12 @@
 package entidades;
+import java.time.*;
 
 public class Categoria_libro {
 	private int idCategoria;
 	private String nombre_categoria;
 	private String descripcion_ampliada;
+	private LocalDate fechaBaja;
+	private String idPhoto;
 	public int getIdCategoria() {
 		return idCategoria;
 	}
@@ -26,5 +29,17 @@ public class Categoria_libro {
 	@Override
 	public String toString() {
 		return "\nCategoria [id= "+ idCategoria+", nombre= "+nombre_categoria+", descripcion= "+descripcion_ampliada+"]";
+	}
+	public LocalDate getFechaBaja() {
+		return fechaBaja;
+	}
+	public void setFechaBaja(LocalDate fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
+	public String getIdPhoto() {
+		return idPhoto;
+	}
+	public void setIdPhoto(String idPhoto) {
+		this.idPhoto = idPhoto;
 	}
 }

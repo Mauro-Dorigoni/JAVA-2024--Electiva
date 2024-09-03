@@ -21,8 +21,8 @@ public class ListCategoriasServlet extends HttpServlet {
 		request.setAttribute("categorias", categorias);
 		String action = request.getParameter("action");
 		if("listado".equals(action)) {request.getRequestDispatcher("listarCategorias.jsp").forward(request, response);}
-		else if("modificar".equals(action)) {request.getRequestDispatcher("modificarCategoria.jsp").forward(request, response);}
-		else if("baja".equals(action)) {request.getRequestDispatcher("index.jsp").forward(request, response);}   
+		else if("modificar".equals(action)) {request.getRequestDispatcher("modificarCategorias.jsp").forward(request, response);}
+		else if("baja".equals(action)) {request.getRequestDispatcher("bajaCategoria.jsp").forward(request, response);}   
 	}
 
 }

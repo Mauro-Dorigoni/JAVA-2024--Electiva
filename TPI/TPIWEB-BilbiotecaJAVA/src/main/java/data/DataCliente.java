@@ -2,6 +2,7 @@ package data;
 
 import entidades.*;
 import java.sql.*;
+import java.time.*;
 
 public class DataCliente {
 	public Cliente getByMail(Cliente c) {
@@ -10,7 +11,7 @@ public class DataCliente {
         ResultSet rs = null;
         try {
             Connection conn = DbConnector.getInstancia().getConn();
-            stmt = conn.prepareStatement("SELECT * FROM cliente WHERE mail=?;");
+            stmt = conn.prepareStatement("SELECT * FROM cliente WHERE mail=? and fechaBaja IS NULL;");
             stmt.setString(1, c.getMail());
             rs = stmt.executeQuery();
             if (rs != null && rs.next()) {
@@ -21,7 +22,7 @@ public class DataCliente {
                 p.setMail(rs.getString("mail"));
                 p.setDni(rs.getString("dni"));
                 p.setContra(rs.getString("contra"));
-                p.setFechaUltimoPago(rs.getDate("fechaUltimoPago"));
+                p.setFechaUltimoPago(rs.getObject("fechaUltimoPago",LocalDate.class));
                 p.setAdmin(rs.getBoolean(8));
             }
         } catch (SQLException e) {
@@ -43,7 +44,7 @@ public class DataCliente {
         ResultSet rs = null;
         try {
             Connection conn = DbConnector.getInstancia().getConn();
-            stmt = conn.prepareStatement("SELECT * FROM cliente WHERE mail=? AND contra=?;");
+            stmt = conn.prepareStatement("SELECT * FROM cliente WHERE mail=? AND contra=? and fechaBaja IS NULL;");
             stmt.setString(1, c.getMail());
             stmt.setString(2, c.getContra());
             rs = stmt.executeQuery();
@@ -55,7 +56,7 @@ public class DataCliente {
                 p.setMail(rs.getString("mail"));
                 p.setDni(rs.getString("dni"));
                 p.setContra(rs.getString("contra"));
-                p.setFechaUltimoPago(rs.getDate("fechaUltimoPago"));
+                p.setFechaUltimoPago(rs.getObject("fechaUltimoPago",LocalDate.class));
                 p.setAdmin(rs.getBoolean(8));
             }
         } catch (SQLException e) {

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.List" %>
-<%@ page import="entidades.Categoria_libro" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="entidades.Categoria_libro" %>
 
 <%
     String userEmail = (String) session.getAttribute("userEmail");
@@ -11,16 +10,18 @@
         response.sendRedirect("index.jsp");
         return;
     }
-
-    // Recuperar la lista de categorías desde el request
-    List<Categoria_libro> categorias = (List<Categoria_libro>) request.getAttribute("categorias");
+    Categoria_libro categoria = (Categoria_libro) request.getAttribute("categoria");
+    if (categoria == null) {
+        response.sendRedirect("index.jsp");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Listado de Categorías</title>
+    <title>Admin Dashboard - Modificar Categoría</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -109,10 +110,6 @@
             background-color: #3C7D93; /* Darker shade of #4FA5BF */
             text-decoration: underline; /* Subrayado al hacer hover */
         }
-        .sidebar .active {
-	        background-color: #3C7D93;
-	        text-decoration: underline;
-	    }
 
         .dropdown-container {
             display: none;
@@ -136,49 +133,57 @@
         .main-content {
             margin-left: 250px;
             flex-grow: 1;
-            padding: 20px;
-        }
-
-        .card-container {
             display: flex;
-            flex-direction: column;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: row;
+            justify-content: center;
             align-items: center;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            text-align: center;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .card img {
-            height: 100px;
-            width: 100px;
-            object-fit: cover;
+        .form-container {
+            background-color: white;
+            padding: 30px;
             border-radius: 10px;
-            margin-right: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px;
+            width: 100%;
         }
 
-        .card-content {
-            flex-grow: 1;
-        }
-
-        .card-content h5 {
-            margin: 0;
+        .form-container h1 {
             color: #e08b72;
+            margin-bottom: 30px;
+            text-align: center; /* Centrar el título */
+        }
+
+        .form-group label {
             font-weight: bold;
+            color: #e08b72; /* Color de los descriptores */
+            text-align: left;
+            display: block;
         }
 
-        .card-content p {
-            margin: 5px 0;
+        .form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
-        .card button {
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input[type="text"]:focus, .form-group textarea:focus, .form-group input[type="file"]:focus {
+            border-color: #4FA5BF; /* Resaltado celeste */
+            outline: none;
+            box-shadow: 0 0 5px #4FA5BF;
+        }
+
+        .form-group button[type="submit"] {
             background-color: #e08b72;
             color: white;
             padding: 10px 20px;
@@ -189,7 +194,7 @@
             transition: background-color 0.3s ease;
         }
 
-        .card button:hover {
+        .form-group button[type="submit"]:hover {
             background-color: #c76a57;
         }
 
@@ -207,6 +212,20 @@
             font-weight: bold;
             margin: 0;
         }
+        .sidebar .active {
+        background-color: #3C7D93;
+        text-decoration: underline;
+	    }
+	    .form-container {
+	        background-color: white;
+	        padding: 30px;
+	        border-radius: 2px;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        max-width: 600px;
+	        margin: 20px;
+	        width: 100%;
+	        border: 2px solid #e08b72;
+}
     </style>
 </head>
 <body>
@@ -225,7 +244,7 @@
 
     <div class="container-fluid">
         <div class="sidebar">
-            <a href="#" class="dropdown-btn">Categorías</a>
+            <a href="#" class="dropdown-btn active">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -263,48 +282,96 @@
             <div class="dropdown-container">
                 <a href="#">Moderacion</a>
             </div>
+            <a href="#" class="dropdown-btn">Prestamos</a>
+            <div class="dropdown-container">
+                <a href="#">Listado</a>
+            </div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="card-container">
-                <% for(Categoria_libro categoria : categorias) { %>
-                <div class="card">
-                    <img src="assets/categorias/academico.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
-                    <div class="card-content">
-                        <h5><%= categoria.getNombre_categoria() %></h5>
-                        <p>ID: <%= categoria.getIdCategoria() %></p>
+            <div class="form-container">
+                <h3 style="color: #e08b72;">Modificar Categoría</h3>
+                <form action="<%=request.getContextPath()%>/categoriaModify" method="post">
+                    <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la Categoría:</label>
+                        <input type="text" id="nombre" name="nombre" value="<%= categoria.getNombre_categoria() %>" readonly>
                     </div>
-                    <form action="<%=request.getContextPath()%>/categoriaDetail" method="get">
-                        <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
-                        <button type="submit">Modificar</button>
-                    </form>
-                </div>
-                <% } %>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" required><%= categoria.getDescripcion_apliada() %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="MODIFICAR CATEGORÍA" class="btn btn-custom btn-block btn-md">
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+    
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Footer -->
+<script>
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        var message = '<%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>';
+        if (messageType && message) {
+            $('#messageModal .modal-title').text(messageType === 'success' ? 'Éxito' : 'Error');
+            $('#messageModal .modal-body').text(message);
+            $('#messageModal').modal('show');
+        }
+    });
+</script>
+
+
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var dropdowns = document.getElementsByClassName('dropdown-btn');
-            for (var i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].addEventListener('click', function () {
-                    this.classList.toggle('active');
-                    var dropdownContent = this.nextElementSibling;
-                    if (dropdownContent.style.display === 'block') {
-                        dropdownContent.style.display = 'none';
-                    } else {
-                        dropdownContent.style.display = 'block';
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                // Primero, cerrar todos los dropdowns
+                for (var j = 0; j < dropdown.length; j++) {
+                    if (dropdown[j] !== this) {
+                        dropdown[j].classList.remove("active");
+                        dropdown[j].nextElementSibling.style.display = "none";
                     }
-                });
-            }
-        });
+                }
+
+                // Alternar el estado del dropdown actual
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
     </script>
 </body>
 </html>

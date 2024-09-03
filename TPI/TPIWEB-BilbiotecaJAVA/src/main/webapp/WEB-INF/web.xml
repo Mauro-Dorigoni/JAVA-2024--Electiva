@@ -35,4 +35,20 @@
     <servlet-name>ListCategoriasServlet</servlet-name>
     <url-pattern>/ListCategoriasServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CategoriaModifyServlet</display-name>
+    <servlet-name>CategoriaModifyServlet</servlet-name>
+    <servlet-class>servlets.CategoriaModifyServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>BajaCategoriaServlet</display-name>
+    <servlet-name>BajaCategoriaServlet</servlet-name>
+    <servlet-class>servlets.BajaCategoriaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BajaCategoriaServlet</servlet-name>
+    <url-pattern>/BajaCategoriaServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -286,15 +286,51 @@
                         <h5><%= categoria.getNombre_categoria() %></h5>
                         <p>ID: <%= categoria.getIdCategoria() %></p>
                     </div>
-                    <form action="<%=request.getContextPath()%>/categoriaDetail" method="get">
+                    <form action="<%=request.getContextPath()%>/categoriaBaja" method="get">
                         <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
-                        <button type="submit">Detalles</button>
+                        <button type="submit">Eliminar</button>
                     </form>
                 </div>
                 <% } %>
             </div>
         </div>
     </div>
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" id="modalCloseButton" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        if (messageType) {
+            $('#messageModal').modal('show');
+        }
+
+        // Añadimos el evento click al botón de cerrar del modal
+        $('#modalCloseButton, #modalFooterCloseButton').click(function() {
+            $('#messageModal').modal('hide'); // Cierra el modal
+            window.location.href = '<%=request.getContextPath()%>/adminDashboard.jsp'; // Redirige a adminDashboard.jsp
+        });
+    });
+</script>
 
     <!-- Footer -->
     <div class="footer">

@@ -229,7 +229,7 @@
 
     <div class="container-fluid">
         <div class="sidebar">
-            <a href="#" class="dropdown-btn">Categorías</a>
+            <a href="#" class="dropdown-btn active">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -267,12 +267,15 @@
             <div class="dropdown-container">
                 <a href="#">Moderacion</a>
             </div>
+            <div class="dropdown-container">
+                <a href="#">Listado</a>
+            </div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
             <div class="detail-container">
-                <img src="assets/categorias/academico.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
+                <img src="assets/categorias/<%= categoria.getIdPhoto() %>.jpg" alt="Imagen de <%= categoria.getIdPhoto() %>">
                 <div class="detail-content">
                     <h5><%= categoria.getNombre_categoria() %></h5>
                     <p>ID: <%= categoria.getIdCategoria() %></p>

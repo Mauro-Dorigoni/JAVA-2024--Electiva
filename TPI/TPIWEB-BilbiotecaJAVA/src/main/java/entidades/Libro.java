@@ -1,4 +1,5 @@
 package entidades;
+import java.time.*;
 
 public class Libro {
 	private int idLibro;
@@ -7,6 +8,8 @@ public class Libro {
 	private String ISBN;
 	private String sumario;
 	private String titulo;
+	private LocalDate fechaBaja; 
+	private String idPhoto;
 	
 	public int getIdLibro() {
 		return idLibro;
@@ -44,5 +47,17 @@ public class Libro {
 	}
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+	public LocalDate getFechaBaja() {
+		return fechaBaja;
+	}
+	public void setFechaBaja(LocalDate fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
+	public String getIdPhoto() {
+		return idPhoto;
+	}
+	public void setIdPhoto(String idPhoto) {
+		this.idPhoto = idPhoto;
 	}
 }

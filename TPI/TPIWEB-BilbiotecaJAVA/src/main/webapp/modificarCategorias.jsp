@@ -20,7 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Listado de Categorías</title>
+    <title>Admin Dashboard - Listado de Categorías a Modificar</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -207,14 +207,6 @@
             font-weight: bold;
             margin: 0;
         }
-        .card img {
-		    height: 100px;
-		    width: 100px;
-		    object-fit: contain;
-		    border-radius: 10px;
-		    margin-right: 20px;
-		    background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
-		}
     </style>
 </head>
 <body>
@@ -233,7 +225,7 @@
 
     <div class="container-fluid">
         <div class="sidebar">
-			<a href="#" class="dropdown-btn active">Categorías</a>
+            <a href="#" class="dropdown-btn active">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -281,14 +273,14 @@
             <div class="card-container">
                 <% for(Categoria_libro categoria : categorias) { %>
                 <div class="card">
-                    <img src="assets/categorias/academico.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
+                    <img src="assets/categorias/<%= categoria.getIdPhoto() %>.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
                     <div class="card-content">
                         <h5><%= categoria.getNombre_categoria() %></h5>
                         <p>ID: <%= categoria.getIdCategoria() %></p>
                     </div>
-                    <form action="<%=request.getContextPath()%>/categoriaDetail" method="get">
+                    <form action="<%=request.getContextPath()%>/categoriaModify" method="get">
                         <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
-                        <button type="submit">Detalles</button>
+                        <button type="submit">Modificar</button>
                     </form>
                 </div>
                 <% } %>

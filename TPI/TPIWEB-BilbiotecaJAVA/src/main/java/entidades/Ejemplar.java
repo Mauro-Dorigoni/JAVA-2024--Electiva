@@ -1,4 +1,5 @@
 package entidades;
+import java.time.*;
 
 public class Ejemplar extends Libro {
 	private int idEjemplar;
@@ -6,6 +7,7 @@ public class Ejemplar extends Libro {
 	private String fechaEdicion;
 	private int cantPaginas;
 	private String editorial;
+	private LocalDate fechaBaja;
 	
 	public int getIdEjemplar() {
 		return idEjemplar;
@@ -36,5 +38,11 @@ public class Ejemplar extends Libro {
 	}
 	public void setEditorial(String editorial) {
 		this.editorial = editorial;
+	}
+	public LocalDate getFechaBaja() {
+		return fechaBaja;
+	}
+	public void setFechaBaja(LocalDate fechaBaja) {
+		this.fechaBaja = fechaBaja;
 	}
 }
