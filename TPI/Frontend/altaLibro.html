@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Alta de Libro</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/CSS/general.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <a href="<%=request.getContextPath()%>/adminDashboard.jsp">
+            <img src="assets/logojavabiblioteca.jpg" alt="Logo">
+        </a>
+        <div class="nav-links">
+            <div class="user-icon">
+                <span class="welcome-message">Bienvenido <%= userEmail %></span>
+                <a href="#"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="sidebar">
+            <a href="#" class="dropdown-btn">Categorías</a>
+            <div class="dropdown-container">
+               	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
+					<input type="hidden" id="action" name="action" value="">
+				</form>
+                <a href="#" onclick="setActionAndSubmit('listado'); return false;">Listado</a>
+			    <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
+			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
+			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
+            </div>
+      		<script>
+			    function setActionAndSubmit(actionValue) {
+			        document.getElementById('action').value = actionValue;
+			        document.getElementById('listadoCategoriasForm').submit();
+			    }
+			</script>
+            <a href="#" class="dropdown-btn active">Libros</a>
+            <div class="dropdown-container">
+                  <a href="#">Listado</a>
+                 <form id="GetCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
+					<input type="hidden" id="action" name="action" value="">
+				</form>
+                <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
+                <a href="#">Modificar Libro</a>
+                <a href="#">Baja Libro</a>
+            </div>
+            <a href="#" class="dropdown-btn">Ejemplares</a>
+            <div class="dropdown-container">
+                <a href="#">Listado</a>
+                <a href="#">Nueva Ejemplar</a>
+                <a href="#">Modificar Ejemplar</a>
+                <a href="#">Baja Ejemplar</a>
+            </div>
+            <a href="#" class="dropdown-btn">Pagos</a>
+            <div class="dropdown-container">
+                <a href="#">Registrar pago</a>
+            </div>
+            <a href="#" class="dropdown-btn">Reseñas</a>
+            <div class="dropdown-container">
+                <a href="#">Moderacion</a>
+            </div>
+            <a href="#" class="dropdown-btn">Prestamos</a>
+            <div class="dropdown-container">
+                <a href="#">Listado</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+		<div class="main-content">
+		            <div class="form-container">
+		                <h1>Alta de Libro</h1>
+		                <form action="<%=request.getContextPath()%>/registerLibro" method="POST" enctype="multipart/form-data">
+		                    <div class="form-group">
+		                        <label for="titulo">Título:</label>
+		                        <input type="text" id="titulo" name="titulo" required>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="autor">Autor:</label>
+		                        <input type="text" id="autor" name="autor" required>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="isbn">ISBN:</label>
+		                        <input type="text" id="isbn" name="isbn" required>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="sumario">Sumario:</label>
+		                        <textarea id="sumario" name="sumario" rows="5" required></textarea>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="foto">Foto:</label>
+		                        <input type="file" id="foto" name="foto" accept="image/*" required>
+		                    </div>
+		                    <div class="form-group">
+		                        <label for="categoria">Categoría:</label>
+		                        <select id="categoria" name="categoria" required>
+		                            <option value="">Seleccione una categoría</option>
+		                            <% for(Categoria_libro categoria : categorias) { %>
+		                                <option value="<%= categoria.getIdCategoria() %>"><%= categoria.getNombre_categoria() %></option>
+		                            <% } %>
+		                        </select>
+		                    </div>
+		                    <div class="form-group">
+                        		<input data-mdb-ripple-init class="btn btn-custom btn-block btn-md" type="submit" value="REGISTRAR LIBRO"/>
+                    		</div>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+    
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        if (messageType) {
+            $('#messageModal').modal('show');
+        }
+    });
+</script>
+
+    <div class="footer">
+        <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+    </div>
+
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                // Primero, cerrar todos los dropdowns
+                for (var j = 0; j < dropdown.length; j++) {
+                    if (dropdown[j] !== this) {
+                        dropdown[j].classList.remove("active");
+                        dropdown[j].nextElementSibling.style.display = "none";
+                    }
+                }
+
+                // Alternar el estado del dropdown actual
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>

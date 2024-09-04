@@ -51,4 +51,10 @@
     <servlet-name>BajaCategoriaServlet</servlet-name>
     <url-pattern>/BajaCategoriaServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RegisterLibroServlet</display-name>
+    <servlet-name>RegisterLibroServlet</servlet-name>
+    <servlet-class>servlets.RegisterLibroServlet</servlet-class>
+  </servlet>
 </web-app>

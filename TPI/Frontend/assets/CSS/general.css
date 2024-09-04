@@ -1,10 +1,23 @@
 body {
+    background-color: #f8f9fa;
     background-image: url('../backround-image-books.jpg');
     background-size: cover;
     background-position: center;
     margin: 0;
     padding: 0;
     height: 100vh;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #e08b72;
+    height: 100px;
+}
+
+.header img {
+    height: 50px;
 }
 #login .container #login-row #login-column #login-box {
     margin-top: 120px;
@@ -39,4 +52,210 @@ body {
 }
 .btn-custom:hover {
     background-color: #d07a5a; 
+}
+.nav-links {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links .user-icon {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links .welcome-message {
+    color: white;
+    font-weight: bold;
+}
+
+.nav-links i {
+    margin-left: 8px;
+    font-size: 1.5rem;
+}
+.container-fluid {
+    display: flex;
+    height: calc(100vh - 100px); /* Full height minus header */
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #4FA5BF;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px); /* Altura total menos la altura del header */
+    position: fixed;
+    top: 100px; /* Empieza justo debajo del header */
+    left: 0;
+    bottom: 0;
+    
+}
+
+.sidebar a {
+    color: white;
+    padding: 20px;
+    font-size: 1.25rem;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #3C7D93; /* Darker shade of #4FA5BF */
+    text-decoration: underline; /* Subrayado al hacer hover */
+}
+        
+
+
+.dropdown-container {
+    display: none;
+    background-color: #3C7D93; /* Slightly darker for dropdown */
+    padding-left: 20px;
+}
+
+.dropdown-container a {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.dropdown-container a:hover {
+    text-decoration: underline; /* Subrayado al hacer hover en los subitems */
+}
+
+.sidebar .dropdown-btn {
+    cursor: pointer;
+}
+
+.main-content {
+    margin-top: 120px;
+    margin-left: 250px;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-bottom: 120px;
+}
+
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px;
+    width: 100%;
+}
+
+.form-container h1 {
+    color: #e08b72;
+    margin-bottom: 30px;
+    text-align: center; /* Centrar el título */
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #e08b72; /* Color de los descriptores */
+    text-align: left;
+    display: block;
+}
+
+.form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input[type="text"]:focus, .form-group textarea:focus, .form-group input[type="file"]:focus {
+    border-color: #4FA5BF; /* Resaltado celeste */
+    outline: none;
+    box-shadow: 0 0 5px #4FA5BF;
+}
+
+.form-group button[type="submit"] {
+    background-color: #e08b72;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button[type="submit"]:hover {
+    background-color: #c76a57;
+}
+
+.footer {
+    background-color: #e08b72;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    box-sizing: border-box;
+}
+
+.footer p {
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+.sidebar .active {
+background-color: #3C7D93;
+text-decoration: underline;
+}
+.form-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px;
+    width: 100%;
+    border: 2px solid #e08b72;
+}
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    white-space: nowrap; /* Evita que el texto se corte */
+    overflow: hidden; /* Oculta cualquier desbordamiento de texto */
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+}
+.form-group select option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.form-group select:focus {
+    border-color: #4FA5BF; /* Resaltado celeste */
+    outline: none;
+    box-shadow: 0 0 5px #4FA5BF;
 }

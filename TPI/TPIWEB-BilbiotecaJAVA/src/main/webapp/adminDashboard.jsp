@@ -200,7 +200,10 @@
             <a href="#" class="dropdown-btn">Libros</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
-                <a href="#">Nuevo Libro</a>
+                <form id="GetCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
+					<input type="hidden" id="action" name="action" value="">
+				</form>
+                <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
                 <a href="#">Modificar Libro</a>
                 <a href="#">Baja Libro</a>
             </div>
