@@ -259,3 +259,116 @@ text-decoration: underline;
     outline: none;
     box-shadow: 0 0 5px #4FA5BF;
 }
+.card img {
+    height: 100px;
+    width: 100px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-right: 20px;
+    background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
+}
+.card-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    flex-grow: 1;
+}
+
+.card-content h5 {
+    margin: 0;
+    color: #e08b72;
+    font-weight: bold;
+}
+
+.card-content p {
+    margin: 5px 0;
+}
+
+.card button {
+    background-color: #e08b72;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #c76a57;
+}
+.info-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px;
+}
+
+.info-box h1 {
+    color: #e08b72;
+}
+.detail-container {
+    display: flex;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: flex-start; /* Align items to the top */
+}
+
+.detail-container img {
+    width: 30%; /* Imagen ligeramente más pequeña */
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 20px; /* Espacio entre imagen y contenido */
+}
+
+.detail-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centro verticalmente el contenido */
+    flex-grow: 1;
+}
+
+.detail-content h5 {
+    margin: 0;
+    color: #e08b72;
+    font-size: 2.5rem; /* Nombre en grande */
+    font-weight: bold;
+}
+
+.detail-content p {
+    margin: 5px 0;
+    color: #6c757d;
+    font-size: 1.2rem; /* ID en gris */
+}
+
+.detail-content .description {
+    margin-top: 20px;
+    text-align: center; /* Centramos el texto de la descripción */
+    color: black;
+}
+.detail-content .description p {
+    margin: 10px 0;
+    font-size: 1.5rem; /* Tamaño aumentado para la descripción */
+}

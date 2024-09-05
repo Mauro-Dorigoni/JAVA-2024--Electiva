@@ -21,20 +21,12 @@
     <servlet-name>RegisterCategoriaServlet</servlet-name>
     <servlet-class>servlets.RegisterCategoriaServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>RegisterCategoriaServlet</servlet-name>
-    <url-pattern>/RegisterCategoriaServlet</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>ListCategoriasServlet</display-name>
     <servlet-name>ListCategoriasServlet</servlet-name>
     <servlet-class>servlets.ListCategoriasServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>ListCategoriasServlet</servlet-name>
-    <url-pattern>/ListCategoriasServlet</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>CategoriaModifyServlet</display-name>
@@ -47,14 +39,35 @@
     <servlet-name>BajaCategoriaServlet</servlet-name>
     <servlet-class>servlets.BajaCategoriaServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>BajaCategoriaServlet</servlet-name>
-    <url-pattern>/BajaCategoriaServlet</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description></description>
     <display-name>RegisterLibroServlet</display-name>
     <servlet-name>RegisterLibroServlet</servlet-name>
     <servlet-class>servlets.RegisterLibroServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListLibrosServlet</display-name>
+    <servlet-name>ListLibrosServlet</servlet-name>
+    <servlet-class>servlets.ListLibrosServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LibroDetailServlet</display-name>
+    <servlet-name>LibroDetailServlet</servlet-name>
+    <servlet-class>servlets.LibroDetailServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>BajaLibroServlet</display-name>
+    <servlet-name>BajaLibroServlet</servlet-name>
+    <servlet-class>servlets.BajaLibroServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LibroModifyServlet</display-name>
+    <servlet-name>LibroModifyServlet</servlet-name>
+    <servlet-class>servlets.LibroModifyServlet</servlet-class>
+  </servlet>
+
 </web-app>
