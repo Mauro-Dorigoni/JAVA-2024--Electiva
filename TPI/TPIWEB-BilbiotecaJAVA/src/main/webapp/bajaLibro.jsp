@@ -282,7 +282,7 @@
             <div class="card-container">
                 <% for(Libro libro : libros) { %>
                 <div class="card">
-                    <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
+                    <img src="assets/libros/<%= libro.getIdPhoto() %>" alt="Imagen de <%= libro.getTitulo() %>">
                     <div class="card-content">
                         <h5><%= libro.getTitulo() %></h5>
                         <p>ID: <%= libro.getIdLibro() %> </p>

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import entidades.Categoria_libro;
+import entidades.*;
 import logic.CRUD_categoria_libro;
 import java.util.LinkedList;
 import java.util.UUID;
@@ -64,18 +64,23 @@ public class RegisterCategoriaServlet extends HttpServlet {
         c.setIdPhoto(fileName);
 
         CRUD_categoria_libro cl = new CRUD_categoria_libro();
-        LinkedList<Categoria_libro> cats = cl.getByDatos(c);
+        try {
+            LinkedList<Categoria_libro> cats = cl.getByDatos(c);
 
-        if (cats.isEmpty()) {
-            cl.save(c);
-            request.setAttribute("messageType", "success");
-            request.setAttribute("message", "Categoría registrada con éxito.");
-        } else {
-            request.setAttribute("messageType", "error");
-            request.setAttribute("message", "Categoría ya registrada.");
-        }
+            if (cats.isEmpty()) {
+                cl.save(c);
+                request.setAttribute("messageType", "success");
+                request.setAttribute("message", "Categoría registrada con éxito.");
+            } else {
+                request.setAttribute("messageType", "error");
+                request.setAttribute("message", "Categoría ya registrada.");
+            }
 
-        request.getRequestDispatcher("altaCategoria.jsp").forward(request, response);
+            request.getRequestDispatcher("altaCategoria.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
     }
 
     private String getFileName(Part part) {

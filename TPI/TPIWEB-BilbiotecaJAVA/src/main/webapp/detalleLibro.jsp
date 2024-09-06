@@ -294,7 +294,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="detail-container">
-                <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
+                <img src="assets/libros/<%= libro.getIdPhoto() %>" alt="Imagen de <%= libro.getTitulo() %>">
                 <div class="detail-content">
             <h5><%= libro.getTitulo() %></h5>
             <div class="info-row">

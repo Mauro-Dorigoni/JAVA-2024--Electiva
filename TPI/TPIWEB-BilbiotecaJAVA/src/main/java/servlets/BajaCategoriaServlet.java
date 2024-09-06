@@ -6,11 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.CRUD_categoria_libro;
-
 import java.io.IOException;
 import java.util.LinkedList;
-
-import entidades.Categoria_libro;
+import entidades.*;
 
 @WebServlet("/categoriaBaja")
 public class BajaCategoriaServlet extends HttpServlet {
@@ -32,14 +30,18 @@ public class BajaCategoriaServlet extends HttpServlet {
 	    Categoria_libro cat = new Categoria_libro();
 	    LinkedList<Categoria_libro> cats = new LinkedList<>();
 	    cat.setIdCategoria(Integer.parseInt(request.getParameter("idCategoria")));
-	    cl.baja(cat);
-	    request.setAttribute("messageType", "success");
-	    request.setAttribute("message", "Categoría eliminada con éxito.");
-	    cats.add(cat);
-	    request.setAttribute("categorias", cats);
-	    
-	    // Redirige a la misma página JSP para mostrar el mensaje
-	    request.getRequestDispatcher("bajaCategoria.jsp").forward(request, response);
+	    try {
+	    	cl.baja(cat);
+		    request.setAttribute("messageType", "success");
+		    request.setAttribute("message", "Categoría eliminada con éxito.");
+		    cats.add(cat);
+		    request.setAttribute("categorias", cats);
+		    
+		    request.getRequestDispatcher("bajaCategoria.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 	}
 
 

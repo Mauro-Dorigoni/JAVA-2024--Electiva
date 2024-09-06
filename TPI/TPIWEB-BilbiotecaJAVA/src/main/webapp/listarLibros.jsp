@@ -233,7 +233,7 @@
 
     <div class="container-fluid">
         <div class="sidebar">
-			<a href="#" class="dropdown-btn active">Categorías</a>
+			<a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -249,7 +249,7 @@
 			        document.getElementById('listadoCategoriasForm').submit();
 			    }
 			</script>
-            <a href="#" class="dropdown-btn">Libros</a>
+            <a href="#" class="dropdown-btn active">Libros</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
                 <a href="#">Nuevo Libro</a>
@@ -281,7 +281,7 @@
             <div class="card-container">
                 <% for(Libro libro : libros) { %>
                 <div class="card">
-                    <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
+                    <img src="assets/libros/<%= libro.getIdPhoto() %>" alt="Imagen de <%= libro.getTitulo() %>">
                     <div class="card-content">
                         <h5><%= libro.getTitulo() %></h5>
                         <p>ID: <%= libro.getIdLibro() %> </p>

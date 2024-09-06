@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import entidades.AppException;
 import entidades.Categoria_libro;
 import logic.CRUD_categoria_libro;
 
@@ -19,9 +21,16 @@ public class CategoriaDetailServlet extends HttpServlet {
 		Categoria_libro cat = new Categoria_libro();
 		int id = Integer.parseInt(request.getParameter("idCategoria"));
 		cat.setIdCategoria(id);
-		cat = cl.getOne(cat);
-		request.setAttribute("categoria", cat);
-        request.getRequestDispatcher("detalleCategoria.jsp").forward(request, response);
+        try {
+        	cat = cl.getOne(cat);
+    		request.setAttribute("categoria", cat);
+            request.getRequestDispatcher("detalleCategoria.jsp").forward(request, response);
+		    
+		    request.getRequestDispatcher("bajaCategoria.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 	}
 
 

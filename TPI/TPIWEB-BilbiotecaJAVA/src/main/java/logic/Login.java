@@ -10,7 +10,11 @@ public class Login {
         dc = new DataCliente();
     }
 
-    public Cliente validate(Cliente c) {
-        return dc.getByMailandPass(c);
+    public Cliente validate(Cliente c) throws AppException{
+        try {
+        	return dc.getByMailandPass(c);
+		} catch (AppException e) {
+			throw e;
+		}
     }
 }

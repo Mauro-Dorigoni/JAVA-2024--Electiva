@@ -7,7 +7,7 @@ import java.time.*;
 
 public class DataCategoriaLibro {
 
-    public LinkedList<Categoria_libro> getAll() {
+    public LinkedList<Categoria_libro> getAll() throws AppException{
         Statement stmt = null;
         ResultSet rs = null;
         LinkedList<Categoria_libro> cats = new LinkedList<>();
@@ -28,7 +28,7 @@ public class DataCategoriaLibro {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new AppException("Error: no se pudieron recuperar las Categorias");
         } finally {
             try {
                 if (rs != null) {
@@ -39,13 +39,13 @@ public class DataCategoriaLibro {
                 }
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
         }
         return cats;
     }
     
-    public Categoria_libro getOne(Categoria_libro c) {
+    public Categoria_libro getOne(Categoria_libro c) throws AppException{
     	PreparedStatement stmt = null;
         ResultSet rs = null;
         Categoria_libro cat = new Categoria_libro();
@@ -66,21 +66,21 @@ public class DataCategoriaLibro {
                 }
             }
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new AppException("Error: no se pudo recuperar la categoria ID: "+c.getIdCategoria());
 		}finally {
 			try {
 				if(rs!=null) {rs.close();}
 				if(stmt!=null) {stmt.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
 			}
 		}
 		
 		return cat;
     }
     
-    public LinkedList<Categoria_libro> getByDatos(Categoria_libro c) {
+    public LinkedList<Categoria_libro> getByDatos(Categoria_libro c) throws AppException{
     	PreparedStatement stmt = null;
         ResultSet rs = null;
         LinkedList<Categoria_libro> cats = new LinkedList<>();
@@ -103,14 +103,14 @@ public class DataCategoriaLibro {
                 }
             }
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new AppException("Error: no se pudo verificar la existencia de la categoria");
 		}finally {
 			try {
 				if(rs!=null) {rs.close();}
 				if(stmt!=null) {stmt.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
 			}
 		}
 		
@@ -119,7 +119,7 @@ public class DataCategoriaLibro {
     }
     
        
-    public void save(Categoria_libro c) {
+    public void save(Categoria_libro c) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -140,19 +140,19 @@ public class DataCategoriaLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo guardar la Categoria Nombre:"+c.getNombre_categoria());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }
     
-    public void modify_desc(Categoria_libro c) {
+    public void modify_desc(Categoria_libro c) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -172,18 +172,18 @@ public class DataCategoriaLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo modificar la categoria ID: "+c.getIdCategoria());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }
-    public void deleteLogic(Categoria_libro c) {
+    public void deleteLogic(Categoria_libro c) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -203,14 +203,14 @@ public class DataCategoriaLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo dar de baja la categoria ID: "+c.getIdCategoria());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }

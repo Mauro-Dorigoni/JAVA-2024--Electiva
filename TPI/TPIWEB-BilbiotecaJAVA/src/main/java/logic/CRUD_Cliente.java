@@ -1,5 +1,5 @@
 package logic;
-import entidades.Cliente;
+import entidades.*;
 import data.*;
 
 public class CRUD_Cliente {
@@ -9,10 +9,18 @@ public class CRUD_Cliente {
 		dc = new DataCliente();
 	}
 	
-	public Cliente getByMail(Cliente c) {
-		return dc.getByMail(c);
+	public Cliente getByMail(Cliente c) throws AppException{
+		try {
+			return dc.getByMail(c);
+		} catch (AppException e) {
+			throw e;
+		}
 	}
-	public void registrarCliente (Cliente c) {
-		dc.add(c);
+	public void registrarCliente (Cliente c) throws AppException{
+		try {
+			dc.add(c);
+		} catch (AppException e) {
+			throw e;
+		}
 	}
 }

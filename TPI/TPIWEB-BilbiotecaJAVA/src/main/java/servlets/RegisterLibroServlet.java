@@ -55,18 +55,23 @@ public class RegisterLibroServlet extends HttpServlet {
    	 libro.setSumario(request.getParameter("sumario"));
    	 libro.setCategoria(cat);
    	 libro.setIdPhoto(fileName);
-   	 
-   	 CRUD_libro cl = new CRUD_libro();
-   	 cl.save(libro);
-   	 
-   	 CRUD_categoria_libro cc = new CRUD_categoria_libro();
-   	 LinkedList<Categoria_libro> cats = cc.getAll();
-   	 
-   	 request.setAttribute("messageType", "success");
-     request.setAttribute("message", "Libro registrado con éxito.");
-     request.setAttribute("categorias", cats);
-     request.getRequestDispatcher("altaLibro.jsp").forward(request, response);
+   	 try {
+   		CRUD_libro cl = new CRUD_libro();
+      	 cl.save(libro);
+      	 
+      	 CRUD_categoria_libro cc = new CRUD_categoria_libro();
+      	 LinkedList<Categoria_libro> cats = cc.getAll();
+      	 
+      	 request.setAttribute("messageType", "success");
+        request.setAttribute("message", "Libro registrado con éxito.");
+        request.setAttribute("categorias", cats);
+        request.getRequestDispatcher("altaLibro.jsp").forward(request, response);
+	} catch (AppException e) {
+		request.setAttribute("error", e);
+		request.getRequestDispatcher("error.jsp").forward(request, response);
 	}
+ }
+	
     private String getFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
         System.out.println("content-disposition header= " + contentDisp);

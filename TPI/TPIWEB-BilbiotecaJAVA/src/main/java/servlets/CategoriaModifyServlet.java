@@ -9,7 +9,7 @@ import logic.CRUD_categoria_libro;
 
 import java.io.IOException;
 
-import entidades.Categoria_libro;
+import entidades.*;
 
 @WebServlet("/categoriaModify")
 public class CategoriaModifyServlet extends HttpServlet {
@@ -31,9 +31,15 @@ public class CategoriaModifyServlet extends HttpServlet {
 		Categoria_libro cat = new Categoria_libro();
 		int id = Integer.parseInt(request.getParameter("idCategoria"));
 		cat.setIdCategoria(id);
-		cat = cl.getOne(cat);
-		request.setAttribute("categoria", cat);
-        request.getRequestDispatcher("modificarCategoria.jsp").forward(request, response);
+        try {
+        	cat.setIdCategoria(id);
+    		cat = cl.getOne(cat);
+    		request.setAttribute("categoria", cat);
+            request.getRequestDispatcher("modificarCategoria.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 	}
 
 
@@ -43,15 +49,21 @@ public class CategoriaModifyServlet extends HttpServlet {
 	    cat.setIdCategoria(Integer.parseInt(request.getParameter("idCategoria")));
 	    cat.setNombre_categoria(request.getParameter("nombre"));
 	    cat.setDescripcion_apliada(request.getParameter("descripcion"));
-	    cl.modify_desc(cat);
 
-	    // Establece los atributos para el mensaje
-	    request.setAttribute("messageType", "success");
-	    request.setAttribute("message", "Categoría modificada con éxito.");
-	    request.setAttribute("categoria", cat);
-	    
-	    // Redirige a la misma página JSP para mostrar el mensaje
-	    request.getRequestDispatcher("modificarCategoria.jsp").forward(request, response);
+	    try {
+	    	cl.modify_desc(cat);
+
+		    // Establece los atributos para el mensaje
+		    request.setAttribute("messageType", "success");
+		    request.setAttribute("message", "Categoría modificada con éxito.");
+		    request.setAttribute("categoria", cat);
+		    
+		    // Redirige a la misma página JSP para mostrar el mensaje
+		    request.getRequestDispatcher("modificarCategoria.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 	}
 
 

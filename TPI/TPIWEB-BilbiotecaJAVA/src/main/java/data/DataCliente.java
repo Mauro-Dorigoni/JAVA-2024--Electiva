@@ -5,7 +5,7 @@ import java.sql.*;
 import java.time.*;
 
 public class DataCliente {
-	public Cliente getByMail(Cliente c) {
+	public Cliente getByMail(Cliente c) throws AppException{
         Cliente p = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -26,19 +26,19 @@ public class DataCliente {
                 p.setAdmin(rs.getBoolean(8));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+        	throw new AppException("Error: no se pudo verificar la existencia del usuario con mail: "+c.getMail());
         } finally {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
         }
         return p;
     }
-	public Cliente getByMailandPass(Cliente c) {
+	public Cliente getByMailandPass(Cliente c) throws AppException{
         Cliente p = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -60,20 +60,20 @@ public class DataCliente {
                 p.setAdmin(rs.getBoolean(8));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+        	throw new AppException("Error: no se pudo recuperar el usuario con mail: "+c.getMail());
         } finally {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
         }
         return p;
     }
 	
-	public void add (Cliente c) {
+	public void add (Cliente c) throws AppException{
 		PreparedStatement stmt= null;
 		ResultSet keyResultSet=null;
 		try {
@@ -98,14 +98,14 @@ public class DataCliente {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo register el usuario con mail: "+c.getMail());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
         }
 	}

@@ -11,16 +11,20 @@ public class PruebaLogin {
 		c.setContra("user");
 		
 		Login login = new Login();
-		
-		Cliente user = login.validate(c);
-		
-		if(user == null) {
-			System.out.println("Usuario incorrecto");
+		try {
+			Cliente user = login.validate(c);
+			
+			if(user == null) {
+				System.out.println("Usuario incorrecto");
+			}
+			else {
+				if(user.isAdmin()) {System.out.println("es amdin");}
+				else {System.out.println("no es admin");}
+			}
+		} catch (AppException e) {
+			e.printStackTrace();
 		}
-		else {
-			if(user.isAdmin()) {System.out.println("es amdin");}
-			else {System.out.println("no es admin");}
-		}
+
 	}
 
 }

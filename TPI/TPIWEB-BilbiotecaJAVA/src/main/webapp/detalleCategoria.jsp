@@ -275,7 +275,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <div class="detail-container">
-                <img src="assets/categorias/<%= categoria.getIdPhoto() %>.jpg" alt="Imagen de <%= categoria.getIdPhoto() %>">
+                <img src="assets/categorias/<%= categoria.getIdPhoto() %>" alt="Imagen de <%= categoria.getIdPhoto() %>">
                 <div class="detail-content">
                     <h5><%= categoria.getNombre_categoria() %></h5>
                     <p>ID: <%= categoria.getIdCategoria() %></p>

@@ -22,14 +22,19 @@ public class LibroModifyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CRUD_categoria_libro cc = new CRUD_categoria_libro();
-		LinkedList<Categoria_libro> cats = cc.getAll();
-		request.setAttribute("categorias", cats);
-		CRUD_libro cl = new CRUD_libro();
-		Libro libro = new Libro();
-		libro.setIdLibro(Integer.parseInt(request.getParameter("idLibro")));
-		libro = cl.getOne(libro);
-		request.setAttribute("libro", libro);
-		request.getRequestDispatcher("modificarLibro.jsp").forward(request, response);
+		try {
+			LinkedList<Categoria_libro> cats = cc.getAll();
+			request.setAttribute("categorias", cats);
+			CRUD_libro cl = new CRUD_libro();
+			Libro libro = new Libro();
+			libro.setIdLibro(Integer.parseInt(request.getParameter("idLibro")));
+			libro = cl.getOne(libro);
+			request.setAttribute("libro", libro);
+			request.getRequestDispatcher("modificarLibro.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		
 	}
 

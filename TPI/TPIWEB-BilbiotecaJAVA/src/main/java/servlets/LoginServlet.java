@@ -24,17 +24,22 @@ public class LoginServlet extends HttpServlet {
         c.setMail(mail);
         c.setContra(contra);
         Login login = new Login();
-        Cliente user = login.validate(c);
-        if(user == null) {
-        	request.setAttribute("messageType", "error");
-            request.setAttribute("message", "Usuario no encontrado");
-		    request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
-		else {
-			HttpSession session = request.getSession();
-		    session.setAttribute("userEmail", mail); 
-		    session.setAttribute("userRole", user.isAdmin() ? "admin" : "client");
-		    response.sendRedirect(user.isAdmin() ? "adminDashboard.jsp" : "loginSuccess.jsp");
+        try {
+        	Cliente user = login.validate(c);
+            if(user == null) {
+            	request.setAttribute("messageType", "error");
+                request.setAttribute("message", "Usuario no encontrado");
+    		    request.getRequestDispatcher("login.jsp").forward(request, response);
+    		}
+    		else {
+    			HttpSession session = request.getSession();
+    		    session.setAttribute("userEmail", mail); 
+    		    session.setAttribute("userRole", user.isAdmin() ? "admin" : "client");
+    		    response.sendRedirect(user.isAdmin() ? "adminDashboard.jsp" : "loginSuccess.jsp");
+    		}
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
         
     }

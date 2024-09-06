@@ -1,5 +1,5 @@
 package servlets;
-import entidades.Cliente;
+import entidades.*;
 import logic.CRUD_Cliente;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,17 +26,21 @@ public class RegisterServlet extends HttpServlet {
 		c.setContra(contra);
 		
 		CRUD_Cliente cc = new CRUD_Cliente();
-		
-		if(cc.getByMail(c)==null) {
-			cc.registrarCliente(c);
-			request.setAttribute("messageType", "success");
-            request.setAttribute("message", "Cliente registrado con éxito.");
+		try {
+			if(cc.getByMail(c)==null) {
+				cc.registrarCliente(c);
+				request.setAttribute("messageType", "success");
+	            request.setAttribute("message", "Cliente registrado con éxito.");
+			}
+			else {
+				request.setAttribute("messageType", "error");
+	            request.setAttribute("message", "Ese mail ya se encuentra registrado.");
+			}
+			request.getRequestDispatcher("register.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
-		else {
-			request.setAttribute("messageType", "error");
-            request.setAttribute("message", "Ese mail ya se encuentra registrado.");
-		}
-		request.getRequestDispatcher("register.jsp").forward(request, response);
-	}
 
+	}
 }

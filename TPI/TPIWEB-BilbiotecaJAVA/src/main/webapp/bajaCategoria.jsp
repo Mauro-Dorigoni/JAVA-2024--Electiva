@@ -281,7 +281,7 @@
             <div class="card-container">
                 <% for(Categoria_libro categoria : categorias) { %>
                 <div class="card">
-                    <img src="assets/categorias/academico.jpg" alt="Imagen de <%= categoria.getNombre_categoria() %>">
+                    <img src="assets/categorias/<%categoria.getIdPhoto(); %>" alt="Imagen de <%= categoria.getNombre_categoria() %>">
                     <div class="card-content">
                         <h5><%= categoria.getNombre_categoria() %></h5>
                         <p>ID: <%= categoria.getIdCategoria() %></p>

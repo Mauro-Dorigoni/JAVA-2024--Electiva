@@ -7,7 +7,11 @@ public class PruebaBajaCat {
 		CRUD_categoria_libro cl = new CRUD_categoria_libro();
 		Categoria_libro cat = new Categoria_libro();
 		cat.setIdCategoria(23);
-		cl.baja(cat);
+		try {
+			cl.baja(cat);
+		} catch (AppException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

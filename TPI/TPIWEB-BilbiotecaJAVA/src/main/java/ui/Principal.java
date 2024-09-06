@@ -16,17 +16,20 @@ public class Principal {
         c.setIdCategoria(2);
         c.setNombre_categoria("Ciencia ficción");
         c.setDescripcion_apliada("qcyo mamita");
-        ctrlCRUDcat.save(c);
-        LinkedList<Categoria_libro> categorias = ctrlCRUDcat.getAll();
-        
-        	
-        
-        for (Categoria_libro categoria : categorias) {
-            System.out.println("ID: " + categoria.getIdCategoria());
-            System.out.println("Nombre: " + categoria.getNombre_categoria());
-            System.out.println("Descripción: " + categoria.getDescripcion_apliada());
-            System.out.println("-----------------------");
-        }
+        try {
+        	ctrlCRUDcat.save(c);
+            LinkedList<Categoria_libro> categorias = ctrlCRUDcat.getAll();
+            
+            	
+            
+            for (Categoria_libro categoria : categorias) {
+                System.out.println("ID: " + categoria.getIdCategoria());
+                System.out.println("Nombre: " + categoria.getNombre_categoria());
+                System.out.println("Descripción: " + categoria.getDescripcion_apliada());
+                System.out.println("-----------------------");
+		}} catch (AppException e) {
+			e.printStackTrace();
+		
     }
 
-}
+}}
