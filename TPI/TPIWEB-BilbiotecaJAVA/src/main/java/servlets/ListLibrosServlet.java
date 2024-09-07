@@ -30,6 +30,7 @@ public class ListLibrosServlet extends HttpServlet {
 		if("listado".equals(action)) {request.getRequestDispatcher("listarLibros.jsp").forward(request, response);}
 		else if ("modificar".equals(action)) {request.getRequestDispatcher("modificarLibros.jsp").forward(request, response);}
 		else if ("baja".equals(action)) {request.getRequestDispatcher("bajaLibro.jsp").forward(request, response);}
+		else if ("ejemplares".equals(action)) {request.getRequestDispatcher("altaEjemplar.jsp").forward(request, response);}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

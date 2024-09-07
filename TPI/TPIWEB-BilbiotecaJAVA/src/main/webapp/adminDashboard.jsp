@@ -210,7 +210,7 @@
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
-                <a href="#">Nueva Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
                 <a href="#">Modificar Ejemplar</a>
                 <a href="#">Baja Ejemplar</a>
             </div>

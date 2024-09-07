@@ -62,7 +62,7 @@ public class RegisterLibroServlet extends HttpServlet {
       	 CRUD_categoria_libro cc = new CRUD_categoria_libro();
       	 LinkedList<Categoria_libro> cats = cc.getAll();
       	 
-      	 request.setAttribute("messageType", "success");
+      	request.setAttribute("messageType", "success");
         request.setAttribute("message", "Libro registrado con éxito.");
         request.setAttribute("categorias", cats);
         request.getRequestDispatcher("altaLibro.jsp").forward(request, response);

@@ -69,5 +69,10 @@
     <servlet-name>LibroModifyServlet</servlet-name>
     <servlet-class>servlets.LibroModifyServlet</servlet-class>
   </servlet>
-
+  <servlet>
+    <description></description>
+    <display-name>RegisterEjemplarServlet</display-name>
+    <servlet-name>RegisterEjemplarServlet</servlet-name>
+    <servlet-class>servlets.RegisterEjemplarServlet</servlet-class>
+  </servlet>
 </web-app>
