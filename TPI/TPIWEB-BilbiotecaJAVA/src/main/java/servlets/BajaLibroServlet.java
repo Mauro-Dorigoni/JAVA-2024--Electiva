@@ -29,13 +29,18 @@ public class BajaLibroServlet extends HttpServlet {
 		CRUD_libro cl = new CRUD_libro();
 		Libro libro = new Libro();
 		libro.setIdLibro(Integer.parseInt(request.getParameter("idLibro")));
-		cl.delete(libro);
-		LinkedList<Libro> libs = new LinkedList<>();
-		libs.add(libro);
-		request.setAttribute("messageType", "success");
-	    request.setAttribute("message", "Libro eliminado con éxito.");
-	    request.setAttribute("libros", libs);
-	    request.getRequestDispatcher("bajaLibro.jsp").forward(request, response);
+		try {
+			cl.delete(libro);
+			LinkedList<Libro> libs = new LinkedList<>();
+			libs.add(libro);
+			request.setAttribute("messageType", "success");
+		    request.setAttribute("message", "Libro eliminado con éxito.");
+		    request.setAttribute("libros", libs);
+		    request.getRequestDispatcher("bajaLibro.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}	
 	}
 
 	/**

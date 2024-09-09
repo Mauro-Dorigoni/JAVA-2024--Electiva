@@ -35,7 +35,9 @@ public class LoginServlet extends HttpServlet {
     			HttpSession session = request.getSession();
     		    session.setAttribute("userEmail", mail); 
     		    session.setAttribute("userRole", user.isAdmin() ? "admin" : "client");
-    		    response.sendRedirect(user.isAdmin() ? "adminDashboard.jsp" : "loginSuccess.jsp");
+    		    if(user.isAdmin()) {
+    		    	response.sendRedirect("adminDashboard.jsp");
+    		    }else {request.getRequestDispatcher("/listLibros?actionLibro=userDashboard").forward(request, response);}
     		}
 		} catch (AppException e) {
 			request.setAttribute("error", e);

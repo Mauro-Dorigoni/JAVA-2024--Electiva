@@ -6,7 +6,7 @@ import java.sql.*;
 import java.time.*;
 
 public class DataLibro {
-	public LinkedList<Libro> getAll() {
+	public LinkedList<Libro> getAll() throws AppException{
         Statement stmt = null;
         ResultSet rs = null;
         LinkedList<Libro> libros = new LinkedList<>();
@@ -34,7 +34,7 @@ public class DataLibro {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new AppException("Error: no se pudo recuperar los libros");
         } finally {
             try {
                 if (rs != null) {
@@ -45,12 +45,12 @@ public class DataLibro {
                 }
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
         }
         return libros;
     }
-	public void save(Libro l) {
+	public void save(Libro l) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -74,18 +74,18 @@ public class DataLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo guardar el libro Titulo:"+l.getTitulo());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }
-    public Libro getOne(Libro l) {
+    public Libro getOne(Libro l) throws AppException{
     	PreparedStatement stmt = null;
         ResultSet rs = null;
         Libro libro = new Libro();
@@ -115,20 +115,20 @@ public class DataLibro {
                 }
             }
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new AppException("Error: no se pudo recuperar el libro ID: "+l.getIdLibro());
 		}finally {
 			try {
 				if(rs!=null) {rs.close();}
 				if(stmt!=null) {stmt.close();}
 				DbConnector.getInstancia().releaseConn();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
 			}
 		}
 		
 		return libro;
     }
-    public void update(Libro l) {
+    public void update(Libro l) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -152,18 +152,18 @@ public class DataLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo actualizar el libro ID: "+l.getIdLibro());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }
-    public void deleteLogic(Libro l) {
+    public void deleteLogic(Libro l) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
     	try {
@@ -183,14 +183,14 @@ public class DataLibro {
 
 			
 		}  catch (SQLException e) {
-            e.printStackTrace();
+			throw new AppException("Error: no se pudo dar de baja al libro ID: "+l.getIdLibro());
 		} finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-            	e.printStackTrace();
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
             }
            }
     }

@@ -52,15 +52,20 @@ public class LibroModifyServlet extends HttpServlet {
 		libro.setISBN(request.getParameter("isbn"));
 		cat.setIdCategoria(Integer.parseInt(request.getParameter("categoria")));
 		libro.setCategoria(cat);
-		cl.update(libro);
-		LinkedList<Categoria_libro> cats = new LinkedList<>();
-		cats.add(cat);
-		request.setAttribute("messageType", "success");
-	    request.setAttribute("message", "Libro modificado con éxito.");
-	    request.setAttribute("libro", libro);
-	    request.setAttribute("categorias", cats);
-	    // Redirige a la misma página JSP para mostrar el mensaje
-	    request.getRequestDispatcher("modificarLibro.jsp").forward(request, response);
+		try {
+			cl.update(libro);
+			LinkedList<Categoria_libro> cats = new LinkedList<>();
+			cats.add(cat);
+			request.setAttribute("messageType", "success");
+		    request.setAttribute("message", "Libro modificado con éxito.");
+		    request.setAttribute("libro", libro);
+		    request.setAttribute("categorias", cats);
+		    // Redirige a la misma página JSP para mostrar el mensaje
+		    request.getRequestDispatcher("modificarLibro.jsp").forward(request, response);
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 	}
 
 }
