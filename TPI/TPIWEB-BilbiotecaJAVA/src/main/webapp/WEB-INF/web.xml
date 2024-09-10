@@ -77,15 +77,21 @@
   </servlet>
   <servlet>
     <description></description>
-    <display-name>OrderLibrosServlet</display-name>
-    <servlet-name>OrderLibrosServlet</servlet-name>
-    <servlet-class>servlets.OrderLibrosServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <description></description>
     <display-name>FilterLibrosServlet</display-name>
     <servlet-name>FilterLibrosServlet</servlet-name>
     <servlet-class>servlets.FilterLibrosServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>OrderLibroServlet</display-name>
+    <servlet-name>OrderLibroServlet</servlet-name>
+    <servlet-class>servlets.OrderLibroServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>SearchLibrosServlet</display-name>
+    <servlet-name>SearchLibrosServlet</servlet-name>
+    <servlet-class>servlets.SearchLibrosServlet</servlet-class>
   </servlet>
 
 </web-app>

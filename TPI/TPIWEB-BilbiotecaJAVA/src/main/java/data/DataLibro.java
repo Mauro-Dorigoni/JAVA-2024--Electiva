@@ -194,4 +194,52 @@ public class DataLibro {
             }
            }
     }
+    
+    public LinkedList<Libro> search(Libro l) throws AppException{
+    	PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LinkedList<Libro> libros = new LinkedList<>();
+        try {
+			stmt=DbConnector.getInstancia().getConn().prepareStatement(
+					"select * from libro lib inner join categoria_libro cat on lib.idCategoria=cat.idCategoria where lib.fechaBaja IS NULL AND (LOWER(lib.titulo) like ? OR LOWER(lib.sumario) like ?);"
+					);
+			stmt.setString(1, "%"+l.getTitulo().toLowerCase()+"%");
+			stmt.setString(2, "%"+l.getSumario().toLowerCase()+"%");
+			rs=stmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                	Categoria_libro cat = new Categoria_libro();
+                	Libro libro = new Libro();
+                	libro.setIdLibro(rs.getInt(1));
+                    libro.setTitulo(rs.getString(2));
+                    libro.setAutor(rs.getString(3));
+                    libro.setISBN(rs.getString(4));
+                    libro.setSumario(rs.getString(5));
+                    libro.setIdPhoto(rs.getString(8));
+                    cat.setIdCategoria(rs.getInt(9));
+                    cat.setNombre_categoria(rs.getString(10));
+                    cat.setDescripcion_apliada(rs.getString(11));
+                    cat.setIdPhoto(rs.getString(13));
+                    cat.setFechaBaja(rs.getObject(12,LocalDate.class));
+                    if(cat.getFechaBaja()!=null) {cat=null;}
+                    libro.setCategoria(cat);
+                    libros.add(libro);
+
+                }
+            }
+		} catch (SQLException e) {
+			throw new AppException("Error: no se pudo recuperar libros con esos datos");
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+			}
+		}
+		
+		return libros;
+    }
+   
 }

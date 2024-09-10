@@ -19,6 +19,12 @@
     String filterBy = (String) request.getAttribute("filterBy");
     String filtro = (String) request.getAttribute("filtro");
     
+    StringBuilder librosIds = new StringBuilder();
+    for (Libro libro : libros) {
+        librosIds.append(libro.getIdLibro()).append(",");
+    }
+    if (librosIds.length() > 0) librosIds.setLength(librosIds.length() - 1);
+    
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -144,6 +150,38 @@
             border-radius: 5px;
             border: none;
         }
+        .input-group {
+		    display: flex;
+		    align-items: center;
+		}
+		
+		.input-group input {
+		    flex: 1; /* Ocupa todo el espacio disponible */
+		    padding: 10px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    border-top-right-radius: 0; /* Elimina el radio en la esquina superior derecha */
+		    border-bottom-right-radius: 0; /* Elimina el radio en la esquina inferior derecha */
+		}
+		
+		.input-group button {
+		    background-color: #e08b72; /* Cambia el color según el diseño */
+		    border: 1px solid #e08b72;
+		    border-radius: 5px;
+		    border-top-left-radius: 0; /* Elimina el radio en la esquina superior izquierda */
+		    border-bottom-left-radius: 0; /* Elimina el radio en la esquina inferior izquierda */
+		    padding: 10px;
+		    cursor: pointer;
+		}
+		
+		.input-group button i {
+		    color: white; /* Cambia el color del ícono según el diseño */
+		    font-size: 1rem;
+		}
+		.input-group button:hover {
+		    background-color: #d07a5a; /* Color al pasar el ratón sobre el botón */
+		    border-color: #d07a5a; /* Asegura que el borde también cambie de color */
+		}
 
         .filter-sort {
             display: flex;
@@ -166,7 +204,8 @@
         .card-container {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
+        gap: 20px;
     }
 
 	    .card {
@@ -260,9 +299,13 @@
 <body>
     <!-- Header -->
     <div class="header">
-        <a href="<%=request.getContextPath()%>/adminDashboard.jsp">
+        <a href="#" onclick="document.getElementById('logoForm').submit();">
             <img src="assets/logojavabiblioteca.jpg" alt="Logo">
         </a>
+        <form id="logoForm" class="hidden-form" action="<%=request.getContextPath()%>/listLibros" method="GET">
+            <input type="hidden" name="actionLibro" value="userDashboard">
+            <!-- Puedes agregar más campos ocultos aquí si es necesario -->
+        </form>
         <div class="nav-links">
             <div class="user-icon">
                 <span class="welcome-message">Bienvenido <%= userEmail %></span>
@@ -283,58 +326,59 @@
         </div>
 
         <div class="search-bar">
-            <input type="text" placeholder="Buscar libros...">
-        </div>
-
-        <div class="filter-sort">
-            <form id="filterForm" action="<%=request.getContextPath()%>/filterLibros" method="get">
-		        <label for="filter">Filtrar por:</label>
-		        <select id="filter" name="filterBy" onchange="handleFilterChange()">
-		            <option value="all" <%= "all".equals(filterBy) ? "selected" : "" %>>Todos</option>
-		            <option value="category" <%= "category".equals(filterBy) ? "selected" : "" %>>Categoría</option>
-		            <option value="autor" <%= "autor".equals(filterBy) ? "selected" : "" %>>Autor</option>
-		        </select>
-		
-		        <div id="categoryFilter" style="display: <%= "category".equals(filterBy) ? "block" : "none" %>;">
-		            <label for="category">Categoría:</label>
-		            <select id="category" name="category">
-		                <% for (Categoria_libro categoria : categorias) { %>
-		                    <option value="<%= categoria.getNombre_categoria() %>" <%= categoria.getNombre_categoria().equals(filtro) ? "selected" : "" %>><%= categoria.getNombre_categoria() %></option>
-		                <% } %>
-		            </select>
+		    <form action="<%=request.getContextPath()%>/searchLibros" method="get">
+		        <div class="input-group">
+		            <input type="text" name="query" placeholder="Buscar libros..." value="<%= request.getParameter("query") != null ? request.getParameter("query") : "" %>">
+		            <button type="submit" class="btn btn-primary">
+		                <i class="fas fa-search"></i>
+		            </button>
 		        </div>
-		
-		        <div id="authorFilter" style="display: <%= "autor".equals(filterBy) ? "block" : "none" %>;">
-		            <label for="author">Autor:</label>
-		            <select id="author" name="author">
-		                <% for (String autor : autores) { %>
-		                    <option value="<%= autor %>" <%= autor.equals(filtro) ? "selected" : "" %>><%= autor %></option>
-		                <% } %>
-		            </select>
-		        </div>
-		
-		        <input type="submit" value="Filtrar">
 		    </form>
+		</div>
 
-            <form id="sortForm" action="<%=request.getContextPath()%>/orderLibros" method="get">
-			    <label for="sort">Ordenar por:</label>
-			    <select id="sort" name="sortBy" onchange="document.getElementById('sortForm').submit()">
-			        <option value="title">Título</option>
-			        <option value="categoria">Categoría</option>
-			        <option value="puntaje">Puntaje</option>
-			    </select>
-			     <%
-			        if (libros != null) {
-			            for (int i = 0; i < libros.size(); i++) {
-			                Libro libro = libros.get(i);
-			    %>
-			                <input type="hidden" name="libros[<%=i%>].idLibro" value="<%=libro.getIdLibro()%>" />
-			    <%
-			            }
-			        }
-			    %>
-			</form>
+<div class="filter-sort">
+    <form id="filterForm" action="<%=request.getContextPath()%>/filterLibros" method="get">
+        <label for="filter">Filtrar por:</label>
+        <select id="filter" name="filterBy" onchange="handleFilterChange()">
+            <option value="all" <%= "all".equals(filterBy) ? "selected" : "" %>>Todos</option>
+            <option value="category" <%= "category".equals(filterBy) ? "selected" : "" %>>Categoría</option>
+            <option value="autor" <%= "autor".equals(filterBy) ? "selected" : "" %>>Autor</option>
+        </select>
+
+        <div id="categoryFilter" style="display: <%= "category".equals(filterBy) ? "block" : "none" %>;">
+            <label for="category">Categoría:</label>
+            <select id="category" name="category">
+                <% for (Categoria_libro categoria : categorias) { %>
+                    <option value="<%= categoria.getNombre_categoria() %>" <%= categoria.getNombre_categoria().equals(filtro) ? "selected" : "" %>><%= categoria.getNombre_categoria() %></option>
+                <% } %>
+            </select>
         </div>
+
+        <div id="authorFilter" style="display: <%= "autor".equals(filterBy) ? "block" : "none" %>;">
+            <label for="author">Autor:</label>
+            <select id="author" name="author">
+                <% for (String autor : autores) { %>
+                    <option value="<%= autor %>" <%= autor.equals(filtro) ? "selected" : "" %>><%= autor %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <input type="submit" value="Filtrar">
+    </form>
+
+    <form id="sortForm" action="<%=request.getContextPath()%>/orderLibros" method="post">
+        <input type="hidden" id="hiddenFilterBy" name="filterBy" value="<%= filterBy %>" />
+        <input type="hidden" id="hiddenCategory" name="category" value="<%= request.getParameter("category") %>" />
+        <input type="hidden" id="hiddenAuthor" name="author" value="<%= request.getParameter("author") %>" />
+        <input type="hidden" name="librosIds" value="<%= librosIds.toString() %>" />
+        <label for="sort">Ordenar por:</label>
+        <select id="sort" name="sortBy" onchange="document.getElementById('sortForm').submit()">
+            <option value="title">Título</option>
+            <option value="categoria">Categoría</option>
+            <option value="puntaje">Puntaje</option>
+        </select>
+    </form>
+</div>
     </div>
 
     <div class="main-content">
@@ -358,26 +402,46 @@
             <% } %>
         </div>
     </div>
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" id="modalCloseButton" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+        $(document).ready(function() {
+            var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+            if (messageType) {
+                $('#messageModal').modal('show');
+            }
+
+            $('#modalCloseButton, #modalFooterCloseButton').click(function() {
+                $('#messageModal').modal('hide');
+                window.location.href = '<%=request.getContextPath()%>/adminDashboard.jsp';
+            });
+        });
+    </script>
     <!-- Footer -->
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var dropdowns = document.getElementsByClassName('hamburger-menu');
-            for (var i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].addEventListener('click', function () {
-                    var dropdownContent = this.querySelector('.dropdown-menu');
-                    if (dropdownContent.style.display === 'block') {
-                        dropdownContent.style.display = 'none';
-                    } else {
-                        dropdownContent.style.display = 'block';
-                    }
-                });
-            }
-        });
         window.onload = function() {
             var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
             if (sortBy) {
@@ -388,7 +452,7 @@
             var filterBy = document.getElementById('filter').value;
             var categoryFilter = document.getElementById('categoryFilter');
             var authorFilter = document.getElementById('authorFilter');
-
+            
             if (filterBy === 'category') {
                 categoryFilter.style.display = 'block';
                 authorFilter.style.display = 'none';
@@ -400,6 +464,17 @@
                 authorFilter.style.display = 'none';
             }
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
+            var filterBy = document.getElementById('filter').value;
+            var category = document.getElementById('category').value;
+            var author = document.getElementById('author').value;
+            
+            document.getElementById('hiddenFilterBy').value = filterBy;
+            document.getElementById('hiddenCategory').value = category;
+            document.getElementById('hiddenAuthor').value = author;
+        });
     </script>
 </body>
 </html>

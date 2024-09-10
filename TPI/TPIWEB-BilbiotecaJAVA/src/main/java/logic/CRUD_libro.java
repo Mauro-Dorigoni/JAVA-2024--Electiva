@@ -44,4 +44,11 @@ public class CRUD_libro {
 			throw e;
 		}
 	}
+	public LinkedList<Libro> search (Libro l) throws AppException{
+		try {
+			return dl.search(l);	
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 }
