@@ -6,7 +6,6 @@ public class Prestamo {
 	private String estado;
 	private Cliente cliente;
 	private Ejemplar ejemplar;
-	private int idLibro;
 
 	public LocalDate getFechaRealizacion() {
 		return fechaRealizacion;
@@ -31,12 +30,6 @@ public class Prestamo {
 	}
 	public void setEjemplar(Ejemplar ejemplar) {
 		this.ejemplar = ejemplar;
-	}
-	public int getIdLibro() {
-		return idLibro;
-	}
-	public void setIdLibro(int idLibro) {
-		this.idLibro = idLibro;
 	}
 	
 }

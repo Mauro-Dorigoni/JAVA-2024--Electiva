@@ -288,6 +288,7 @@
                     </div>
                     <form action="<%=request.getContextPath()%>/categoriaDetail" method="get">
                         <input type="hidden" name="idCategoria" value="<%= categoria.getIdCategoria() %>">
+                        <input type="hidden" name="action" value="admin">
                         <button type="submit">Detalles</button>
                     </form>
                 </div>

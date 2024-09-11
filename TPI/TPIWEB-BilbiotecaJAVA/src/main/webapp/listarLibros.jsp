@@ -289,6 +289,7 @@
                     </div>
                     <form action="<%=request.getContextPath()%>/libroDetail" method="get">
                         <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
+                        <input type="hidden" name="action" value="admin">
                         <button type="submit">Detalles</button>
                     </form>
                 </div>

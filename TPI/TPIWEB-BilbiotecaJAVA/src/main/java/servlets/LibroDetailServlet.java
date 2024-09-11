@@ -20,13 +20,16 @@ public class LibroDetailServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
 		CRUD_libro cl = new CRUD_libro();
 		Libro libro = new Libro();
 		libro.setIdLibro(Integer.parseInt(request.getParameter("idLibro")));
 		try {
 			libro = cl.getOne(libro);
 			request.setAttribute("libro", libro);
-	        request.getRequestDispatcher("detalleLibro.jsp").forward(request, response);
+			if("admin".equals(action)) {request.getRequestDispatcher("detalleLibro.jsp").forward(request, response);}
+			else{request.getRequestDispatcher("detalleLibroUser.jsp").forward(request, response);}
+	        
 		} catch (AppException e) {
 			request.setAttribute("error", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);

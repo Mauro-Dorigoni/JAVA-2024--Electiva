@@ -193,7 +193,7 @@
             </div>
             <a href="#" class="dropdown-btn">Libros</a>
             <div class="dropdown-container">
-                <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
+                <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
                 	<input type="hidden" id="actionLibro" name="actionLibro" value="">
             	</form>
 	            <script>

@@ -1,11 +1,12 @@
 package entidades;
 import java.time.*;
 
-public class Review extends Prestamo{
+public class Review{
 	private int idReview;
 	private LocalDate fechaReview;
 	private int puntaje;
 	private String descripcion;
+	private Prestamo prestamo;
 	private String estado_review;
 	private Cliente administrativo;
 	
@@ -45,6 +46,12 @@ public class Review extends Prestamo{
 	}
 	public void setEstado_review(String estado_review) {
 		this.estado_review = estado_review;
+	}
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
 	}
 	
 }

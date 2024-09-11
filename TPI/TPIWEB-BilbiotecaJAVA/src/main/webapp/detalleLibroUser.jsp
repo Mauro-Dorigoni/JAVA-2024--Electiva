@@ -3,8 +3,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="entidades.*" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.LinkedList" %>
+
 <%
     String userEmail = (String) session.getAttribute("userEmail");
     String userRole = (String) session.getAttribute("userRole");
@@ -13,17 +13,8 @@
         return;
     }
 
-    List<Libro> libros = (List<Libro>) request.getAttribute("libros");
-    List<Categoria_libro> categorias = (List<Categoria_libro>) request.getAttribute("categorias");
-    LinkedList<String> autores = (LinkedList<String>) request.getAttribute("autores");
-    String filterBy = (String) request.getAttribute("filterBy");
-    String filtro = (String) request.getAttribute("filtro");
-    
-    StringBuilder librosIds = new StringBuilder();
-    for (Libro libro : libros) {
-        librosIds.append(libro.getIdLibro()).append(",");
-    }
-    if (librosIds.length() > 0) librosIds.setLength(librosIds.length() - 1);
+    Libro libro = (Libro) request.getAttribute("libro");
+	LinkedList<Review> reviews = new LinkedList<>();
     
 %>
 <!DOCTYPE html>
@@ -31,7 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Detalle Libro</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -280,6 +271,51 @@
 	    .card button.prestamo:hover {
 	        background-color: #c76a57;
 	    }
+	    .detail-container {
+            display: flex;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .detail-container img {
+            width: 60%; /* Imagen ligeramente más pequeña */
+            max-width: 500px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px; /* Espacio entre imagen y contenido */
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centro verticalmente el contenido */
+            flex-grow: 1;
+        }
+
+        .detail-content h5 {
+            margin: 0;
+            color: #e08b72;
+            font-size: 3rem; /* Nombre en grande */
+            font-weight: bold;
+        }
+
+        .detail-content p {
+            margin: 5px 0;
+            color: #6c757d;
+             /* ID en gris */
+            font-size: 20px;
+        }
+
+        .detail-content .description {
+            margin-top: 20px;
+            text-align: center; /* Centramos el texto de la descripción */
+            color: black;
+        }
 	
 	        .footer {
 	             background-color: #e08b72;
@@ -294,6 +330,9 @@
 	            font-weight: bold;
 	            margin: 0;
 	        }
+	        .categoria-link:hover {
+		        text-decoration: underline;
+		    }
     </style>
 </head>
 <body>
@@ -324,84 +363,63 @@
                 <a href="#">Mis reseñas</a>
             </div>
         </div>
-
-        <div class="search-bar">
-		    <form action="<%=request.getContextPath()%>/searchLibros" method="get">
-		        <div class="input-group">
-		            <input type="text" name="query" placeholder="Buscar libros..." value="<%= request.getParameter("query") != null ? request.getParameter("query") : "" %>">
-		            <button type="submit" class="btn btn-primary">
-		                <i class="fas fa-search"></i>
-		            </button>
-		        </div>
-		    </form>
-		</div>
-
-<div class="filter-sort">
-    <form id="filterForm" action="<%=request.getContextPath()%>/filterLibros" method="get">
-        <label for="filter">Filtrar por:</label>
-        <select id="filter" name="filterBy" onchange="handleFilterChange()">
-            <option value="all" <%= "all".equals(filterBy) ? "selected" : "" %>>Todos</option>
-            <option value="category" <%= "category".equals(filterBy) ? "selected" : "" %>>Categoría</option>
-            <option value="autor" <%= "autor".equals(filterBy) ? "selected" : "" %>>Autor</option>
-        </select>
-
-        <div id="categoryFilter" style="display: <%= "category".equals(filterBy) ? "block" : "none" %>;">
-            <label for="category">Categoría:</label>
-            <select id="category" name="category">
-                <% for (Categoria_libro categoria : categorias) { %>
-                    <option value="<%= categoria.getNombre_categoria() %>" <%= categoria.getNombre_categoria().equals(filtro) ? "selected" : "" %>><%= categoria.getNombre_categoria() %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <div id="authorFilter" style="display: <%= "autor".equals(filterBy) ? "block" : "none" %>;">
-            <label for="author">Autor:</label>
-            <select id="author" name="author">
-                <% for (String autor : autores) { %>
-                    <option value="<%= autor %>" <%= autor.equals(filtro) ? "selected" : "" %>><%= autor %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <input type="submit" value="Filtrar">
-    </form>
-
-    <form id="sortForm" action="<%=request.getContextPath()%>/orderLibros" method="post">
-        <input type="hidden" id="hiddenFilterBy" name="filterBy" value="<%= filterBy %>" />
-        <input type="hidden" id="hiddenCategory" name="category" value="<%= request.getParameter("category") %>" />
-        <input type="hidden" id="hiddenAuthor" name="author" value="<%= request.getParameter("author") %>" />
-        <input type="hidden" name="librosIds" value="<%= librosIds.toString() %>" />
-        <label for="sort">Ordenar por:</label>
-        <select id="sort" name="sortBy" onchange="document.getElementById('sortForm').submit()">
-            <option value="title">Título</option>
-            <option value="categoria">Categoría</option>
-            <option value="puntaje">Puntaje</option>
-        </select>
-    </form>
-</div>
     </div>
 
     <div class="main-content">
-        <div class="card-container">
-            <% for(Libro libro : libros) { %>
-            <div class="card">
-                <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
-                <div class="card-content">
-                    <h5><%= libro.getTitulo() %></h5>
-                    <p>Categoría: <%= libro.getCategoria().getNombre_categoria() %></p>
-                </div>
-                <form action="<%=request.getContextPath()%>/libroDetail" method="get">
-				    <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-				    <input type="hidden" name="action" value="user">
-				    <button type="submit" class="detalle">Detalles</button>
-				</form>
-                <form action="<%=request.getContextPath()%>/prestamoLibro" method="post">
-				    <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-				    <button type="submit" class="prestamo">Sacar a Préstamo</button>
-				</form>
-            </div>
-            <% } %>
-        </div>
+	  <div class="detail-container">
+	     <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
+	       <div class="detail-content">
+	       		<h5><%= libro.getTitulo() %></h5>
+	       <div class="info-row">
+	           <p>Autor: <%= libro.getAutor() %></p>
+	           <p>ISBN: <%= libro.getISBN() %></p>
+	       </div>
+	       <div class="info-row">
+	           <p>ID: <%= libro.getIdLibro() %></p>
+	           <p>
+		           <form id="categoriaForm" action="categoriaDetail" method="GET" style="display:inline;">
+	                    <input type="hidden" name="idCategoria" value="<%= libro.getCategoria().getIdCategoria() %>">
+	                    <input type="hidden" name="action" value="user">
+	                    <a href="#" onclick="document.getElementById('categoriaForm').submit();" 
+	                       style="text-decoration: none; color: #6c757d;font-size: 20px" class="categoria-link">
+	                        Categoría: <%= libro.getCategoria().getNombre_categoria() %>
+	                    </a>
+	                </form>	 
+	       </div>
+	       <div class="description" style="text-align:left">
+	           <p><%= libro.getSumario() %></p>
+	       </div>
+	   </div>
+	  </div>
+	  	<div class="resenias-section" style="margin-top: 20px; background-color: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd;">
+		    <h5 style="color: #e08b72; font-size: 3rem; display: flex; justify-content: space-between; align-items: center;font-weight: bold">
+		        Reseñas
+		        <span id="arrow" style="cursor: pointer;" onclick="toggleResenias()">&#9660;</span>
+		    </h5>
+		    <div id="resenias-content" style="display:none;">
+		        <%
+		            if (reviews == null || reviews.isEmpty()) {
+		        %>
+		            <p>No hay reseñas aún</p>
+		        <%
+		            } else {
+		                for (Review review : reviews) {
+		        %>
+		            <div class="resenia" style="margin-bottom: 15px;">
+		                <p><strong><%= review.getPrestamo().getCliente().getMail() %>:</strong> <%= review.getDescripcion() %></p>
+		            </div>
+		        <%
+		                }
+		            }
+		        %>
+		    </div>
+		</div>
+		<div style="margin-top: 20px;">
+			<form id="validateLoanForm"action="<%=request.getContextPath()%>/validatePrestamo" method="POST">
+				<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
+				<input class="btn btn-custom btn-block btn-md" type="submit" value="SACAR A PRESTAMO" style="font-weight: bold; height: 50px;"/>
+			</form>
+		</div>
     </div>
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -476,6 +494,19 @@
             document.getElementById('hiddenCategory').value = category;
             document.getElementById('hiddenAuthor').value = author;
         });
+        
+        function toggleResenias() {
+            var content = document.getElementById("resenias-content");
+            var arrow = document.getElementById("arrow");
+
+            if (content.style.display === "none") {
+                content.style.display = "block";
+                arrow.innerHTML = "&#9650;";  // Cambia la flecha hacia arriba
+            } else {
+                content.style.display = "none";
+                arrow.innerHTML = "&#9660;";  // Cambia la flecha hacia abajo
+            }
+        }
     </script>
 </body>
 </html>
