@@ -71,5 +71,13 @@ public class ControladorPrestamo {
 			throw e;
 		}
 	}
+	
+	public LinkedList<Prestamo> getPrestamosCliente(Cliente c) throws AppException {
+		try {
+			return dp.getPrestamosCliente(c);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 
 }

@@ -93,5 +93,22 @@
     <servlet-name>SearchLibrosServlet</servlet-name>
     <servlet-class>servlets.SearchLibrosServlet</servlet-class>
   </servlet>
-
+  <servlet>
+    <description></description>
+    <display-name>VerifyPrestamoServlet</display-name>
+    <servlet-name>VerifyPrestamoServlet</servlet-name>
+    <servlet-class>servlets.VerifyPrestamoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>RegisterPrestamoServlet</display-name>
+    <servlet-name>RegisterPrestamoServlet</servlet-name>
+    <servlet-class>servlets.RegisterPrestamoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>UserPrestamosServlet</display-name>
+    <servlet-name>UserPrestamosServlet</servlet-name>
+    <servlet-class>servlets.UserPrestamosServlet</servlet-class>
+  </servlet>
 </web-app>

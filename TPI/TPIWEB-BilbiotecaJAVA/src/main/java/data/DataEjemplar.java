@@ -49,11 +49,7 @@ public class DataEjemplar {
         LinkedList<Ejemplar> ejemplaresLibres = new LinkedList<>();
 		try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select e.idEjemplar, e.cantPaginas, e.editorial, e.fechaEdicion, e.nroEdicion, l.idLibro from ejemplar e \r\n"
-					+ "where e.idEjemplar not in (\r\n"
-					+ "	select eje.idEjemplar from ejemplar eje inner join prestamo pre on eje.idEjemplar=pre.idEjemplar and eje.idLibro=pre.idLibro where pre.estado!=? and eje.idLibro=?\r\n"
-					+ ") and e.idLibro=? and e.fechaBaja is null;"
-					);
+					"select e.idEjemplar, e.cantPaginas, e.editorial, e.fechaEdicion, e.nroEdicion, e.idLibro from ejemplar e where e.idEjemplar not in (select eje.idEjemplar from ejemplar eje inner join prestamo pre on eje.idEjemplar=pre.idEjemplar and eje.idLibro=pre.idLibro where pre.estado!=? and eje.idLibro=?) and e.idLibro=? and e.fechaBaja is null;");
 			stmt.setString(1, "Devuelto");
         	stmt.setInt(2, l.getIdLibro());
 			stmt.setInt(3, l.getIdLibro());
@@ -69,10 +65,11 @@ public class DataEjemplar {
 	                	ejemplar.setEditorial(rs.getString(3));
 	                	ejemplar.setFechaEdicion(rs.getObject(4, LocalDate.class));
 	                	ejemplar.setNroEdicion(rs.getInt(5));
+	                	ejemplaresLibres.add(ejemplar);
 	                }
 	            }
 		} catch (SQLException e) {
-			throw new AppException("Error: no pudo verificar que existan ejemplares libres");
+			throw new AppException("Error: no pudieron recuperar ejemplares libres");
 		}finally {
             try {
                 if (rs != null) {

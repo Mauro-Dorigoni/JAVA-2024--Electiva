@@ -3,8 +3,9 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="entidades.*" %>
-<%@ page import="java.util.List" %>
 <%@ page import="java.util.LinkedList" %>
+<%@ page import="java.time.*" %>
+
 <%
     String userEmail = (String) session.getAttribute("userEmail");
     String userRole = (String) session.getAttribute("userRole");
@@ -13,17 +14,8 @@
         return;
     }
 
-    List<Libro> libros = (List<Libro>) request.getAttribute("libros");
-    List<Categoria_libro> categorias = (List<Categoria_libro>) request.getAttribute("categorias");
-    LinkedList<String> autores = (LinkedList<String>) request.getAttribute("autores");
-    String filterBy = (String) request.getAttribute("filterBy");
-    String filtro = (String) request.getAttribute("filtro");
-    
-    StringBuilder librosIds = new StringBuilder();
-    for (Libro libro : libros) {
-        librosIds.append(libro.getIdLibro()).append(",");
-    }
-    if (librosIds.length() > 0) librosIds.setLength(librosIds.length() - 1);
+    Libro libro = (Libro) request.getAttribute("libro");
+    LinkedList<Ejemplar> ejemplares = (LinkedList<Ejemplar>) request.getAttribute("ejemplares");
     
 %>
 <!DOCTYPE html>
@@ -31,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Checkout Prestamo</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -99,41 +91,39 @@
         }
 
         .hamburger-menu {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
-            position: relative;
-        }
-        .hamburger-menu i {
+		    position: relative; /* Necesario para el posicionamiento absoluto del menú desplegable */
+		}
+		
+		.dropdown-menu {
+		    display: none;
+		    position: absolute;
+		    background-color: #4FA5BF;
+		    top: 100%; /* Ajuste para que el menú aparezca justo debajo del botón */
+		    left: 0;
+		    width: 150px;
+		    z-index: 1000;
+		    border-radius: 5px;
+		}
+		.hamburger-menu i {
             font-size: 1.8rem;
             color: white;
             cursor: pointer;
         }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #4FA5BF;
-            top: 40px;
-            left: 0;
-            width: 150px;
-            z-index: 1000;
-            border-radius: 5px;
-        }
-
-        .dropdown-menu a {
-            color: white;
-            padding: 10px;
-            display: block;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #3C7D93;
-        }
-
-        .hamburger-menu:hover .dropdown-menu, .dropdown-menu:hover {
+		
+		.hamburger-menu:hover .dropdown-menu, .dropdown-menu:focus-within {
 		    display: block;
+		}
+		
+		.dropdown-menu a {
+		    color: white;
+		    padding: 10px;
+		    display: block;
+		    text-decoration: none;
+		    font-weight: bold;
+		}
+		
+		.dropdown-menu a:hover {
+		    background-color: #3C7D93;
 		}
 
         .search-bar {
@@ -266,12 +256,12 @@
 	        border: 2px solid #e08b72;
 	    }
 	
-	    .card button.detalle:hover {
+	    .form button.detalle:hover {
 	        background-color: #f8f9fa;
 	    }
 	
 	    /* Estilo del botón Sacar a Préstamo */
-	    .card button.prestamo {
+	    .form button.prestamo {
 	        background-color: #e08b72;
 	        color: white;
 	        border: none;
@@ -280,6 +270,51 @@
 	    .card button.prestamo:hover {
 	        background-color: #c76a57;
 	    }
+	    .detail-container {
+            display: flex;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .detail-container img {
+            width: 60%; /* Imagen ligeramente más pequeña */
+            max-width: 500px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px; /* Espacio entre imagen y contenido */
+        }
+
+        .detail-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Centro verticalmente el contenido */
+            flex-grow: 1;
+        }
+
+        .detail-content h5 {
+            margin: 0;
+            color: #e08b72;
+            font-size: 3rem; /* Nombre en grande */
+            font-weight: bold;
+        }
+
+        .detail-content p {
+            margin: 5px 0;
+            color: #6c757d;
+             /* ID en gris */
+            font-size: 20px;
+        }
+
+        .detail-content .description {
+            margin-top: 20px;
+            text-align: center; /* Centramos el texto de la descripción */
+            color: black;
+        }
 	
 	        .footer {
 	             background-color: #e08b72;
@@ -294,6 +329,16 @@
 	            font-weight: bold;
 	            margin: 0;
 	        }
+	        .categoria-link:hover {
+		        text-decoration: underline;
+		    }
+		    .menu-title {
+			    flex: 1;
+			    text-align: center;
+			    color: white;
+			    font-size: 1.5rem;
+			    font-weight: bold;
+			}
     </style>
 </head>
 <body>
@@ -324,86 +369,46 @@
                 <a href="#">Mis reseñas</a>
             </div>
         </div>
-
-        <div class="search-bar">
-		    <form action="<%=request.getContextPath()%>/searchLibros" method="get">
-		        <div class="input-group">
-		            <input type="text" name="query" placeholder="Buscar libros..." value="<%= request.getParameter("query") != null ? request.getParameter("query") : "" %>">
-		            <button type="submit" class="btn btn-primary">
-		                <i class="fas fa-search"></i>
-		            </button>
-		        </div>
-		    </form>
+        <div class="menu-title">
+		        Checkout Prestamo
 		</div>
-
-<div class="filter-sort">
-    <form id="filterForm" action="<%=request.getContextPath()%>/filterLibros" method="get">
-        <label for="filter">Filtrar por:</label>
-        <select id="filter" name="filterBy" onchange="handleFilterChange()">
-            <option value="all" <%= "all".equals(filterBy) ? "selected" : "" %>>Todos</option>
-            <option value="category" <%= "category".equals(filterBy) ? "selected" : "" %>>Categoría</option>
-            <option value="autor" <%= "autor".equals(filterBy) ? "selected" : "" %>>Autor</option>
-        </select>
-
-        <div id="categoryFilter" style="display: <%= "category".equals(filterBy) ? "block" : "none" %>;">
-            <label for="category">Categoría:</label>
-            <select id="category" name="category">
-                <% for (Categoria_libro categoria : categorias) { %>
-                    <option value="<%= categoria.getNombre_categoria() %>" <%= categoria.getNombre_categoria().equals(filtro) ? "selected" : "" %>><%= categoria.getNombre_categoria() %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <div id="authorFilter" style="display: <%= "autor".equals(filterBy) ? "block" : "none" %>;">
-            <label for="author">Autor:</label>
-            <select id="author" name="author">
-                <% for (String autor : autores) { %>
-                    <option value="<%= autor %>" <%= autor.equals(filtro) ? "selected" : "" %>><%= autor %></option>
-                <% } %>
-            </select>
-        </div>
-
-        <input type="submit" value="Filtrar">
-    </form>
-
-    <form id="sortForm" action="<%=request.getContextPath()%>/orderLibros" method="post">
-        <input type="hidden" id="hiddenFilterBy" name="filterBy" value="<%= filterBy %>" />
-        <input type="hidden" id="hiddenCategory" name="category" value="<%= request.getParameter("category") %>" />
-        <input type="hidden" id="hiddenAuthor" name="author" value="<%= request.getParameter("author") %>" />
-        <input type="hidden" name="librosIds" value="<%= librosIds.toString() %>" />
-        <label for="sort">Ordenar por:</label>
-        <select id="sort" name="sortBy" onchange="document.getElementById('sortForm').submit()">
-            <option value="title">Título</option>
-            <option value="categoria">Categoría</option>
-            <option value="puntaje">Puntaje</option>
-        </select>
-    </form>
-</div>
     </div>
 
     <div class="main-content">
-        <div class="card-container">
-            <% for(Libro libro : libros) { %>
-            <div class="card">
-                <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
-                <div class="card-content">
-                    <h5><%= libro.getTitulo() %></h5>
-                    <p>Categoría: <%= libro.getCategoria().getNombre_categoria() %></p>
+	  	 <div class="detail-container">
+        <!-- User and Book details -->
+        <div class="detail-content">
+            <h5>Detalles Prestamo</h5>
+            <p>Usuario: <%= userEmail %></p>
+            <p>Libro: <%= libro.getTitulo() %></p>
+            <p>Fecha máxima de devolución: <%= java.time.LocalDate.now().plusDays(60) %></p>
+
+            <!-- Form to select the ejemplar and confirm loan -->
+            <form action="<%= request.getContextPath() %>/registerPrestamo" method="post">
+                <input type="hidden" name="userEmail" value="<%= userEmail %>">
+            <!-- Campo oculto para enviar el ID del libro -->
+            	<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
+                <div class="form-group">
+                    <label for="ejemplarSelect"><p>Seleccionar ejemplar:</p></label>
+                    <select class="form-control" id="ejemplarSelect" name="idEjemplar" required>
+                        <option value="" disabled selected>Seleccione un ejemplar</option>
+                        <% for (Ejemplar ej : ejemplares) { %>
+                            <option value="<%= ej.getIdEjemplar() %>">
+                                ID: <%= ej.getIdEjemplar() %> - Editorial: <%= ej.getEditorial() %> - 
+                                Páginas: <%= ej.getCantPaginas() %> - Edición: <%= ej.getNroEdicion() %>
+                            </option>
+                        <% } %>
+                    </select>
                 </div>
-                <form action="<%=request.getContextPath()%>/libroDetail" method="get">
-				    <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-				    <input type="hidden" name="action" value="user">
-				    <button type="submit" class="detalle">Detalles</button>
-				</form>
-                <form action="<%=request.getContextPath()%>/verifyPrestamo" method="post">
-				    <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-				    <input type="hidden" name="userEmail" value="<%= userEmail %>">
-				    <button type="submit" class="prestamo">Sacar a Préstamo</button>
-				</form>
-            </div>
-            <% } %>
+
+                <!-- Buttons -->
+                <button type="submit" class="btn btn-custom btn-block btn-md" style="font-weight:bold">Confirmar Préstamo</button>
+                <button type="button" class="btn btn-block btn-md" style="background-color: grey; color: white; font-weight:bold" onclick="window.history.back();">Atrás</button>
+            </form>
         </div>
     </div>
+	 </div>
+  	
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -419,10 +424,14 @@
                 <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
             </div>
             <div class="modal-footer">
-	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
-				    <input type="hidden" name="actionLibro" value="userDashboard">
-				</form>
-                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
+                <form id="redirectToInicioForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: inline;">
+                    <input type="hidden" name="actionLibro" value="userDashboard">
+                </form>
+                <form id="redirectToPrestamosForm" action="<%=request.getContextPath()%>/userPrestamos" method="get" style="display: inline;">
+                    <input type="hidden" name="userEmail" value="<%= userEmail %>">
+                </form>
+                <button type="button" class="btn btn-primary" id="modalInicioButton">Inicio</button>
+                <button type="button" class="btn btn-secondary" id="modalPrestamosButton">Mis Préstamos</button>
             </div>
         </div>
     </div>
@@ -437,8 +446,14 @@
 
         $('#modalCloseButton, #modalFooterCloseButton').click(function() {
             $('#messageModal').modal('hide');
-            // Enviar el formulario oculto para redirigir
-            $('#redirectForm').submit();
+        });
+
+        $('#modalInicioButton').click(function() {
+            $('#redirectToInicioForm').submit();
+        });
+
+        $('#modalPrestamosButton').click(function() {
+            $('#redirectToPrestamosForm').submit();
         });
     });
 </script>
@@ -448,61 +463,7 @@
     </div>
 
     <script>
-        window.onload = function() {
-            var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
-            if (sortBy) {
-                document.getElementById('sort').value = sortBy;
-            }
-        }
-        function handleFilterChange() {
-            var filterBy = document.getElementById('filter').value;
-            var categoryFilter = document.getElementById('categoryFilter');
-            var authorFilter = document.getElementById('authorFilter');
-            
-            if (filterBy === 'category') {
-                categoryFilter.style.display = 'block';
-                authorFilter.style.display = 'none';
-            } else if (filterBy === 'autor') {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'block';
-            } else {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'none';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
-            var filterBy = document.getElementById('filter').value;
-            var category = document.getElementById('category').value;
-            var author = document.getElementById('author').value;
-
-            document.getElementById('hiddenFilterBy').value = filterBy;
-            document.getElementById('hiddenCategory').value = category;
-            document.getElementById('hiddenAuthor').value = author;
-
-            // Manejo del menú desplegable
-            var hamburgerIcon = document.querySelector('.hamburger-menu');
-            var dropdownMenu = document.querySelector('.dropdown-menu');
-
-            hamburgerIcon.addEventListener('click', function() {
-                // Alterna la visibilidad del menú desplegable
-                if (dropdownMenu.style.display === 'block') {
-                    dropdownMenu.style.display = 'none';
-                } else {
-                    dropdownMenu.style.display = 'block';
-                }
-            });
-
-            // Opcional: Cierra el menú si se hace clic fuera de él
-            document.addEventListener('click', function(event) {
-                if (!hamburgerIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    dropdownMenu.style.display = 'none';
-                }
-            });
-        });
-        
-        
+ 	
     </script>
 </body>
 </html>

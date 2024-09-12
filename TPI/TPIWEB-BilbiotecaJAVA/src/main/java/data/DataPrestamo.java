@@ -147,6 +147,57 @@ public class DataPrestamo {
 	        }
 	        return prestamos;
 	    }
+	
+	public LinkedList<Prestamo> getPrestamosCliente(Cliente c) throws AppException{
+		PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LinkedList<Prestamo> prestamosCliente = new LinkedList<>();
+        try {
+			stmt=DbConnector.getInstancia().getConn().prepareStatement(
+					"select p.fechaRealizacion, p.estado, p.idCliente, p.idEjemplar, p.idLibro, c.mail, l.titulo, l.idPhoto from prestamo p \r\n"
+					+ "inner join cliente c on p.idCliente=c.id \r\n"
+					+ "inner join ejemplar e on p.idEjemplar=e.idEjemplar and p.idLibro=e.idLibro \r\n"
+					+ "inner join libro l on p.idLibro=l.idLibro "
+					+ "where p.idCliente=?"
+					);
+			stmt.setInt(1, c.getId());
+			rs=stmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                	Prestamo prestamo = new Prestamo();
+                	Cliente cli = new Cliente();
+                	cli.setId(rs.getInt(3));
+                	cli.setMail(rs.getString(6));
+                	Libro lib = new Libro();
+                	lib.setIdLibro(rs.getInt(5));
+                	lib.setTitulo(rs.getString(7));
+                	lib.setIdPhoto(rs.getString(8));
+                	Ejemplar eje = new Ejemplar();
+                	eje.setIdEjemplar(rs.getInt(4));
+                	eje.setLibro(lib);
+                	prestamo.setFechaRealizacion(rs.getObject(1,LocalDate.class));
+                	prestamo.setEstado(rs.getString(2));
+                	prestamo.setCliente(cli);
+                	prestamo.setEjemplar(eje);
+                	prestamosCliente.add(prestamo);
+
+                }
+            }
+		} catch (SQLException e) {
+			throw new AppException("Error: no se pudo recuperar el prestamo deseado");
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+			}
+		}
+		
+		return prestamosCliente;
+    }
+	
 	public void update(Prestamo p) throws AppException{
     	PreparedStatement stmt = null;
     	ResultSet keyResultSet = null;
@@ -299,11 +350,7 @@ public class DataPrestamo {
         int cantEjemplaresLibres = 0;
         try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select count(e.idEjemplar) from ejemplar e \r\n"
-					+ "where e.idEjemplar not in (\r\n"
-					+ "	select eje.idEjemplar from ejemplar eje inner join prestamo pre on eje.idEjemplar=pre.idEjemplar and eje.idLibro=pre.idLibro where pre.estado!=? and eje.idLibro=?\r\n"
-					+ ") and e.idLibro=? and e.fechaBaja is null;"
-					);
+					"select count(e.idEjemplar) from ejemplar e where e.idEjemplar not in (select eje.idEjemplar from ejemplar eje inner join prestamo pre on eje.idEjemplar=pre.idEjemplar and eje.idLibro=pre.idLibro where pre.estado!=? and eje.idLibro=?) and e.idLibro=? and e.fechaBaja is null;");
 			stmt.setString(1, "Devuelto");
         	stmt.setInt(2, l.getIdLibro());
 			stmt.setInt(3, l.getIdLibro());
@@ -316,7 +363,7 @@ public class DataPrestamo {
 			 if(cantEjemplaresLibres == 0) {validar = false;}
 			 else {validar=true;}
 		} catch (SQLException e) {
-			throw new AppException("Error: no pudo varificar que existan ejemplares libres");
+			throw new AppException("Error: no pudo verificar que existan ejemplares libres");
 		}finally {
             try {
                 if (rs != null) {

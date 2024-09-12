@@ -17,5 +17,13 @@ public class CRUD_ejemplar {
 			throw e;
 		}
 	}
+	
+	public LinkedList<Ejemplar> getEjemplaresLibres(Libro l) throws AppException{
+		try {
+			return de.getEjemplaresLibres(l);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 
 }

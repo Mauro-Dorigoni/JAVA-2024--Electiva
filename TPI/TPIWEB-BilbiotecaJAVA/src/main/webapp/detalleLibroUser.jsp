@@ -90,42 +90,40 @@
         }
 
         .hamburger-menu {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
-            position: relative;
-        }
-        .hamburger-menu i {
+		    position: relative; /* Necesario para el posicionamiento absoluto del menú desplegable */
+		}
+		
+		.dropdown-menu {
+		    display: none;
+		    position: absolute;
+		    background-color: #4FA5BF;
+		    top: 100%; /* Ajuste para que el menú aparezca justo debajo del botón */
+		    left: 0;
+		    width: 150px;
+		    z-index: 1000;
+		    border-radius: 5px;
+		}
+		.hamburger-menu i {
             font-size: 1.8rem;
             color: white;
             cursor: pointer;
         }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #4FA5BF;
-            top: 40px;
-            left: 0;
-            width: 150px;
-            z-index: 1;
-            border-radius: 5px;
-        }
-
-        .dropdown-menu a {
-            color: white;
-            padding: 10px;
-            display: block;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #3C7D93;
-        }
-
-        .hamburger-menu i:hover + .dropdown-menu, .dropdown-menu:hover {
-            display: block;
-        }
+		
+		.hamburger-menu:hover .dropdown-menu, .dropdown-menu:focus-within {
+		    display: block;
+		}
+		
+		.dropdown-menu a {
+		    color: white;
+		    padding: 10px;
+		    display: block;
+		    text-decoration: none;
+		    font-weight: bold;
+		}
+		
+		.dropdown-menu a:hover {
+		    background-color: #3C7D93;
+		}
 
         .search-bar {
             padding: 8px;
@@ -333,6 +331,13 @@
 	        .categoria-link:hover {
 		        text-decoration: underline;
 		    }
+		    .menu-title {
+			    flex: 1;
+			    text-align: center;
+			    color: white;
+			    font-size: 1.5rem;
+			    font-weight: bold;
+			}
     </style>
 </head>
 <body>
@@ -358,11 +363,14 @@
         <div class="hamburger-menu">
             <i class="fas fa-bars"></i>
             <div class="dropdown-menu">
-                <a href="#">Mis préstamos</a>
+                <a href="<%= request.getContextPath() %>/userPrestamos?userEmail=<%= userEmail %>">Mis préstamos</a>
                 <a href="#">Mis pagos</a>
                 <a href="#">Mis reseñas</a>
             </div>
         </div>
+        <div class="menu-title">
+		        Detalle Libro
+		    </div>
     </div>
 
     <div class="main-content">
@@ -415,8 +423,9 @@
 		    </div>
 		</div>
 		<div style="margin-top: 20px;">
-			<form id="validateLoanForm"action="<%=request.getContextPath()%>/validatePrestamo" method="POST">
+			<form id="validateLoanForm"action="<%=request.getContextPath()%>/verifyPrestamo" method="POST">
 				<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
+				<input type="hidden" name="userEmail" value="<%= userEmail %>">
 				<input class="btn btn-custom btn-block btn-md" type="submit" value="SACAR A PRESTAMO" style="font-weight: bold; height: 50px;"/>
 			</form>
 		</div>
@@ -436,6 +445,9 @@
                 <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
             </div>
             <div class="modal-footer">
+	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
+				    <input type="hidden" name="actionLibro" value="userDashboard">
+				</form>
                 <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
             </div>
         </div>
@@ -443,18 +455,19 @@
 </div>
 
 <script>
-        $(document).ready(function() {
-            var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
-            if (messageType) {
-                $('#messageModal').modal('show');
-            }
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        if (messageType) {
+            $('#messageModal').modal('show');
+        }
 
-            $('#modalCloseButton, #modalFooterCloseButton').click(function() {
-                $('#messageModal').modal('hide');
-                window.location.href = '<%=request.getContextPath()%>/adminDashboard.jsp';
-            });
+        $('#modalCloseButton, #modalFooterCloseButton').click(function() {
+            $('#messageModal').modal('hide');
+            // Enviar el formulario oculto para redirigir
+            $('#redirectForm').submit();
         });
-    </script>
+    });
+</script>
     <!-- Footer -->
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
@@ -489,24 +502,31 @@
             var filterBy = document.getElementById('filter').value;
             var category = document.getElementById('category').value;
             var author = document.getElementById('author').value;
-            
+
             document.getElementById('hiddenFilterBy').value = filterBy;
             document.getElementById('hiddenCategory').value = category;
             document.getElementById('hiddenAuthor').value = author;
-        });
-        
-        function toggleResenias() {
-            var content = document.getElementById("resenias-content");
-            var arrow = document.getElementById("arrow");
 
-            if (content.style.display === "none") {
-                content.style.display = "block";
-                arrow.innerHTML = "&#9650;";  // Cambia la flecha hacia arriba
-            } else {
-                content.style.display = "none";
-                arrow.innerHTML = "&#9660;";  // Cambia la flecha hacia abajo
-            }
-        }
+            // Manejo del menú desplegable
+            var hamburgerIcon = document.querySelector('.hamburger-menu');
+            var dropdownMenu = document.querySelector('.dropdown-menu');
+
+            hamburgerIcon.addEventListener('click', function() {
+                // Alterna la visibilidad del menú desplegable
+                if (dropdownMenu.style.display === 'block') {
+                    dropdownMenu.style.display = 'none';
+                } else {
+                    dropdownMenu.style.display = 'block';
+                }
+            });
+
+            // Opcional: Cierra el menú si se hace clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!hamburgerIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
