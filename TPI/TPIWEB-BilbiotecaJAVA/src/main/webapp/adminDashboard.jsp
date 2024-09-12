@@ -214,9 +214,17 @@
                 <a href="#">Modificar Ejemplar</a>
                 <a href="#">Baja Ejemplar</a>
             </div>
+            <a href="#" class="dropdown-btn">Prestamos</a>
+            <div class="dropdown-container">
+                <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;">
+                </form>
+                <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
+            </div>
             <a href="#" class="dropdown-btn">Pagos</a>
             <div class="dropdown-container">
-                <a href="#">Registrar pago</a>
+                <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+                </form>
+                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">

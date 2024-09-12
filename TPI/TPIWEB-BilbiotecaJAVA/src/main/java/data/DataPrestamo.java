@@ -131,7 +131,7 @@ public class DataPrestamo {
 	            }
 
 	        } catch (SQLException e) {
-	            throw new AppException("Error: no se pudo recuperar los libros");
+	            throw new AppException("Error: no se pudo recuperar los prestamos");
 	        } finally {
 	            try {
 	                if (rs != null) {
@@ -208,7 +208,7 @@ public class DataPrestamo {
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			stmt.setString(1, p.getEstado());
-			stmt.setObject(2, LocalDate.now());
+			stmt.setObject(2, p.getFechaRealizacion());
 			stmt.setInt(3, p.getCliente().getId());
 			stmt.setInt(4, p.getEjemplar().getIdEjemplar());
 			stmt.setInt(5, p.getEjemplar().getLibro().getIdLibro());

@@ -14,8 +14,7 @@
         return;
     }
 
-    Libro libro = (Libro) request.getAttribute("libro");
-    LinkedList<Ejemplar> ejemplares = (LinkedList<Ejemplar>) request.getAttribute("ejemplares");
+    Cliente cliente = (Cliente) request.getAttribute("cliente");
     
 %>
 <!DOCTYPE html>
@@ -23,7 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout Prestamo</title>
+    <title>Mis Pagos</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -31,6 +30,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+        html, body {
+		    height: 100%;
+		    margin: 0;
+		    display: flex;
+		    flex-direction: column;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
@@ -185,11 +190,7 @@
         }
 
         /* Main content area */
-        .main-content {
-            margin: 20px;
-		    margin-bottom: 100px; /* Espacio extra para evitar superposición con el footer */
-		    flex: 1; 
-        }
+        
 
         .card-container {
         display: flex;
@@ -317,6 +318,7 @@
         }
 	
 	        .footer {
+	             margin-top: 600px;
 	             background-color: #e08b72;
 				 padding: 20px;
 				 text-align: center;
@@ -339,6 +341,47 @@
 			    font-size: 1.5rem;
 			    font-weight: bold;
 			}
+			.customer-info-box {
+		    margin-top: 20px;
+		    background-color: white;
+		    padding: 20px;
+		    border-radius: 8px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		    width: 100%;
+		    max-width: 500px; /* Ajusta según el tamaño que prefieras */
+		}
+		
+		.customer-info-box h3 {
+		    text-align: center;
+		    color: #333;
+		    margin-bottom: 15px;
+		}
+		
+		.customer-info-box p {
+		    margin: 10px 0;
+		    font-size: 16px;
+		    color: #555;
+		}
+		
+		.customer-info-box p span {
+		    font-weight: bold;
+		}
+		
+		.customer-info-box button {
+		    width: 100%;
+		    padding: 10px;
+		    background-color: #e08b72;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    margin-top: 20px;
+		    font-size: 16px;
+		}
+		
+		.customer-info-box button:hover {
+		    background-color: #f8f9fa;
+		}
     </style>
 </head>
 <body>
@@ -370,44 +413,29 @@
             </div>
         </div>
         <div class="menu-title">
-		        Checkout Prestamo
-		</div>
+	        Mis Pagos
+	    </div>
     </div>
 
-    <div class="main-content">
-	  	 <div class="detail-container">
-        <!-- User and Book details -->
-        <div class="detail-content">
-            <h5>Detalles Prestamo</h5>
-            <p>Usuario: <%= userEmail %></p>
-            <p>Libro: <%= libro.getTitulo() %></p>
-            <p>Fecha máxima de devolución: <%= java.time.LocalDate.now().plusDays(60) %></p>
-
-            <!-- Form to select the ejemplar and confirm loan -->
-            <form action="<%= request.getContextPath() %>/registerPrestamo" method="post">
-                <input type="hidden" name="userEmail" value="<%= userEmail %>">
-            <!-- Campo oculto para enviar el ID del libro -->
-            	<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-                <div class="form-group">
-                    <label for="ejemplarSelect"><p>Seleccionar ejemplar:</p></label>
-                    <select class="form-control" id="ejemplarSelect" name="idEjemplar" required>
-                        <option value="" disabled selected>Seleccione un ejemplar</option>
-                        <% for (Ejemplar ej : ejemplares) { %>
-                            <option value="<%= ej.getIdEjemplar() %>">
-                                ID: <%= ej.getIdEjemplar() %> - Editorial: <%= ej.getEditorial() %> - 
-                                Páginas: <%= ej.getCantPaginas() %> - Edición: <%= ej.getNroEdicion() %>
-                            </option>
-                        <% } %>
-                    </select>
-                </div>
-
-                <!-- Buttons -->
-                <button type="submit" class="btn btn-custom btn-block btn-md" style="font-weight:bold">Confirmar Préstamo</button>
-                <button type="button" class="btn btn-block btn-md" style="background-color: grey; color: white; font-weight:bold" onclick="window.history.back();">Atrás</button>
-            </form>
-        </div>
+<div class="main-content">
+    <div class="customer-info-box">
+        <h3>Detalles del Cliente</h3>
+        <p>ID: <span>${cliente.id}</span></p>
+        <p>Nombre: <span>${cliente.nombre} ${cliente.apellido}</span></p>
+        <p>Último pago: 
+            <span>
+                <c:choose>
+                    <c:when test="${cliente.fechaUltimoPago != null}">
+                        ${cliente.fechaUltimoPago}
+                    </c:when>
+                    <c:otherwise>
+                        No ha realizado pagos todavía
+                    </c:otherwise>
+                </c:choose>
+            </span>
+        </p>
+        <button onclick="window.history.back()">Volver</button>
     </div>
-	 </div>
   	
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -424,14 +452,10 @@
                 <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
             </div>
             <div class="modal-footer">
-                <form id="redirectToInicioForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: inline;">
-                    <input type="hidden" name="actionLibro" value="userDashboard">
-                </form>
-                <form id="redirectToPrestamosForm" action="<%=request.getContextPath()%>/userPrestamos" method="get" style="display: inline;">
-                    <input type="hidden" name="userEmail" value="<%= userEmail %>">
-                </form>
-                <button type="button" class="btn btn-primary" id="modalInicioButton">Inicio</button>
-                <button type="button" class="btn btn-secondary" id="modalPrestamosButton">Mis Préstamos</button>
+	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
+				    <input type="hidden" name="actionLibro" value="userDashboard">
+				</form>
+                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
             </div>
         </div>
     </div>
@@ -446,14 +470,8 @@
 
         $('#modalCloseButton, #modalFooterCloseButton').click(function() {
             $('#messageModal').modal('hide');
-        });
-
-        $('#modalInicioButton').click(function() {
-            $('#redirectToInicioForm').submit();
-        });
-
-        $('#modalPrestamosButton').click(function() {
-            $('#redirectToPrestamosForm').submit();
+            // Enviar el formulario oculto para redirigir
+            $('#redirectForm').submit();
         });
     });
 </script>

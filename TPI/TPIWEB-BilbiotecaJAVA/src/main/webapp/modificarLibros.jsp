@@ -235,29 +235,40 @@
 			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
 			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
             </div>
-      		<script>
-			    function setActionAndSubmit(actionValue) {
-			        document.getElementById('action').value = actionValue;
-			        document.getElementById('listadoCategoriasForm').submit();
-			    }
-			</script>
-            <a href="#" class="dropdown-btn active">Libros</a>
+            <a href="#" class="dropdown-btn">Libros</a>
             <div class="dropdown-container">
-                <a href="#">Listado</a>
-                <a href="#">Nuevo Libro</a>
-                <a href="#">Modificar Libro</a>
-                <a href="#">Baja Libro</a>
+                <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
+                	<input type="hidden" id="actionLibro" name="actionLibro" value="">
+            	</form>
+	            <script>
+	                function setActionAndSubmitLibros(actionValue) {
+	                	document.getElementById('actionLibro').value = actionValue;
+	                    document.getElementById('listadoLibrosForm').submit();
+	                }
+	            </script>
+                <a href="#" onclick="setActionAndSubmitLibros('listado'); return false;">Listado</a>
+                <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
+                <a href="#" onclick="setActionAndSubmitLibros('modificar'); return false;">Modificar Libro</a>
+                <a href="#" onclick="setActionAndSubmitLibros('baja'); return false;">Baja Libro</a>
             </div>
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
-                <a href="#">Nueva Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
                 <a href="#">Modificar Ejemplar</a>
                 <a href="#">Baja Ejemplar</a>
             </div>
+            <a href="#" class="dropdown-btn">Prestamos</a>
+            <div class="dropdown-container">
+                <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;">
+                </form>
+                <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
+            </div>
             <a href="#" class="dropdown-btn">Pagos</a>
             <div class="dropdown-container">
-                <a href="#">Registrar pago</a>
+                <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+                </form>
+                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">

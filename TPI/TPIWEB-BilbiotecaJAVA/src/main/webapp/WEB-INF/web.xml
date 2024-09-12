@@ -111,4 +111,40 @@
     <servlet-name>UserPrestamosServlet</servlet-name>
     <servlet-class>servlets.UserPrestamosServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListClientesServlet</display-name>
+    <servlet-name>ListClientesServlet</servlet-name>
+    <servlet-class>servlets.ListClientesServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>RegisterPagoServlet</display-name>
+    <servlet-name>RegisterPagoServlet</servlet-name>
+    <servlet-class>servlets.RegisterPagoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListPrestamosServlet</display-name>
+    <servlet-name>ListPrestamosServlet</servlet-name>
+    <servlet-class>servlets.ListPrestamosServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ChangeEstadoPrestamoServlet</display-name>
+    <servlet-name>ChangeEstadoPrestamoServlet</servlet-name>
+    <servlet-class>servlets.ChangeEstadoPrestamoServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>UserDetailServlet</display-name>
+    <servlet-name>UserDetailServlet</servlet-name>
+    <servlet-class>servlets.UserDetailServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>FilterPrestamosServlet</display-name>
+    <servlet-name>FilterPrestamosServlet</servlet-name>
+    <servlet-class>servlets.FilterPrestamosServlet</servlet-class>
+  </servlet>
 </web-app>

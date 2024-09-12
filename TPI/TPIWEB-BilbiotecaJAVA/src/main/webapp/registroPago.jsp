@@ -11,15 +11,14 @@
         response.sendRedirect("index.jsp");
         return;
     }
-    List<Categoria_libro> categorias = (List<Categoria_libro>) request.getAttribute("categorias");
-    Libro libro = (Libro) request.getAttribute("libro");
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Modificar</title>
+    <title>Admin Dashboard - Registro Pago</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -204,7 +203,7 @@
             background-color: #e08b72;
             padding: 20px;
             text-align: center;
-            position: relative;
+            position: fixed;
             width: 100%;
             bottom: 0;
             box-sizing: border-box;
@@ -268,7 +267,7 @@
     </div>
 
     <div class="container-fluid">
-        <div class="sidebar">
+       <div class="sidebar">
             <a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
@@ -325,44 +324,45 @@
 
         <!-- Main Content -->
 		<div class="main-content">
-    <div class="form-container">
-        <h1>Modificar Libro</h1>
-        <form action="<%=request.getContextPath()%>/libroModify" method="POST">
-            <input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-            <div class="form-group">
-                <label for="titulo">Título:</label>
-                <input type="text" id="titulo" name="titulo" value="<%= libro.getTitulo() %>" required>
-            </div>
-            <div class="form-group">
-                <label for="autor">Autor:</label>
-                <input type="text" id="autor" name="autor" value="<%= libro.getAutor() %>" required>
-            </div>
-            <div class="form-group">
-                <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" name="isbn" value="<%= libro.getISBN() %>" required>
-            </div>
-            <div class="form-group">
-                <label for="sumario">Sumario:</label>
-                <textarea id="sumario" name="sumario" rows="5" required><%= libro.getSumario() %></textarea>
-            </div>
-            <div class="form-group">
-                <label for="categoria">Categoría:</label>
-                <select id="categoria" name="categoria" required>
-                    <option value="">Seleccione una categoría</option>
-                    <% for(Categoria_libro categoria : categorias) { %>
-                        <option value="<%= categoria.getIdCategoria() %>" <%= libro.getCategoria().getIdCategoria() == categoria.getIdCategoria() ? "selected" : "" %>>
-                            <%= categoria.getNombre_categoria() %>
-                        </option>
-                    <% } %>
-                </select>
-            </div>
-            <div class="form-group">
-                <input data-mdb-ripple-init class="btn btn-custom btn-block btn-md" type="submit" value="REGISTRAR LIBRO"/>
-            </div>
-        </form>
-    </div>
-</div>
-</div>
+		    <div class="form-container">
+		        <h1>Registro de Pago de Cliente</h1>
+		        <form action="<%=request.getContextPath()%>/registerPago" method="POST">
+		            <div class="form-group">
+		                <label for="cliente">Cliente:</label>
+		                <select id="cliente" name="idCliente" onchange="updateFechaUltimoPago()" required>
+		                    <option value="">Seleccione un cliente</option>
+		                    <% for(Cliente cliente : clientes) { %>
+		                        <option value="<%= cliente.getId() %>" 
+		                                data-ultimoPago="<%= cliente.getFechaUltimoPago() != null ? cliente.getFechaUltimoPago() : "No ha realizado pagos todavía" %>">
+		                            <%= cliente.getId() %> - <%= cliente.getMail() %> (<%= cliente.isAdmin() ? "Admin" : "User" %>)
+		                        </option>
+		                    <% } %>
+		                </select>
+		            </div>
+		            <div class="form-group">
+		                <label for="ultimoPago">Último Pago:</label>
+		                <input type="text" id="ultimoPago" name="ultimoPago" value="Seleccione un cliente" readonly>
+		            </div>
+		            <div class="form-group">
+		                <label for="fechaPago">Fecha de Pago:</label>
+		                <input type="date" id="fechaPago" name="fechaPago" required>
+		            </div>
+		            <div class="form-group">
+		                <input class="btn btn-custom btn-block btn-md" type="submit" value="REGISTRAR PAGO"/>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+	</div>
+		
+		<script>
+		    function updateFechaUltimoPago() {
+		        const clienteDropdown = document.getElementById('cliente');
+		        const selectedOption = clienteDropdown.options[clienteDropdown.selectedIndex];
+		        const ultimoPago = selectedOption.getAttribute('data-ultimoPago');
+		        document.getElementById('ultimoPago').value = ultimoPago;
+		    }
+		</script>
     
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
