@@ -244,7 +244,7 @@
 
     <div class="container-fluid">
         <div class="sidebar">
-            <a href="#" class="dropdown-btn">Categorías</a>
+            <a href="#" class="dropdown-btn active">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
 					<input type="hidden" id="action" name="action" value="">
@@ -380,6 +380,10 @@
                     dropdownContent.style.display = "block";
                 }
             });
+        }
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
         }
     </script>
 </body>

@@ -266,7 +266,7 @@
                 <a href="#">Modificar Ejemplar</a>
                 <a href="#">Baja Ejemplar</a>
             </div>
-            <a href="#" class="dropdown-btn">Prestamos</a>
+            <a href="#" class="dropdown-btn active">Prestamos</a>
             <div class="dropdown-container">
                 <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;">
                 </form>
@@ -295,7 +295,7 @@
         <select name="estadoFilter" onchange="this.form.submit()">
             <option value="">Todos</option>
             <option value="Pendiente Retiro" <%= request.getParameter("estadoFilter") != null && request.getParameter("estadoFilter").equals("Pendiente Retiro") ? "selected" : "" %>>Pendiente Retiro</option>
-            <option value="Retirado" <%= request.getParameter("estadoFilter") != null && request.getParameter("estadoFilter").equals("Retirado") ? "selected" : "" %>>Retirado</option>
+            <option value="Retirado" <%= request.getParameter("estadoFilter") != null && request.getParameter("estadoFilter").equals("Pendiente Devolucion") ? "selected" : "" %>>Pendiente Devolucion</option>
             <option value="Vencido" <%= request.getParameter("estadoFilter") != null && request.getParameter("estadoFilter").equals("Vencido") ? "selected" : "" %>>Vencido</option>
             <option value="Devuelto" <%= request.getParameter("estadoFilter") != null && request.getParameter("estadoFilter").equals("Devuelto") ? "selected" : "" %>>Devuelto</option>
         </select>
@@ -325,7 +325,7 @@
                 <label for="estado">Cambiar estado:</label>
                 <select name="estado" onchange="this.form.submit()">
                     <option value="Pendiente Retiro" <%= prestamo.getEstado().equals("Pendiente Retiro") ? "selected" : "" %>>Pendiente Retiro</option>
-                    <option value="Retirado" <%= prestamo.getEstado().equals("Retirado") ? "selected" : "" %>>Retirado</option>
+                    <option value="Pendiente Devolucion" <%= prestamo.getEstado().equals("Pendiente Devolucion") ? "selected" : "" %>>Pendiente Devolucion</option>
                     <option value="Vencido" <%= prestamo.getEstado().equals("Vencido") ? "selected" : "" %>>Vencido</option>
                     <option value="Devuelto" <%= prestamo.getEstado().equals("Devuelto") ? "selected" : "" %>>Devuelto</option>
                 </select>
@@ -390,6 +390,10 @@
                 });
             }
         });
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
+        }
     </script>
 </body>
 </html>

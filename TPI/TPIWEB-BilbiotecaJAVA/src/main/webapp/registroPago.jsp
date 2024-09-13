@@ -307,7 +307,7 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Pagos</a>
+            <a href="#" class="dropdown-btn active">Pagos</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
                 </form>
@@ -421,6 +421,10 @@
                     dropdownContent.style.display = "block";
                 }
             });
+        }
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
         }
     </script>
 </body>

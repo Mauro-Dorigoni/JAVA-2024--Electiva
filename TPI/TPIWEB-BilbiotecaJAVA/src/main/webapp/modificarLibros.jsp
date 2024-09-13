@@ -235,7 +235,7 @@
 			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
 			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
             </div>
-            <a href="#" class="dropdown-btn">Libros</a>
+            <a href="#" class="dropdown-btn active">Libros</a>
             <div class="dropdown-container">
                 <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
                 	<input type="hidden" id="actionLibro" name="actionLibro" value="">
@@ -284,7 +284,7 @@
             <div class="card-container">
                 <% for(Libro libro : libros) { %>
                 <div class="card">
-                    <img src="assets/libros/<%= libro.getIdPhoto() %>" alt="Imagen de <%= libro.getTitulo() %>">
+                    <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
                     <div class="card-content">
                         <h5><%= libro.getTitulo() %></h5>
                         <p>ID: <%= libro.getIdLibro() %> </p>

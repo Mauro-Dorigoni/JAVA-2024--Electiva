@@ -294,7 +294,7 @@
                 <a href="#" onclick="setActionAndSubmitLibros('modificar'); return false;">Modificar Libro</a>
                 <a href="#" onclick="setActionAndSubmitLibros('baja'); return false;">Baja Libro</a>
             </div>
-            <a href="#" class="dropdown-btn">Ejemplares</a>
+            <a href="#" class="dropdown-btn active">Ejemplares</a>
             <div class="dropdown-container">
                 <a href="#">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
@@ -417,6 +417,10 @@
                     dropdownContent.style.display = "block";
                 }
             });
+        }
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
         }
     </script>
 </body>

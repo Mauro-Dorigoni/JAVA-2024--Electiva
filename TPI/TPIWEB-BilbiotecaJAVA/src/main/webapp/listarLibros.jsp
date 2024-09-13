@@ -243,7 +243,7 @@
 			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
 			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
             </div>
-            <a href="#" class="dropdown-btn">Libros</a>
+            <a href="#" class="dropdown-btn active">Libros</a>
             <div class="dropdown-container">
                 <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
                 	<input type="hidden" id="actionLibro" name="actionLibro" value="">
@@ -329,6 +329,10 @@
                 });
             }
         });
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
+        }
     </script>
 </body>
 </html>
