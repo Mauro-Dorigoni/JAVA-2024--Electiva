@@ -54,7 +54,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
 		}
 		
 		try {
-			String validacion = cp.validate(cliente, libro);
+			ValidarPrestamoEnum validacion = cp.validate(cliente, libro);
 			LinkedList<Libro> librosTodos = cl.getAll(); 
 			LinkedList<Categoria_libro> categorias = clibro.getAll();
 			LinkedList<String> autores = new LinkedList<>();
@@ -66,12 +66,13 @@ public class VerifyPrestamoServlet extends HttpServlet {
 		    String filterBy = "Todos";
 		    String filtro = "Todos";
 		    
-			if("Validado".equals(validacion)) {
+		    case
+		    if(ValidarPrestamoEnum.Validado.equals(validacion)) {
 				LinkedList<Ejemplar> ejemplaresLibres = ce.getEjemplaresLibres(libro);
 				request.setAttribute("libro", libro);
 				request.setAttribute("ejemplares", ejemplaresLibres);
 				request.getRequestDispatcher("checkoutPrestamo.jsp").forward(request, response);
-			} else if ("Activos".equals(validacion)){
+			} else if (ValidarPrestamoEnum.Activos.equals(validacion)){
 				request.setAttribute("messageType", "error");
                 request.setAttribute("message", "Usted tiene 3 prestamos activos y no podra realizar otro hasta devolver alguno");
                 request.setAttribute("categorias", categorias);
@@ -80,7 +81,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
 			    request.setAttribute("filtro", filtro);
 			    request.setAttribute("autores", autores);
     		    request.getRequestDispatcher("userDashboard.jsp").forward(request, response);
-			} else if("Vencidos".equals(validacion)) {
+			} else if(ValidarPrestamoEnum.Vencidos.equals(validacion)) {
 				request.setAttribute("messageType", "error");
                 request.setAttribute("message", "Usted tiene prestamos vencidos sin devolver");
                 request.setAttribute("categorias", categorias);
@@ -89,7 +90,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
 			    request.setAttribute("filtro", filtro);
 			    request.setAttribute("autores", autores);
     		    request.getRequestDispatcher("userDashboard.jsp").forward(request, response);
-			} else if("Pagos".equals(validacion)) {
+			} else if(ValidarPrestamoEnum.Pagos.equals(validacion)) {
 				request.setAttribute("messageType", "error");
                 request.setAttribute("message", "Usted debe al menos 2 meses de abono a la biblioteca");
                 request.setAttribute("categorias", categorias);
@@ -98,7 +99,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
 			    request.setAttribute("filtro", filtro);
 			    request.setAttribute("autores", autores);
     		    request.getRequestDispatcher("userDashboard.jsp").forward(request, response);
-			} else if("Ejemplares".equals(validacion)) {
+			} else if(ValidarPrestamoEnum.Ejemplares.equals(validacion)) {
 				request.setAttribute("messageType", "error");
                 request.setAttribute("message", "No hay ejemplares disponibles del libro: "+libro.getTitulo()+". Lo sentimos");
                 request.setAttribute("categorias", categorias);

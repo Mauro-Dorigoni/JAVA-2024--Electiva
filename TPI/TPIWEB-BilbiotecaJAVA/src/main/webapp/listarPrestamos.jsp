@@ -307,7 +307,7 @@
         String estadoFilter = request.getParameter("estadoFilter");
         if (prestamos != null && !prestamos.isEmpty()) {
             for (Prestamo prestamo : prestamos) {
-                if (estadoFilter == null || estadoFilter.isEmpty() || prestamo.getEstado().equals(estadoFilter)) {
+                if (estadoFilter == null || estadoFilter.isEmpty() || prestamo.getEstado().name().equals(estadoFilter)) {
         %>
         <div class="card">
             <div class="card-content">
@@ -315,7 +315,7 @@
                 <p>Libro: <%= prestamo.getEjemplar().getLibro().getTitulo() %> (ID: <%= prestamo.getEjemplar().getLibro().getIdLibro() %>)</p>
                 <p>Ejemplar ID: <%= prestamo.getEjemplar().getIdEjemplar() %></p>
                 <p>Fecha del Préstamo: <%= prestamo.getFechaRealizacion() %></p>
-                <p>Estado: <%= prestamo.getEstado() %></p>
+                <p>Estado: <%= prestamo.getEstado().name() %></p>
             </div>
             <form action="<%=request.getContextPath()%>/changeEstadoPrestamo" method="GET">
                 <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
@@ -324,10 +324,10 @@
                 <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
                 <label for="estado">Cambiar estado:</label>
                 <select name="estado" onchange="this.form.submit()">
-                    <option value="Pendiente Retiro" <%= prestamo.getEstado().equals("Pendiente Retiro") ? "selected" : "" %>>Pendiente Retiro</option>
-                    <option value="Pendiente Devolucion" <%= prestamo.getEstado().equals("Pendiente Devolucion") ? "selected" : "" %>>Pendiente Devolucion</option>
-                    <option value="Vencido" <%= prestamo.getEstado().equals("Vencido") ? "selected" : "" %>>Vencido</option>
-                    <option value="Devuelto" <%= prestamo.getEstado().equals("Devuelto") ? "selected" : "" %>>Devuelto</option>
+                    <option value="PENDIENTE_RETIRO" <%= prestamo.getEstado().equals(EstadoPrestamo.PENDIENTE_RETIRO) ? "selected" : "" %>>Pendiente Retiro</option>
+                    <option value="PENDIENTE_DEVOLUCION" <%= prestamo.getEstado().equals(EstadoPrestamo.PENDIENTE_DEVOLUCION) ? "selected" : "" %>>Pendiente Devolucion</option>
+                    <option value="VENCIDO" <%= prestamo.getEstado().equals(EstadoPrestamo.VENCIDO) ? "selected" : "" %>>Vencido</option>
+                    <option value="DEVUELTO" <%= prestamo.getEstado().equals(EstadoPrestamo.DEVUELTO) ? "selected" : "" %>>Devuelto</option>
                 </select>
             </form>
         </div>

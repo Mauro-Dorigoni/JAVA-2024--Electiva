@@ -44,28 +44,28 @@ public class ControladorPrestamo {
 		}
 	}
 	
-	public String validate(Cliente c, Libro l) throws AppException {
+	public ValidarPrestamoEnum validate(Cliente c, Libro l) throws AppException {
 		try {
 			if(dp.validateEjemplaresLibres(l)) {
 				if(dp.validatePagoCliente(c)) {
 					if(dp.validatePrestamosVencidosCliente(c)) {
 						if(dp.validatePrestamosActivosCliente(c)) {
-							return "Validado";
+							return ValidarPrestamoEnum.Validado;
 						}
 						else {
-							return "Activos";
+							return ValidarPrestamoEnum.Activos;
 						}
 					}
 					else {
-						return "Vencidos";
+						return ValidarPrestamoEnum.Vencidos;
 					}
 				}
 				else {
-					return "Pagos";
+					return ValidarPrestamoEnum.Pagos;
 				}
 			}
 			else {
-				return "Ejemplares";
+				return ValidarPrestamoEnum.Ejemplares;
 			}
 		} catch (AppException e) {
 			throw e;

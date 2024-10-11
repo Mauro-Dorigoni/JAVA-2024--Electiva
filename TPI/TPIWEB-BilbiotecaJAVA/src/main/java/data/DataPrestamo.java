@@ -24,7 +24,7 @@ public class DataPrestamo {
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
 			stmt.setObject(1, LocalDate.now());
-			stmt.setString(2, "Pendiente Retiro");
+			stmt.setString(2, "PENDIENTE_RETIRO");
 			stmt.setInt(3, p.getCliente().getId());
 			stmt.setInt(4, p.getEjemplar().getIdEjemplar());
 			stmt.setInt(5, p.getEjemplar().getLibro().getIdLibro());
@@ -78,7 +78,7 @@ public class DataPrestamo {
                 	eje.setIdEjemplar(rs.getInt(4));
                 	eje.setLibro(lib);
                 	prestamo.setFechaRealizacion(rs.getObject(1,LocalDate.class));
-                	prestamo.setEstado(rs.getString(2));
+                	prestamo.setEstado(EstadoPrestamo.valueOf(rs.getString(2)));
                 	prestamo.setCliente(cli);
                 	prestamo.setEjemplar(eje);
 
@@ -123,7 +123,7 @@ public class DataPrestamo {
 	                	eje.setIdEjemplar(rs.getInt(4));
 	                	eje.setLibro(lib);
 	                	prestamo.setFechaRealizacion(rs.getObject(1,LocalDate.class));
-	                	prestamo.setEstado(rs.getString(2));
+	                	prestamo.setEstado(EstadoPrestamo.valueOf(rs.getString(2)));
 	                	prestamo.setCliente(cli);
 	                	prestamo.setEjemplar(eje);
 	                	prestamos.add(prestamo);
@@ -176,7 +176,7 @@ public class DataPrestamo {
                 	eje.setIdEjemplar(rs.getInt(4));
                 	eje.setLibro(lib);
                 	prestamo.setFechaRealizacion(rs.getObject(1,LocalDate.class));
-                	prestamo.setEstado(rs.getString(2));
+                	prestamo.setEstado(EstadoPrestamo.valueOf(rs.getString(2)));
                 	prestamo.setCliente(cli);
                 	prestamo.setEjemplar(eje);
                 	prestamosCliente.add(prestamo);
@@ -207,7 +207,7 @@ public class DataPrestamo {
 							"UPDATE prestamo SET estado=? WHERE fechaRealizacion=? and idCliente=? and idEjemplar=? and idLibro=?",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
-			stmt.setString(1, p.getEstado());
+			stmt.setString(1, p.getEstado().name());
 			stmt.setObject(2, p.getFechaRealizacion());
 			stmt.setInt(3, p.getCliente().getId());
 			stmt.setInt(4, p.getEjemplar().getIdEjemplar());
@@ -243,7 +243,7 @@ public class DataPrestamo {
 					"select count(*) from prestamo where idCliente=? and estado=?;"
 					);
 			stmt.setInt(1, c.getId());
-			stmt.setString(2, "Pendiente devolucion");
+			stmt.setString(2, "PENDIENTE_DEVOLUCION");
 			rs=stmt.executeQuery();
 			 if (rs != null) {
 	                while (rs.next()) {
@@ -280,7 +280,7 @@ public class DataPrestamo {
 					"select count(*) from prestamo where idCliente=? and estado=?;"
 					);
 			stmt.setInt(1, c.getId());
-			stmt.setString(2, "Vencido");
+			stmt.setString(2, "VENCIDO");
 			rs=stmt.executeQuery();
 			 if (rs != null) {
 	                while (rs.next()) {
@@ -351,7 +351,7 @@ public class DataPrestamo {
         try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
 					"select count(e.idEjemplar) from ejemplar e where e.idEjemplar not in (select eje.idEjemplar from ejemplar eje inner join prestamo pre on eje.idEjemplar=pre.idEjemplar and eje.idLibro=pre.idLibro where pre.estado!=? and eje.idLibro=?) and e.idLibro=? and e.fechaBaja is null;");
-			stmt.setString(1, "Devuelto");
+			stmt.setString(1, "DEVUELTO");
         	stmt.setInt(2, l.getIdLibro());
 			stmt.setInt(3, l.getIdLibro());
 			rs=stmt.executeQuery();

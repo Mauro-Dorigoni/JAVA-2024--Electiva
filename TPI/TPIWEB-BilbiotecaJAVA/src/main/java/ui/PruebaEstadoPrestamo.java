@@ -22,7 +22,7 @@ public class PruebaEstadoPrestamo {
 		prestamo.setCliente(cliente);
 		prestamo.setEjemplar(ejemplar);
 		prestamo.setFechaRealizacion(LocalDate.parse("2024-09-11"));
-		prestamo.setEstado("Retirado");
+		prestamo.setEstado(EstadoPrestamo.PENDIENTE_DEVOLUCION);
 		
 		DataPrestamo dp = new DataPrestamo();
 		try {

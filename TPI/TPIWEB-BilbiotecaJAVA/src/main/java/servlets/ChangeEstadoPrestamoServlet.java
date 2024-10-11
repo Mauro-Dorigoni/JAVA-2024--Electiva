@@ -41,7 +41,14 @@ public class ChangeEstadoPrestamoServlet extends HttpServlet {
 		prestamo.setFechaRealizacion(LocalDate.parse(request.getParameter("fechaPrestamo")));
 		
 		String nuevoEstado = request.getParameter("estado");
-		prestamo.setEstado(nuevoEstado);
+		try {
+			EstadoPrestamo nuevoEstadoEnum = EstadoPrestamo.valueOf(nuevoEstado.toUpperCase());
+			prestamo.setEstado(nuevoEstadoEnum);
+		} catch (IllegalArgumentException f) {
+			AppException e = new AppException("Estado de Prestamo Invalido");
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		
 		try {
 			cp.updateState(prestamo);

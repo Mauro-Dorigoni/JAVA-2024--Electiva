@@ -3,7 +3,7 @@ import java.time.*;
 
 public class Prestamo {
 	private LocalDate fechaRealizacion;
-	private String estado;
+	private EstadoPrestamo estado;
 	private Cliente cliente;
 	private Ejemplar ejemplar;
 
@@ -13,10 +13,10 @@ public class Prestamo {
 	public void setFechaRealizacion(LocalDate fechaRealizacion) {
 		this.fechaRealizacion = fechaRealizacion;
 	}
-	public String getEstado() {
+	public EstadoPrestamo getEstado() {
 		return estado;
 	}
-	public void setEstado(String estado) {
+	public void setEstado(EstadoPrestamo estado) {
 		this.estado = estado;
 	}
 	public Cliente getCliente() {

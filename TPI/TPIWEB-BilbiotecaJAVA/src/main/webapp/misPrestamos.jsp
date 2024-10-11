@@ -385,7 +385,7 @@
                         <h5><%= prestamo.getEjemplar().getLibro().getTitulo() %></h5>
                         <p>ID del ejemplar: <%= prestamo.getEjemplar().getIdEjemplar() %></p>
                         <p>Fecha de realización: <%= prestamo.getFechaRealizacion().toString() %></p>
-                        <p>Estado actual: <%= prestamo.getEstado() %></p>
+                        <p>Estado actual: <%= prestamo.getEstado().name() %></p>
                     </div>
                 </div>
             <% } %>
