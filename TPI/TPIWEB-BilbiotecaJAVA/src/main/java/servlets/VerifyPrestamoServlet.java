@@ -65,8 +65,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
 		    }
 		    String filterBy = "Todos";
 		    String filtro = "Todos";
-		    
-		    case
+
 		    if(ValidarPrestamoEnum.Validado.equals(validacion)) {
 				LinkedList<Ejemplar> ejemplaresLibres = ce.getEjemplaresLibres(libro);
 				request.setAttribute("libro", libro);
@@ -92,7 +91,7 @@ public class VerifyPrestamoServlet extends HttpServlet {
     		    request.getRequestDispatcher("userDashboard.jsp").forward(request, response);
 			} else if(ValidarPrestamoEnum.Pagos.equals(validacion)) {
 				request.setAttribute("messageType", "error");
-                request.setAttribute("message", "Usted debe al menos 2 meses de abono a la biblioteca");
+                request.setAttribute("message", "Usted debe al menos 3 meses de abono a la biblioteca");
                 request.setAttribute("categorias", categorias);
                 request.setAttribute("libros", librosTodos);
                 request.setAttribute("opcion", filterBy);

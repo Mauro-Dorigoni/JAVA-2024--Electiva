@@ -240,10 +240,10 @@ public class DataPrestamo {
         int cantPrestamosActivosCliente = 3;
         try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select count(*) from prestamo where idCliente=? and estado=?;"
+					"select count(*) from prestamo where idCliente=? and estado!=?;"
 					);
 			stmt.setInt(1, c.getId());
-			stmt.setString(2, "PENDIENTE_DEVOLUCION");
+			stmt.setString(2, "DEVUELTO");
 			rs=stmt.executeQuery();
 			 if (rs != null) {
 	                while (rs.next()) {
@@ -274,7 +274,7 @@ public class DataPrestamo {
 		PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean validar = false;
-        int cantPrestamosActivosCliente = 3;
+        int cantPrestamosVencidosCliente = 1;
         try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
 					"select count(*) from prestamo where idCliente=? and estado=?;"
@@ -284,10 +284,10 @@ public class DataPrestamo {
 			rs=stmt.executeQuery();
 			 if (rs != null) {
 	                while (rs.next()) {
-	                	cantPrestamosActivosCliente = rs.getInt(1); 
+	                	cantPrestamosVencidosCliente = rs.getInt(1); 
 	                }
 	            }
-			 if(cantPrestamosActivosCliente > 1) {validar = false;}
+			 if(cantPrestamosVencidosCliente > 0) {validar = false;}
 			 else {validar=true;}
 		} catch (SQLException e) {
 			throw new AppException("Error: no se varificar la cantidad de prestamos vencidos del cliente");
@@ -311,19 +311,21 @@ public class DataPrestamo {
 		PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean validar = false;
-        int mesesAtrasoPago = 2;
+        int mesesAtrasoPago = 3;
+        Date fechaUltimoPago = null;
         try {
         	stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select timestampdiff(month, cli.fechaUltimoPago, curdate()) from cliente cli where id=?;"
+					"select cli.fechaUltimoPago, timestampdiff(month, cli.fechaUltimoPago, curdate()) from cliente cli where id=?;"
 					);
 			stmt.setInt(1, c.getId());
 			rs=stmt.executeQuery();
 			 if (rs != null) {
 	                while (rs.next()) {
-	                	mesesAtrasoPago = rs.getInt(1); 
+	                	fechaUltimoPago = rs.getDate(1);
+	                	mesesAtrasoPago = rs.getInt(2); 
 	                }
 	            }
-			 if(mesesAtrasoPago > 2) {validar = false;}
+			 if(mesesAtrasoPago > 2 || fechaUltimoPago==null) {validar = false;}
 			 else {validar=true;}
 		} catch (SQLException e) {
 			throw new AppException("Error: no pudo varificar la fecha de ultimo pago del cliente");
