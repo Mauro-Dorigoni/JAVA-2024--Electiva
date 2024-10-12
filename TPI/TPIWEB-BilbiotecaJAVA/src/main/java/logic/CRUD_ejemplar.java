@@ -41,5 +41,13 @@ public class CRUD_ejemplar {
 			throw e;
 		}
 	}
+	
+	public void update(Ejemplar ej) throws AppException {
+		try {
+			de.update(ej);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 
 }

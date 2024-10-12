@@ -1,6 +1,5 @@
 package data;
 import entidades.*;
-import logic.*;
 import java.util.LinkedList;
 import java.sql.*;
 import java.time.*;
