@@ -18,6 +18,22 @@ public class CRUD_ejemplar {
 		}
 	}
 	
+	public LinkedList<Ejemplar> getAll() throws AppException{
+		try {
+			return de.getAll();
+		} catch (AppException e) {
+			throw e;
+		}
+	}
+	
+	public void delete(Ejemplar ej) throws AppException{
+		try {
+			de.deleteLogic(ej);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
+	
 	public LinkedList<Ejemplar> getEjemplaresLibres(Libro l) throws AppException{
 		try {
 			return de.getEjemplaresLibres(l);
