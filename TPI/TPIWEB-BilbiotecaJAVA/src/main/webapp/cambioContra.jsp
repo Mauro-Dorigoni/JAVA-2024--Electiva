@@ -22,7 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Pagos</title>
+    <title>Cambio de Contraseña</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -341,47 +341,19 @@
 			    font-size: 1.5rem;
 			    font-weight: bold;
 			}
-			.customer-info-box {
-		    margin-top: 20px;
-		    background-color: white;
-		    padding: 20px;
-		    border-radius: 8px;
-		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		    width: 100%;
-		    max-width: 500px; /* Ajusta según el tamaño que prefieras */
-		}
+			  .form-group {
+		        margin-bottom: 15px;
+		    }
 		
-		.customer-info-box h3 {
-		    text-align: center;
-		    color: #333;
-		    margin-bottom: 15px;
-		}
+		    .form-buttons {
+		        display: flex;
+		        justify-content: space-between;
+		    }
 		
-		.customer-info-box p {
-		    margin: 10px 0;
-		    font-size: 16px;
-		    color: #555;
-		}
-		
-		.customer-info-box p span {
-		    font-weight: bold;
-		}
-		
-		.customer-info-box button {
-		    width: 100%;
-		    padding: 10px;
-		    background-color: #e08b72;
-		    color: white;
-		    border: none;
-		    border-radius: 5px;
-		    cursor: pointer;
-		    margin-top: 20px;
-		    font-size: 16px;
-		}
-		
-		.customer-info-box button:hover {
-		    background-color: #f8f9fa;
-		}
+		    .btn-primary, .btn-secondary {
+		        width: 48%;
+		    }
+
     </style>
 </head>
 <body>
@@ -413,30 +385,39 @@
             </div>
         </div>
         <div class="menu-title">
-	        Mis Pagos
+	        Cambio de Contraseña
 	    </div>
     </div>
 
-
 <div class="main-content">
-    <div class="customer-info-box">
-        <h3>Detalles del Cliente</h3>
-        <p>ID: <span>${cliente.id}</span></p>
-        <p>Nombre: <span>${cliente.nombre} ${cliente.apellido}</span></p>
-        <p>Último pago: 
-            <span>
-                 <%
-                    if (cliente.getFechaUltimoPago() != null) {
-                        out.print(cliente.getFechaUltimoPago());
-                    } else {
-                        out.print("No se han realizado pagos todavía");
-                    }
-                %>
-            </span>
-        </p>
-        <button onclick="window.history.back()">Volver</button>
+    <div id="login">
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form" action="<%=request.getContextPath()%>/changePass" method="post">
+                            <h3 class="text-center text-info">Cambio de Contraseña</h3>
+                            <input type="hidden" id="userEmail" name="userEmail" value="<%=userEmail%>">
+                            <div class="form-group">
+                                <label for="curpassword" class="text-info">Contraseña Actual</label>
+                                <input type="password" name="curpassword" id="curpassword" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="newpassword" class="text-info">Nueva Contraseña</label>
+                                <input type="password" name="newpassword" id="newpassword" class="form-control">
+                            </div>
+                            <div class="form-group d-flex justify-content-between align-items-center">
+                                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Volver</button>
+                                <input type="submit" name="submit" class="btn btn-custom btn-md" width=48% value="Cambiar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
   	
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -456,7 +437,21 @@
 	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
 				    <input type="hidden" name="actionLibro" value="userDashboard">
 				</form>
-                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
+                <%
+                    String messageType = (String) request.getAttribute("messageType");
+                    if (messageType != null && messageType.equals("success")) {
+                    	session.invalidate();
+                %>
+                <!-- Si es un éxito, muestra el botón que redirige a login.jsp -->
+                <button type="button" class="btn btn-primary" id="acceptButton" onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'">Acepto</button>
+                <%
+                    } else {
+                %>
+                <!-- Si no es éxito, muestra el botón de cerrar -->
+                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Volver</button>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>

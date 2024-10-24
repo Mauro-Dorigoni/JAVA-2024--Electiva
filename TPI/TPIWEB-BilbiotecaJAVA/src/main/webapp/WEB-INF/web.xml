@@ -165,4 +165,16 @@
     <servlet-name>BajaEjemplarServlet</servlet-name>
     <servlet-class>servlets.BajaEjemplarServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ChangePassServlet</display-name>
+    <servlet-name>ChangePassServlet</servlet-name>
+    <servlet-class>servlets.ChangePassServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>DeleteUserServlet</display-name>
+    <servlet-name>DeleteUserServlet</servlet-name>
+    <servlet-class>servlets.DeleteUserServlet</servlet-class>
+  </servlet>
 </web-app>

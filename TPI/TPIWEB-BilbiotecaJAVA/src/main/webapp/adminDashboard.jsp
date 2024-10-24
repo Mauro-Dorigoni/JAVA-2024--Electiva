@@ -229,11 +229,12 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Pagos</a>
+            <a href="#" class="dropdown-btn">Clientes</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
                 </form>
                 <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">

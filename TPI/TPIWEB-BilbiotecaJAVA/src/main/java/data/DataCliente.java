@@ -218,4 +218,68 @@ public class DataCliente {
             }
            }
     }
+	
+	public void updatePassword(Cliente c) throws AppException {
+		PreparedStatement stmt = null;
+    	ResultSet keyResultSet = null;
+    	try {
+			stmt=DbConnector.getInstancia().getConn().
+					prepareStatement(
+							"UPDATE cliente SET contra =? WHERE id=?",
+							PreparedStatement.RETURN_GENERATED_KEYS
+							);
+			stmt.setObject(1, c.getContra());
+			stmt.setInt(2,c.getId());
+			stmt.executeUpdate();
+			
+			keyResultSet=stmt.getGeneratedKeys();
+            if(keyResultSet!=null && keyResultSet.next()){
+                c.setId(keyResultSet.getInt(1));
+            }
+
+			
+		}  catch (SQLException e) {
+			throw new AppException("Error: no se pudo actualizar la contraseña de Cliente ID: "+c.getId());
+		} finally {
+            try {
+                if(keyResultSet!=null)keyResultSet.close();
+                if(stmt!=null)stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+            }
+           }
+	}
+	
+	public void bajaLogica(Cliente c) throws AppException{
+		PreparedStatement stmt = null;
+    	ResultSet keyResultSet = null;
+    	try {
+			stmt=DbConnector.getInstancia().getConn().
+					prepareStatement(
+							"UPDATE cliente SET fechaBaja =? WHERE id=?",
+							PreparedStatement.RETURN_GENERATED_KEYS
+							);
+			stmt.setObject(1, LocalDate.now());
+			stmt.setInt(2,c.getId());
+			stmt.executeUpdate();
+			
+			keyResultSet=stmt.getGeneratedKeys();
+            if(keyResultSet!=null && keyResultSet.next()){
+                c.setId(keyResultSet.getInt(1));
+            }
+
+			
+		}  catch (SQLException e) {
+			throw new AppException("Error: no se pudo dar de baja la cuenta del cliente Cliente ID: "+c.getId());
+		} finally {
+            try {
+                if(keyResultSet!=null)keyResultSet.close();
+                if(stmt!=null)stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+            }
+           }
+	}
 }

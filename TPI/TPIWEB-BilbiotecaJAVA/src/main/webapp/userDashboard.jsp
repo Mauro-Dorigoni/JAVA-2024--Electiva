@@ -320,8 +320,11 @@
             <i class="fas fa-bars"></i>
             <div class="dropdown-menu">
                 <a href="<%= request.getContextPath() %>/userPrestamos?userEmail=<%= userEmail %>">Mis préstamos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>">Mis pagos</a>
+                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=pagos">Mis pagos</a>
+                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=contra">Cambiar Contraseña</a>
+                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=baja">Baja Cuenta</a>
                 <a href="#">Mis reseñas</a>
+                
             </div>
         </div>
 
