@@ -2,20 +2,20 @@
 Cursado de electiva JAVA 2024
 Se incluyen ejercicios y eventualmente el TPI 
 
-# PROPUESTA
+# PROPUESTA TPI
 
 ## Grupo
 ### Integrantes
 - 49457 - Dorigoni Mauro
 
 ### Repositorio
--[Full app](https://github.com/Mauro-Dorigoni/JAVA-2024--Electiva)
+-[Full app](https://github.com/Mauro-Dorigoni/JAVA-2024--Electiva/tree/main/TPI)
 
 ### Tema
 
 ### Descripcion
 
-Se trata de una simple Biblioteca, donde el cliente podra realizar prestamos de libros por un costo mensual. Los libros disponibles tienen una cantidad determinada de ejemplares fisicos en stock, y pertenecen a una categoria determinada. El cliente no podra realizar un prestamo si el libro deseado no tiene ejemplares en stock, si tiene un prestamo vencido pendiente de devolucion, si adeuda un pago o si tine ya 3 prestamos activos. Eventualmente, luego de la devolucion del libro, el cliente podra dejar una reseña sobre este, que es moderada por un administrador de la Biblioteca.
+Se trata de una simple Biblioteca, donde el cliente podra realizar prestamos de libros por un costo mensual a traves de la Web y retirar los libros en la ubicacion fisica cuando mejor le convenga. Los libros disponibles tienen una cantidad determinada de ejemplares fisicos en stock, y pertenecen a una categoria determinada. El cliente no podra realizar un prestamo si el libro deseado no tiene ejemplares en stock, si tiene un prestamo vencido pendiente de devolucion, si adeuda un pago o si tiene ya 3 prestamos activos. Eventualmente, luego de la devolucion del libro, el cliente podra dejar una reseña sobre este, que es moderada por un administrador de la Biblioteca.
 
 ### Modelo
 
