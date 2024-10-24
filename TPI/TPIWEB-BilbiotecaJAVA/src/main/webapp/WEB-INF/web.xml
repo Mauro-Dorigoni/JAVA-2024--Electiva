@@ -147,4 +147,22 @@
     <servlet-name>FilterPrestamosServlet</servlet-name>
     <servlet-class>servlets.FilterPrestamosServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListEjemplaresServlet</display-name>
+    <servlet-name>ListEjemplaresServlet</servlet-name>
+    <servlet-class>servlets.ListEjemplaresServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>EjemplarModifyServlet</display-name>
+    <servlet-name>EjemplarModifyServlet</servlet-name>
+    <servlet-class>servlets.EjemplarModifyServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>BajaEjemplarServlet</display-name>
+    <servlet-name>BajaEjemplarServlet</servlet-name>
+    <servlet-class>servlets.BajaEjemplarServlet</servlet-class>
+  </servlet>
 </web-app>

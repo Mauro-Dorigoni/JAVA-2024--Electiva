@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="entidades.*" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="entidades.Cliente" %>
 
 <%
     String userEmail = (String) session.getAttribute("userEmail");
@@ -10,13 +11,16 @@
         response.sendRedirect("index.jsp");
         return;
     }
+
+    // Recuperar la lista de categorías desde el request
+    LinkedList<Ejemplar> ejemplares = (LinkedList<Ejemplar>) request.getAttribute("ejemplares");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard - Listado de Ejemplares</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -24,6 +28,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+        html, body {
+		    height: 100%;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
@@ -72,11 +79,10 @@
         }
 
         .container-fluid {
-            display: flex;
-            height: calc(100vh - 100px); /* Full height minus header */
-            padding: 0;
-            margin: 0;
-        }
+		    min-height: calc(100vh - 100px); /* Altura mínima del contenedor, resta el tamaño del header */
+		    display: flex;
+		    flex-direction: column;
+		}
 
         .sidebar {
             width: 250px;
@@ -105,6 +111,10 @@
             background-color: #3C7D93; /* Darker shade of #4FA5BF */
             text-decoration: underline; /* Subrayado al hacer hover */
         }
+        .sidebar .active {
+	        background-color: #3C7D93;
+	        text-decoration: underline;
+	    }
 
         .dropdown-container {
             display: none;
@@ -128,39 +138,86 @@
         .main-content {
             margin-left: 250px;
             flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             padding: 20px;
         }
 
-        .info-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px;
+        .card-container {
+            display: flex;
+            flex-direction: column;
         }
 
-        .info-box h1 {
-            color: #e08b72;
+        .card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .card img {
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+
+        .card-content {
+            flex-grow: 1;
+        }
+
+        .card-content h5 {
+            margin: 0;
+            color: #e08b72;
+            font-weight: bold;
+        }
+
+        .card-content p {
+            margin: 5px 0;
+        }
+
+        .card button {
+            background-color: #e08b72;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #c76a57;
+        }
+
         .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
-	    }
-	
-	    .footer p {
-	        color: white;
-	        font-weight: bold;
-	        margin: 0;
-    	}
+            background-color: #e08b72;
+		    padding: 20px;
+		    text-align: center;
+		    width: 100%;
+		    position: relative;
+		    bottom: 0;
+		    left: 0;
+        }
+
+        .footer p {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+        .card img {
+		    height: 100px;
+		    width: 100px;
+		    object-fit: contain;
+		    border-radius: 10px;
+		    margin-right: 20px;
+		    background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
+		}
     </style>
 </head>
 <body>
@@ -172,14 +229,12 @@
         <div class="nav-links">
             <div class="user-icon">
                 <span class="welcome-message">Bienvenido <%= userEmail %></span>
-                <a href="#"><i class="fas fa-ssuser"></i></a>
+                <a href="#"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Container with Sidebar and Main Content -->
     <div class="container-fluid">
-        <!-- Sidebar -->
         <div class="sidebar">
             <a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
@@ -191,7 +246,7 @@
 			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
 			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
             </div>
-            <a href="#" class="dropdown-btn">Libros</a>
+            <a href="#" class="dropdown-btn active">Libros</a>
             <div class="dropdown-container">
                 <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
                 	<input type="hidden" id="actionLibro" name="actionLibro" value="">
@@ -209,19 +264,10 @@
             </div>
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
-                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
-                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
-            	</form>
-            	<script>
-	                function setActionAndSubmitEjemplares(actionValue) {
-	                	document.getElementById('actionEjemplares').value = actionValue;
-	                    document.getElementById('listadoEjemplaresForm').submit();
-	                }
-	            </script>
-                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
+                <a href="#">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
+                <a href="#">Modificar Ejemplar</a>
+                <a href="#">Baja Ejemplar</a>
             </div>
             <a href="#" class="dropdown-btn">Prestamos</a>
             <div class="dropdown-container">
@@ -246,48 +292,48 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="info-box">
-                <img src="assets/logojavabiblioteca.jpg" alt="Logo">
-                <h1>Bienvenido al TPI Lenguaje Programacion JAVA</h1>
-                <p>Se trata de un sistema de Biblioteca, donde se pueden registrar préstamos de libros y reseñas de estos.</p>
-                <p>Integrantes: Dorigoni Mauro</p>
-                <p>Profesores: Meca Adrian, Tabacman Ricardo</p>
+            <div class="card-container">
+                <% for(Ejemplar ejemplar : ejemplares) { %>
+                <div class="card">
+                    <div class="card-content">
+                        <h5><%= ejemplar.getLibro().getTitulo() %></h5>
+                        <p>ID Libro: <%= ejemplar.getLibro().getIdLibro() %> </p>
+                        <p>ID Ejemplar: <%= ejemplar.getIdEjemplar() %></p>
+                        <p>Editorial: <%= ejemplar.getEditorial() %></p>
+                        <p>Nro Edicion: <%= ejemplar.getNroEdicion() %></p>
+                        <p>Fecha Edicion: <%= ejemplar.getFechaEdicion() %></p>
+                        <p>Nro Paginas: <%= ejemplar.getCantPaginas() %></p>
+                    </div>
+                </div>
+                <% } %>
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
     <div class="footer">
-	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
-	</div>
+        <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+    </div>
 
     <script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            // Primero, cerrar todos los dropdowns
-            for (var j = 0; j < dropdown.length; j++) {
-                if (dropdown[j] !== this) {
-                    dropdown[j].classList.remove("active");
-                    dropdown[j].nextElementSibling.style.display = "none";
-                }
-            }
-
-            // Alternar el estado del dropdown actual
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdowns = document.getElementsByClassName('dropdown-btn');
+            for (var i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].addEventListener('click', function () {
+                    this.classList.toggle('active');
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === 'block') {
+                        dropdownContent.style.display = 'none';
+                    } else {
+                        dropdownContent.style.display = 'block';
+                    }
+                });
             }
         });
-    }
-    function setActionAndSubmit(actionValue) {
-        document.getElementById('action').value = actionValue;
-        document.getElementById('listadoCategoriasForm').submit();
-    }
-
-</script>
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
+        }
+    </script>
 </body>
 </html>
