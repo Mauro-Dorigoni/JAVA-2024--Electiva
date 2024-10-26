@@ -7,8 +7,9 @@ public class Review{
 	private int puntaje;
 	private String descripcion;
 	private Prestamo prestamo;
-	private String estado_review;
+	private EstadoReviewEnum estado_review;
 	private Cliente administrativo;
+	private String observacion_rechazo;
 	
 	public LocalDate getFechaReview() {
 		return fechaReview;
@@ -41,10 +42,10 @@ public class Review{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getEstado_review() {
+	public EstadoReviewEnum getEstado_review() {
 		return estado_review;
 	}
-	public void setEstado_review(String estado_review) {
+	public void setEstado_review(EstadoReviewEnum estado_review) {
 		this.estado_review = estado_review;
 	}
 	public Prestamo getPrestamo() {
@@ -52,6 +53,12 @@ public class Review{
 	}
 	public void setPrestamo(Prestamo prestamo) {
 		this.prestamo = prestamo;
+	}
+	public String getObservacion_rechazo() {
+		return observacion_rechazo;
+	}
+	public void setObservacion_rechazo(String observacion_rechazo) {
+		this.observacion_rechazo = observacion_rechazo;
 	}
 	
 }

@@ -5,8 +5,10 @@ import entidades.*;
 
 public class CRUD_libro {
 	private DataLibro dl;
+	private DataReview dr;
 	public CRUD_libro() {
         dl = new DataLibro();  
+        dr = new DataReview();
     }
 	public void save(Libro l) throws AppException{
 		try {
@@ -17,14 +19,22 @@ public class CRUD_libro {
 	}
 	public LinkedList<Libro> getAll() throws AppException{
 		try {
-			return dl.getAll();
+			LinkedList<Libro>libros = dl.getAll();
+			for (Libro libro : libros) {
+				libro.setReviews(dr.getByLibro(libro));
+				libro.setPuntaje();
+			}
+			return libros;
 		} catch (AppException e) {
 			throw e;
 		}
 	}
 	public Libro getOne(Libro l) throws AppException{
 		try {
-			return dl.getOne(l);
+			Libro libro = dl.getOne(l);
+			libro.setReviews(dr.getByLibro(libro));
+			libro.setPuntaje();
+			return libro;
 		} catch (AppException e) {
 			throw e;
 		}
@@ -46,7 +56,12 @@ public class CRUD_libro {
 	}
 	public LinkedList<Libro> search (Libro l) throws AppException{
 		try {
-			return dl.search(l);	
+			LinkedList<Libro> libros = dl.search(l);
+			for (Libro libro2 : libros) {
+				libro2.setReviews(dr.getByLibro(libro2));
+				libro2.setPuntaje();
+			}
+			return libros;
 		} catch (AppException e) {
 			throw e;
 		}

@@ -1,5 +1,6 @@
 package entidades;
 import java.time.*;
+import java.util.LinkedList;
 
 public class Libro {
 	private int idLibro;
@@ -10,6 +11,8 @@ public class Libro {
 	private String titulo;
 	private LocalDate fechaBaja; 
 	private String idPhoto;
+	private LinkedList<Review> reviews;
+	private double puntaje;
 	
 	public int getIdLibro() {
 		return idLibro;
@@ -59,5 +62,20 @@ public class Libro {
 	}
 	public void setIdPhoto(String idPhoto) {
 		this.idPhoto = idPhoto;
+	}
+	public LinkedList<Review> getReviews() {
+		return reviews;
+	}
+	public void setReviews(LinkedList<Review> reviews) {
+		this.reviews = reviews;
+	}
+	public double getPuntaje() {
+		return puntaje;
+	}
+	public void setPuntaje() {
+		this.puntaje = reviews.stream()
+		                .mapToInt(Review::getPuntaje) // Extrae los puntajes
+		                .average()                    // Calcula el promedio
+		                .orElse(0.0); 
 	}
 }

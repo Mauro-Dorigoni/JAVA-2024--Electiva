@@ -7,14 +7,20 @@ import java.util.LinkedList;
 public class ControladorPrestamo {
 
 	private DataPrestamo dp;
+	private DataReview dr;
 	
 	public ControladorPrestamo() {
 		dp = new DataPrestamo();
+		dr = new DataReview();
 	}
 	
 	public LinkedList<Prestamo> getAll() throws AppException {
 		try {
-			return dp.getAll();
+			LinkedList<Prestamo> prestamos = dp.getAll();
+			for (Prestamo prestamo : prestamos) {
+				prestamo.setReview(dr.getByPrestamo(prestamo));
+			}
+			return prestamos;
 		} catch (AppException e) {
 			throw e;
 		}
@@ -22,7 +28,9 @@ public class ControladorPrestamo {
 	
 	public Prestamo getOne(Prestamo p) throws AppException {
 		try {
-			return dp.getOne(p);
+			Prestamo prestamo = dp.getOne(p);
+			prestamo.setReview(dr.getByPrestamo(prestamo));
+			return prestamo;
 		} catch (AppException e) {
 			throw e;
 		}

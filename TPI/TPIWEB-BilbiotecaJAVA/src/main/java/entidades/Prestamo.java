@@ -6,6 +6,7 @@ public class Prestamo {
 	private EstadoPrestamo estado;
 	private Cliente cliente;
 	private Ejemplar ejemplar;
+	private Review review;
 
 	public LocalDate getFechaRealizacion() {
 		return fechaRealizacion;
@@ -30,6 +31,12 @@ public class Prestamo {
 	}
 	public void setEjemplar(Ejemplar ejemplar) {
 		this.ejemplar = ejemplar;
+	}
+	public Review getReview() {
+		return review;
+	}
+	public void setReview(Review review) {
+		this.review = review;
 	}
 	
 }
