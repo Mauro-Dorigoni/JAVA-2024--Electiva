@@ -177,4 +177,10 @@
     <servlet-name>DeleteUserServlet</servlet-name>
     <servlet-class>servlets.DeleteUserServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>GrantAdminServlet</display-name>
+    <servlet-name>GrantAdminServlet</servlet-name>
+    <servlet-class>servlets.GrantAdminServlet</servlet-class>
+  </servlet>
 </web-app>

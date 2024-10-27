@@ -282,4 +282,36 @@ public class DataCliente {
             }
            }
 	}
+	
+	public void grantAdmin(Cliente c) throws AppException{
+    	PreparedStatement stmt = null;
+    	ResultSet keyResultSet = null;
+    	try {
+			stmt=DbConnector.getInstancia().getConn().
+					prepareStatement(
+							"UPDATE cliente SET isAdmin =? WHERE id=?",
+							PreparedStatement.RETURN_GENERATED_KEYS
+							);
+			stmt.setBoolean(1, true);
+			stmt.setInt(2,c.getId());
+			stmt.executeUpdate();
+			
+			keyResultSet=stmt.getGeneratedKeys();
+            if(keyResultSet!=null && keyResultSet.next()){
+                c.setId(keyResultSet.getInt(1));
+            }
+
+			
+		}  catch (SQLException e) {
+			throw new AppException("Error: no se pudo hacer administrador al Cliente ID: "+c.getId());
+		} finally {
+            try {
+                if(keyResultSet!=null)keyResultSet.close();
+                if(stmt!=null)stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            } catch (SQLException e) {
+            	throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+            }
+           }
+    }
 }

@@ -283,6 +283,72 @@ public class DataReview {
            }
     }
 	
+	public LinkedList<Review> getByCliente(Cliente cli) throws AppException{
+		PreparedStatement stmt = null;
+        ResultSet rs = null;
+        LinkedList<Review> reviews = new LinkedList<>();
+        try {
+			stmt=DbConnector.getInstancia().getConn().prepareStatement(
+					"select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo, adm.nombre, adm.apellido\r\n"
+					+ "from review res \r\n"
+					+ "inner join prestamo pre on pre.fechaRealizacion=res.fechaRealizacion and pre.idCliente=res.idCliente and pre.idEjemplar=res.idEjemplar and pre.idLibro=res.idLibro\r\n"
+					+ "inner join cliente c on c.id=res.idCliente\r\n"
+					+ "inner join libro lib on lib.idLibro=res.idLibro\r\n"
+					+ "inner join cliente adm on res.idAdmin=adm.id\r\n"
+					+ "where res.idCliente=?"
+					);
+			stmt.setString(1, Integer.toString(cli.getId()));
+			rs=stmt.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                	Cliente c = new Cliente();
+                    c.setId(rs.getInt(7));
+                    c.setMail(rs.getString(15));
+                    c.setNombre(rs.getString(13));
+                    c.setApellido(rs.getString(14));
+                    Cliente admin = new Cliente();
+                    admin.setId(rs.getInt(10));
+                    admin.setNombre(rs.getString(17));
+                    admin.setApellido(rs.getString(18));
+                    Libro l = new Libro();
+                    l.setIdLibro(rs.getInt(9));
+                    l.setTitulo(rs.getString(16));
+                    Ejemplar e = new Ejemplar();
+                    e.setIdEjemplar(8);
+                    e.setLibro(l);
+                    Prestamo p = new Prestamo();
+                    p.setCliente(c);
+                    p.setEjemplar(e);
+                    p.setFechaRealizacion(rs.getObject(6,LocalDate.class));
+                    p.setEstado(EstadoPrestamo.valueOf(rs.getString(12)));
+                    Review r = new Review();
+                    r.setIdReview(rs.getInt(1));
+                    r.setFechaReview(rs.getObject(2, LocalDate.class));
+                    r.setPuntaje(rs.getInt(3));
+                    r.setDescripcion(rs.getString(4));
+                    r.setEstado_review(EstadoReviewEnum.valueOf(rs.getString(5)));
+                    r.setObservacion_rechazo(rs.getString(11));
+                    r.setAdministrativo(admin);
+                    r.setPrestamo(p);
+                    reviews.add(r);
+
+                }
+            }
+		} catch (SQLException e) {
+			throw new AppException("Error: no se pieron recuperar las reseñas del cliente ID: "+cli.getId());
+		}finally {
+			try {
+				if(rs!=null) {rs.close();}
+				if(stmt!=null) {stmt.close();}
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				throw new AppException("Error: no se pudo cerrar la conexion a Base de Datos");
+			}
+		}
+		
+		return reviews;
+	    }
+	
 }
 	     
 

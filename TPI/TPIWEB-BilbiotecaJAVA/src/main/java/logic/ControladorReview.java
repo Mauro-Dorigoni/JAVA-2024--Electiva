@@ -33,6 +33,13 @@ public class ControladorReview {
 			throw e;
 		}
 	}
+	public LinkedList<Review> getByCliente(Cliente c) throws AppException {
+		try {
+			return dr.getByCliente(c);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 	public void save(Review r) throws AppException{
 		try {
 			dr.save(r);

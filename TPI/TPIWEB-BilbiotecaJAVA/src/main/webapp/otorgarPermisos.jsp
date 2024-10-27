@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="entidades.Cliente" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entidades.*" %>
 
 <%
     String userEmail = (String) session.getAttribute("userEmail");
@@ -10,13 +11,14 @@
         response.sendRedirect("index.jsp");
         return;
     }
+    List<Cliente> clientes = (List<Cliente>) request.getAttribute("clientes");
 %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard - Otorgar Permisos</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -89,6 +91,7 @@
             top: 100px; /* Start sidebar just below the header */
             left: 0;
             bottom: 0;
+            
         }
 
         .sidebar a {
@@ -126,6 +129,7 @@
         }
 
         .main-content {
+            margin-top: 120px;
             margin-left: 250px;
             flex-grow: 1;
             display: flex;
@@ -133,34 +137,119 @@
             align-items: center;
             text-align: center;
             padding: 20px;
+            box-sizing: border-box;
+        	padding-bottom: 120px;
         }
 
-        .info-box {
+        .form-container {
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin: 20px;
+            width: 100%;
         }
 
-        .info-box h1 {
+        .form-container h1 {
             color: #e08b72;
+            margin-bottom: 30px;
+            text-align: center; /* Centrar el título */
         }
+
+        .form-group label {
+            font-weight: bold;
+            color: #e08b72; /* Color de los descriptores */
+            text-align: left;
+            display: block;
+        }
+
+        .form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input[type="text"]:focus, .form-group textarea:focus, .form-group input[type="file"]:focus {
+            border-color: #4FA5BF; /* Resaltado celeste */
+            outline: none;
+            box-shadow: 0 0 5px #4FA5BF;
+        }
+
+        .form-group button[type="submit"] {
+            background-color: #e08b72;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group button[type="submit"]:hover {
+            background-color: #c76a57;
+        }
+
         .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
+            background-color: #e08b72;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-sizing: border-box;
+        }
+
+        .footer p {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+        .sidebar .active {
+        background-color: #3C7D93;
+        text-decoration: underline;
 	    }
-	
-	    .footer p {
-	        color: white;
-	        font-weight: bold;
-	        margin: 0;
-    	}
+	    .form-container {
+	        background-color: white;
+	        padding: 30px;
+	        border-radius: 2px;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        max-width: 600px;
+	        margin: 20px;
+	        width: 100%;
+	        border: 2px solid #e08b72;
+		}
+		.form-group select {
+		    width: 100%;
+		    padding: 10px;
+		    margin-top: 5px;
+		    margin-bottom: 15px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    box-sizing: border-box;
+		    white-space: nowrap; /* Evita que el texto se corte */
+		    overflow: hidden; /* Oculta cualquier desbordamiento de texto */
+		    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+		}
+		.form-group select option {
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		}
+		.form-group select:focus {
+		    border-color: #4FA5BF; /* Resaltado celeste */
+		    outline: none;
+		    box-shadow: 0 0 5px #4FA5BF;
+		}
     </style>
 </head>
 <body>
@@ -172,15 +261,13 @@
         <div class="nav-links">
             <div class="user-icon">
                 <span class="welcome-message">Bienvenido <%= userEmail %></span>
-                <a href="#"><i class="fas fa-ssuser"></i></a>
+                <a href="#"><i class="fas fa-user"></i></a>
             </div>
         </div>
     </div>
 
-    <!-- Container with Sidebar and Main Content -->
     <div class="container-fluid">
-        <!-- Sidebar -->
-        <div class="sidebar">
+       <div class="sidebar">
             <a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
@@ -209,19 +296,10 @@
             </div>
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
-                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
-                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
-            	</form>
-            	<script>
-	                function setActionAndSubmitEjemplares(actionValue) {
-	                	document.getElementById('actionEjemplares').value = actionValue;
-	                    document.getElementById('listadoEjemplaresForm').submit();
-	                }
-	            </script>
-                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
+                <a href="#">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
+                <a href="#">Modificar Ejemplar</a>
+                <a href="#">Baja Ejemplar</a>
             </div>
             <a href="#" class="dropdown-btn">Prestamos</a>
             <div class="dropdown-container">
@@ -229,20 +307,11 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Clientes</a>
+            <a href="#" class="dropdown-btn active">Pagos</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
-                	<input type="hidden" name="action" id="actionInput">
                 </form>
-                <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
-    			<a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
-                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
-	            <script>
-				    function setActionAndSubmitClientes(actionValue) {
-				        document.getElementById('actionInput').value = actionValue;
-				        document.getElementById('listadoClientesForm').submit();
-				    }
-				</script>
+                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">
@@ -254,49 +323,90 @@
         </div>
 
         <!-- Main Content -->
-        <div class="main-content">
-            <div class="info-box">
-                <img src="assets/logojavabiblioteca.jpg" alt="Logo">
-                <h1>Bienvenido al TPI Lenguaje Programacion JAVA</h1>
-                <p>Se trata de un sistema de Biblioteca, donde se pueden registrar préstamos de libros y reseñas de estos.</p>
-                <p>Integrantes: Dorigoni Mauro</p>
-                <p>Profesores: Meca Adrian, Tabacman Ricardo</p>
+		<div class="main-content">
+		    <div class="form-container">
+		        <h1>Registro de Pago de Cliente</h1>
+		        <form action="<%=request.getContextPath()%>/grantAdmin" method="GET">
+		            <div class="form-group">
+		                <label for="cliente">Cliente:</label>
+		                <select id="cliente" name="idCliente">
+		                    <option value="">Seleccione un cliente</option>
+		                    <% for(Cliente cliente : clientes) { %>
+		                        <option value="<%= cliente.getId() %>"> <%= cliente.getId() %> - <%= cliente.getMail() %> (<%= cliente.isAdmin() ? "Admin" : "User" %>)
+		                        </option>
+		                    <% } %>
+		                </select>
+		            </div>
+		            <div class="form-group">
+		                <input class="btn btn-custom btn-block btn-md" type="submit" value="Otorgar Admin"/>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+	</div>
+    
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">
+                    <%= request.getAttribute("messageType") != null && request.getAttribute("messageType").equals("success") ? "Éxito" : "Error" %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
+        if (messageType) {
+            $('#messageModal').modal('show');
+        }
+    });
+</script>
+
     <div class="footer">
-	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
-	</div>
+        <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+    </div>
 
     <script>
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
 
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function() {
-            // Primero, cerrar todos los dropdowns
-            for (var j = 0; j < dropdown.length; j++) {
-                if (dropdown[j] !== this) {
-                    dropdown[j].classList.remove("active");
-                    dropdown[j].nextElementSibling.style.display = "none";
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                // Primero, cerrar todos los dropdowns
+                for (var j = 0; j < dropdown.length; j++) {
+                    if (dropdown[j] !== this) {
+                        dropdown[j].classList.remove("active");
+                        dropdown[j].nextElementSibling.style.display = "none";
+                    }
                 }
-            }
 
-            // Alternar el estado del dropdown actual
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
-    }
-    function setActionAndSubmit(actionValue) {
-        document.getElementById('action').value = actionValue;
-        document.getElementById('listadoCategoriasForm').submit();
-    }
-
-</script>
+                // Alternar el estado del dropdown actual
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+        function setActionAndSubmit(actionValue) {
+            document.getElementById('action').value = actionValue;
+            document.getElementById('listadoCategoriasForm').submit();
+        }
+    </script>
 </body>
 </html>

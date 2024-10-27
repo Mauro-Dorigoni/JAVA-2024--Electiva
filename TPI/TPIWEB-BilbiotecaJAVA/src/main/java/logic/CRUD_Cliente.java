@@ -63,4 +63,12 @@ public class CRUD_Cliente {
 			throw e;
 		}
 	}
+	public void grantAdmin (Cliente c) throws AppException{
+		try {
+			dc.grantAdmin(c);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
+	
 }
