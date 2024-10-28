@@ -201,4 +201,10 @@
     <servlet-name>ListPrestamoReviewServlet</servlet-name>
     <servlet-class>servlets.ListPrestamoReviewServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListClienteReviewsServlet</display-name>
+    <servlet-name>ListClienteReviewsServlet</servlet-name>
+    <servlet-class>servlets.ListClienteReviewsServlet</servlet-class>
+  </servlet>
 </web-app>

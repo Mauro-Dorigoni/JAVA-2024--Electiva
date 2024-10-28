@@ -372,7 +372,9 @@
 		        Detalle Reseña
 		 </div>
     </div>
-
+<%if(review.getFechaReview()==null){ %>
+<p>Pasaron cosas</p>
+<%}else {%>
     <div class="main-content">
 	  <div class="detail-container">
 	       <div class="detail-content">
@@ -384,13 +386,15 @@
 	           <p>Fecha: <%= review.getFechaReview() %></p>
 	           <%if(review.getEstado_review()!=EstadoReviewEnum.PENDIENTE_REVISION){ %>
 	           <p>ID Admin Moderador: <% review.getAdministrativo().getId(); %></p>
-	           <p>Motivo Rechazo: <% review.getObservacion_rechazo(); %></p>
+	           <%if(review.getEstado_review()==EstadoReviewEnum.RECHAZADA){ %>
+	           		<p>Motivo Rechazo: <% review.getObservacion_rechazo();}; %></p>
 	           <%} %>
 	           <p>Reseña: <%= review.getDescripcion() %></p>
 	       </div>
 	   </div>
 	  </div>
     </div>
+<%}; %>
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

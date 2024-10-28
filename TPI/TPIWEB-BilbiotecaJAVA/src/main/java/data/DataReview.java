@@ -11,12 +11,11 @@ public class DataReview {
 	        LinkedList<Review> reviews = new LinkedList<>();
 	        try {
 	            stmt = DbConnector.getInstancia().getConn().createStatement();
-	            rs = stmt.executeQuery("select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo, adm.nombre, adm.apellido\r\n"
+	            rs = stmt.executeQuery("select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo\r\n"
 	            		+ "from review res \r\n"
 	            		+ "inner join prestamo pre on pre.fechaRealizacion=res.fechaRealizacion and pre.idCliente=res.idCliente and pre.idEjemplar=res.idEjemplar and pre.idLibro=res.idLibro\r\n"
 	            		+ "inner join cliente c on c.id=res.idCliente\r\n"
-	            		+ "inner join libro lib on lib.idLibro=res.idLibro\r\n"
-	            		+ "inner join cliente adm on res.idAdmin=adm.id;");
+	            		+ "inner join libro lib on lib.idLibro=res.idLibro\r\n");
 
 	            if (rs != null) {
 	                while (rs.next()) {
@@ -27,13 +26,11 @@ public class DataReview {
 	                    c.setApellido(rs.getString(14));
 	                    Cliente admin = new Cliente();
 	                    admin.setId(rs.getInt(10));
-	                    admin.setNombre(rs.getString(17));
-	                    admin.setApellido(rs.getString(18));
 	                    Libro l = new Libro();
 	                    l.setIdLibro(rs.getInt(9));
 	                    l.setTitulo(rs.getString(16));
 	                    Ejemplar e = new Ejemplar();
-	                    e.setIdEjemplar(8);
+	                    e.setIdEjemplar(rs.getInt(8));
 	                    e.setLibro(l);
 	                    Prestamo p = new Prestamo();
 	                    p.setCliente(c);
@@ -142,7 +139,7 @@ public class DataReview {
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
                     Ejemplar e = new Ejemplar();
-                    e.setIdEjemplar(8);
+                    e.setIdEjemplar(rs.getInt(8));
                     e.setLibro(l);
                     Prestamo p = new Prestamo();
                     p.setCliente(c);
@@ -163,7 +160,7 @@ public class DataReview {
                 }
             }
 		} catch (SQLException e) {
-			throw new AppException("Error: no se pieron recuperar las reseñas del libro ID: "+libro.getIdLibro());
+			throw new AppException("Error: no se pudieron recuperar las reseñas del libro ID: "+libro.getIdLibro());
 		}finally {
 			try {
 				if(rs!=null) {rs.close();}
@@ -206,7 +203,7 @@ public class DataReview {
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
                     Ejemplar e = new Ejemplar();
-                    e.setIdEjemplar(8);
+                    e.setIdEjemplar(rs.getInt(8));
                     e.setLibro(l);
                     Prestamo p = new Prestamo();
                     p.setCliente(c);
@@ -269,7 +266,7 @@ public class DataReview {
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
                     Ejemplar e = new Ejemplar();
-                    e.setIdEjemplar(8);
+                    e.setIdEjemplar(rs.getInt(8));
                     e.setLibro(l);
                     Prestamo p = new Prestamo();
                     p.setCliente(c);
@@ -347,12 +344,11 @@ public class DataReview {
         LinkedList<Review> reviews = new LinkedList<>();
         try {
 			stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo, adm.nombre, adm.apellido\r\n"
+					"select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo\r\n"
 					+ "from review res \r\n"
 					+ "inner join prestamo pre on pre.fechaRealizacion=res.fechaRealizacion and pre.idCliente=res.idCliente and pre.idEjemplar=res.idEjemplar and pre.idLibro=res.idLibro\r\n"
 					+ "inner join cliente c on c.id=res.idCliente\r\n"
 					+ "inner join libro lib on lib.idLibro=res.idLibro\r\n"
-					+ "inner join cliente adm on res.idAdmin=adm.id\r\n"
 					+ "where res.idCliente=?"
 					);
 			stmt.setString(1, Integer.toString(cli.getId()));
@@ -366,13 +362,11 @@ public class DataReview {
                     c.setApellido(rs.getString(14));
                     Cliente admin = new Cliente();
                     admin.setId(rs.getInt(10));
-                    admin.setNombre(rs.getString(17));
-                    admin.setApellido(rs.getString(18));
                     Libro l = new Libro();
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
                     Ejemplar e = new Ejemplar();
-                    e.setIdEjemplar(8);
+                    e.setIdEjemplar(rs.getInt(8));
                     e.setLibro(l);
                     Prestamo p = new Prestamo();
                     p.setCliente(c);
@@ -413,12 +407,11 @@ public class DataReview {
         LinkedList<Review> reviews = new LinkedList<>();
         try {
 			stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo, adm.nombre, adm.apellido\r\n"
+					"select res.idReview, res.fechaReview, res.puntaje, res.descripcion, res.estado, res.fechaRealizacion, res.idCliente, res.idEjemplar, res.idLibro, res.idAdmin, res.motivo_rechazo, pre.estado, c.nombre, c.apellido, c.mail, lib.titulo\r\n"
 					+ "from review res \r\n"
 					+ "inner join prestamo pre on pre.fechaRealizacion=res.fechaRealizacion and pre.idCliente=res.idCliente and pre.idEjemplar=res.idEjemplar and pre.idLibro=res.idLibro\r\n"
 					+ "inner join cliente c on c.id=res.idCliente\r\n"
 					+ "inner join libro lib on lib.idLibro=res.idLibro\r\n"
-					+ "inner join cliente adm on res.idAdmin=adm.id\r\n"
 					+ "where res.estado=?"
 					);
 			stmt.setString(1, EstadoReviewEnum.PENDIENTE_REVISION.name());
@@ -433,13 +426,11 @@ public class DataReview {
 	                    c.setApellido(rs.getString(14));
 	                    Cliente admin = new Cliente();
 	                    admin.setId(rs.getInt(10));
-	                    admin.setNombre(rs.getString(17));
-	                    admin.setApellido(rs.getString(18));
 	                    Libro l = new Libro();
 	                    l.setIdLibro(rs.getInt(9));
 	                    l.setTitulo(rs.getString(16));
 	                    Ejemplar e = new Ejemplar();
-	                    e.setIdEjemplar(8);
+	                    e.setIdEjemplar(rs.getInt(8));
 	                    e.setLibro(l);
 	                    Prestamo p = new Prestamo();
 	                    p.setCliente(c);

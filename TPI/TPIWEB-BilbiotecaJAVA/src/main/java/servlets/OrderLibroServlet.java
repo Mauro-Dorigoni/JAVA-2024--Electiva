@@ -68,14 +68,13 @@ public class OrderLibroServlet extends HttpServlet {
 			                return l1.getCategoria().getNombre_categoria().compareToIgnoreCase(l2.getCategoria().getNombre_categoria());
 			            }
 			        });
-				} /*
-					 * else if ("puntaje".equals(sortBy)) { Collections.sort(libros, new
-					 * Comparator<Libro>() {
-					 * 
-					 * @Override public int compare(Libro l1, Libro l2) { return
-					 * Double.compare(l2.getPuntaje(), l1.getPuntaje()); // Orden descendente } });
-					 * }
-					 */
+				} else if ("puntaje".equals(sortBy)) { 
+					Collections.sort(libros, new Comparator<Libro>() {
+					  @Override public int compare(Libro l1, Libro l2) { return
+					  Double.compare(l2.getPuntaje(), l1.getPuntaje()); // Orden descendente } });
+			            }
+			        });
+				}
 			 LinkedList<Libro> librosAutor = cl.getAll();
 			 LinkedList<String> autores = new LinkedList<>();
 			    for(Libro libro : librosAutor){
