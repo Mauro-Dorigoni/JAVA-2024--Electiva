@@ -19,6 +19,14 @@ public class ControladorReview {
 		}
 	}
 	
+	public Review getOne(Review r) throws AppException{
+		try {
+			return dr.getOne(r);
+		} catch (AppException e) {
+			throw e;
+		}
+	}
+	
 	public LinkedList<Review> getByLibro(Libro l) throws AppException {
 		try {
 			return dr.getByLibro(l);

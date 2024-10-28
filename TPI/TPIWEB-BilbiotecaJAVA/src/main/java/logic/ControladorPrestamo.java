@@ -82,7 +82,11 @@ public class ControladorPrestamo {
 	
 	public LinkedList<Prestamo> getPrestamosCliente(Cliente c) throws AppException {
 		try {
-			return dp.getPrestamosCliente(c);
+			LinkedList<Prestamo> prestamos = dp.getPrestamosCliente(c);
+			for (Prestamo prestamo : prestamos) {
+				prestamo.setReview(dr.getByPrestamo(prestamo));
+			}
+			return prestamos;
 		} catch (AppException e) {
 			throw e;
 		}

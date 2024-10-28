@@ -14,7 +14,7 @@
         return;
     }
 
-    LinkedList<Prestamo> prestamos = (LinkedList<Prestamo>) request.getAttribute("prestamos");
+    Prestamo prestamo = (Prestamo) request.getAttribute("prestamo");
     
 %>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis prestamos</title>
+    <title>Nueva Reseña</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -30,6 +30,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+        html, body {
+		    height: 100%;
+		    margin: 0;
+		    display: flex;
+		    flex-direction: column;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
@@ -184,11 +190,7 @@
         }
 
         /* Main content area */
-        .main-content {
-            margin: 20px;
-		    margin-bottom: 100px; /* Espacio extra para evitar superposición con el footer */
-		    flex: 1; 
-        }
+        
 
         .card-container {
         display: flex;
@@ -255,12 +257,12 @@
 	        border: 2px solid #e08b72;
 	    }
 	
-	    .card button.detalle:hover {
+	    .form button.detalle:hover {
 	        background-color: #f8f9fa;
 	    }
 	
 	    /* Estilo del botón Sacar a Préstamo */
-	    .card button.prestamo {
+	    .form button.prestamo {
 	        background-color: #e08b72;
 	        color: white;
 	        border: none;
@@ -316,6 +318,7 @@
         }
 	
 	        .footer {
+	             margin-top: 600px;
 	             background-color: #e08b72;
 				 padding: 20px;
 				 text-align: center;
@@ -338,6 +341,19 @@
 			    font-size: 1.5rem;
 			    font-weight: bold;
 			}
+			  .form-group {
+		        margin-bottom: 15px;
+		    }
+		
+		    .form-buttons {
+		        display: flex;
+		        justify-content: space-between;
+		    }
+		
+		    .btn-primary, .btn-secondary {
+		        width: 48%;
+		    }
+
     </style>
 </head>
 <body>
@@ -369,52 +385,50 @@
             </div>
         </div>
         <div class="menu-title">
-	        Mis préstamos
+	        Nueva Reseña
 	    </div>
     </div>
 
 <div class="main-content">
-    <% if (prestamos != null && !prestamos.isEmpty()) { %>
-        <div class="card-container">
-            <% for (Prestamo prestamo : prestamos) { %>
-                <div class="card horizontal-card">
-                    <div class="card-image">
-                        <img src="assets/libros/<%= prestamo.getEjemplar().getLibro().getIdPhoto() %>.jpg" alt="Imagen del libro">
-                    </div>
-                    <div class="card-content">
-                        <h5><%= prestamo.getEjemplar().getLibro().getTitulo() %></h5>
-                        <p>ID del ejemplar: <%= prestamo.getEjemplar().getIdEjemplar() %></p>
-                        <p>Fecha de realización: <%= prestamo.getFechaRealizacion().toString() %></p>
-                        <p>Estado actual: <%= prestamo.getEstado().name() %></p>
-						<%if (prestamo.getEstado()==EstadoPrestamo.DEVUELTO){ %>
-	                        <% if (prestamo.getReview().getFechaReview() == null) { %>
-	                            <!-- Botón para dejar reseña -->
-	                            <form action="<%=request.getContextPath()%>/newReview" method="post">
-	                                <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
-	                                <input type="hidden" name="idEjemplar" value="<%= prestamo.getEjemplar().getIdEjemplar() %>">
-	                                <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
-	                                <input type="hidden" name="idLibro" value="<%= prestamo.getEjemplar().getLibro().getIdLibro() %>">
-	                               <button type="submit" class="prestamo">Dejar una Reseña</button>
-	                            </form>
-	                        <% } else { %>
-	                            <!-- Botón para ver reseña -->
-	                            <form action="<%=request.getContextPath()%>/listPrestamoReview" method="get">
-	                                <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
-	                                <input type="hidden" name="idEjemplar" value="<%= prestamo.getEjemplar().getIdEjemplar() %>">
-	                                <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
-	                                <input type="hidden" name="idLibro" value="<%= prestamo.getEjemplar().getLibro().getIdLibro() %>">
-	                                <button type="submit" class="detalle">Detalle Reseña</button>
-	                            </form>
-	                        <% } %>
-                        <% } %>
+    <div id="login">
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" class="form" action="<%=request.getContextPath()%>/registerReview" method="post">
+                            <h3 class="text-center text-info">Reseña de: <%= prestamo.getEjemplar().getLibro().getTitulo() %></h3>
+                            <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
+                            <input type="hidden" name="idEjemplar" value="<%= prestamo.getEjemplar().getIdEjemplar() %>">
+                            <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
+                            <input type="hidden" name="idLibro" value="<%= prestamo.getEjemplar().getLibro().getIdLibro() %>">
+                            
+                            <div class="form-group">
+                                <label for="puntaje" class="text-info">Puntaje</label>
+                                <select name="puntaje" id="puntaje" class="form-control">
+                                    <option value="">Selecciona un puntaje</option>
+                                    <% for (int i = 1; i <= 5; i++) { %>
+                                        <option value="<%= i %>"><%= i %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="resena" class="text-info">Reseña</label>
+                                <textarea name="descripcion" id="descripcion" class="form-control" rows="5" placeholder="Escribe tu reseña aquí..." required></textarea>
+                            </div>
+
+                            <div class="form-group d-flex justify-content-between align-items-center">
+                                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Volver</button>
+                                <input type="submit" name="submit" class="btn btn-custom btn-md" width="48%" value="Enviar Reseña">
+                            </div>
+                        </form>
                     </div>
                 </div>
-            <% } %>
+            </div>
         </div>
-    <% } else { %>
-        <p>No tienes préstamos registrados. ¡Qué esperas, a leer!</p>
-    <% } %>
+    </div>
 </div>
+
   	
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -434,7 +448,21 @@
 	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
 				    <input type="hidden" name="actionLibro" value="userDashboard">
 				</form>
-                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
+                <%
+                    String messageType = (String) request.getAttribute("messageType");
+                    if (messageType != null && messageType.equals("success")) {
+                    	session.invalidate();
+                %>
+                <!-- Si es un éxito, muestra el botón que redirige a login.jsp -->
+                <button type="button" class="btn btn-primary" id="acceptButton" onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'">Acepto</button>
+                <%
+                    } else {
+                %>
+                <!-- Si no es éxito, muestra el botón de cerrar -->
+                <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Volver</button>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>

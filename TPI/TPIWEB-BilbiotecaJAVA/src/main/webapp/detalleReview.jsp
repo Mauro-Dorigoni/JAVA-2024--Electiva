@@ -4,7 +4,6 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="entidades.*" %>
 <%@ page import="java.util.LinkedList" %>
-<%@ page import="java.time.*" %>
 
 <%
     String userEmail = (String) session.getAttribute("userEmail");
@@ -14,7 +13,8 @@
         return;
     }
 
-    LinkedList<Prestamo> prestamos = (LinkedList<Prestamo>) request.getAttribute("prestamos");
+    Review review = (Review) request.getAttribute("review");
+
     
 %>
 <!DOCTYPE html>
@@ -22,7 +22,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis prestamos</title>
+    <title>Detalle Reseña</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -369,53 +369,28 @@
             </div>
         </div>
         <div class="menu-title">
-	        Mis préstamos
-	    </div>
+		        Detalle Reseña
+		 </div>
     </div>
 
-<div class="main-content">
-    <% if (prestamos != null && !prestamos.isEmpty()) { %>
-        <div class="card-container">
-            <% for (Prestamo prestamo : prestamos) { %>
-                <div class="card horizontal-card">
-                    <div class="card-image">
-                        <img src="assets/libros/<%= prestamo.getEjemplar().getLibro().getIdPhoto() %>.jpg" alt="Imagen del libro">
-                    </div>
-                    <div class="card-content">
-                        <h5><%= prestamo.getEjemplar().getLibro().getTitulo() %></h5>
-                        <p>ID del ejemplar: <%= prestamo.getEjemplar().getIdEjemplar() %></p>
-                        <p>Fecha de realización: <%= prestamo.getFechaRealizacion().toString() %></p>
-                        <p>Estado actual: <%= prestamo.getEstado().name() %></p>
-						<%if (prestamo.getEstado()==EstadoPrestamo.DEVUELTO){ %>
-	                        <% if (prestamo.getReview().getFechaReview() == null) { %>
-	                            <!-- Botón para dejar reseña -->
-	                            <form action="<%=request.getContextPath()%>/newReview" method="post">
-	                                <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
-	                                <input type="hidden" name="idEjemplar" value="<%= prestamo.getEjemplar().getIdEjemplar() %>">
-	                                <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
-	                                <input type="hidden" name="idLibro" value="<%= prestamo.getEjemplar().getLibro().getIdLibro() %>">
-	                               <button type="submit" class="prestamo">Dejar una Reseña</button>
-	                            </form>
-	                        <% } else { %>
-	                            <!-- Botón para ver reseña -->
-	                            <form action="<%=request.getContextPath()%>/listPrestamoReview" method="get">
-	                                <input type="hidden" name="fechaPrestamo" value="<%= prestamo.getFechaRealizacion() %>">
-	                                <input type="hidden" name="idEjemplar" value="<%= prestamo.getEjemplar().getIdEjemplar() %>">
-	                                <input type="hidden" name="idCliente" value="<%= prestamo.getCliente().getId() %>">
-	                                <input type="hidden" name="idLibro" value="<%= prestamo.getEjemplar().getLibro().getIdLibro() %>">
-	                                <button type="submit" class="detalle">Detalle Reseña</button>
-	                            </form>
-	                        <% } %>
-                        <% } %>
-                    </div>
-                </div>
-            <% } %>
-        </div>
-    <% } else { %>
-        <p>No tienes préstamos registrados. ¡Qué esperas, a leer!</p>
-    <% } %>
-</div>
-  	
+    <div class="main-content">
+	  <div class="detail-container">
+	       <div class="detail-content">
+	       		<h5>Reseña de Libro: <%= review.getPrestamo().getEjemplar().getLibro().getTitulo() %></h5>
+	       <div class="info-row">
+	           <p>ID: <%= review.getIdReview() %></p>
+	           <p>Puntaje: <%= review.getPuntaje() + "/5"%></p>
+	           <p>Estado: <%= review.getEstado_review() %></p>
+	           <p>Fecha: <%= review.getFechaReview() %></p>
+	           <%if(review.getEstado_review()!=EstadoReviewEnum.PENDIENTE_REVISION){ %>
+	           <p>ID Admin Moderador: <% review.getAdministrativo().getId(); %></p>
+	           <p>Motivo Rechazo: <% review.getObservacion_rechazo(); %></p>
+	           <%} %>
+	           <p>Reseña: <%= review.getDescripcion() %></p>
+	       </div>
+	   </div>
+	  </div>
+    </div>
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -431,9 +406,6 @@
                 <%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %>
             </div>
             <div class="modal-footer">
-	            <form id="redirectForm" action="<%=request.getContextPath()%>/listLibros" method="get" style="display: none;">
-				    <input type="hidden" name="actionLibro" value="userDashboard">
-				</form>
                 <button type="button" class="btn btn-secondary" id="modalFooterCloseButton">Cerrar</button>
             </div>
         </div>
@@ -460,7 +432,59 @@
     </div>
 
     <script>
- 	
+        window.onload = function() {
+            var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
+            if (sortBy) {
+                document.getElementById('sort').value = sortBy;
+            }
+        }
+        function handleFilterChange() {
+            var filterBy = document.getElementById('filter').value;
+            var categoryFilter = document.getElementById('categoryFilter');
+            var authorFilter = document.getElementById('authorFilter');
+            
+            if (filterBy === 'category') {
+                categoryFilter.style.display = 'block';
+                authorFilter.style.display = 'none';
+            } else if (filterBy === 'autor') {
+                categoryFilter.style.display = 'none';
+                authorFilter.style.display = 'block';
+            } else {
+                categoryFilter.style.display = 'none';
+                authorFilter.style.display = 'none';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
+            var filterBy = document.getElementById('filter').value;
+            var category = document.getElementById('category').value;
+            var author = document.getElementById('author').value;
+
+            document.getElementById('hiddenFilterBy').value = filterBy;
+            document.getElementById('hiddenCategory').value = category;
+            document.getElementById('hiddenAuthor').value = author;
+
+            // Manejo del menú desplegable
+            var hamburgerIcon = document.querySelector('.hamburger-menu');
+            var dropdownMenu = document.querySelector('.dropdown-menu');
+
+            hamburgerIcon.addEventListener('click', function() {
+                // Alterna la visibilidad del menú desplegable
+                if (dropdownMenu.style.display === 'block') {
+                    dropdownMenu.style.display = 'none';
+                } else {
+                    dropdownMenu.style.display = 'block';
+                }
+            });
+
+            // Opcional: Cierra el menú si se hace clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!hamburgerIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>

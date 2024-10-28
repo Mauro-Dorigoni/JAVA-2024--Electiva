@@ -325,6 +325,13 @@
 	            font-weight: bold;
 	            margin: 0;
 	        }
+	        .menu-title {
+			    flex: 1;
+			    text-align: center;
+			    color: white;
+			    font-size: 1.5rem;
+			    font-weight: bold;
+			}
     </style>
 </head>
 <body>

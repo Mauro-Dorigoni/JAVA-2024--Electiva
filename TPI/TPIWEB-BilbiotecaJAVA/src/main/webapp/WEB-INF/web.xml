@@ -183,4 +183,22 @@
     <servlet-name>GrantAdminServlet</servlet-name>
     <servlet-class>servlets.GrantAdminServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>RegisterReviewServlet</display-name>
+    <servlet-name>RegisterReviewServlet</servlet-name>
+    <servlet-class>servlets.RegisterReviewServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>NewReviewServlet</display-name>
+    <servlet-name>NewReviewServlet</servlet-name>
+    <servlet-class>servlets.NewReviewServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListPrestamoReviewServlet</display-name>
+    <servlet-name>ListPrestamoReviewServlet</servlet-name>
+    <servlet-class>servlets.ListPrestamoReviewServlet</servlet-class>
+  </servlet>
 </web-app>

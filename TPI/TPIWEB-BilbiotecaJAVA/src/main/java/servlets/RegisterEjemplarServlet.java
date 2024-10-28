@@ -22,6 +22,7 @@ public class RegisterEjemplarServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		CRUD_libro cl = new CRUD_libro();
 		Libro libro = new Libro();
 		libro.setIdLibro(Integer.parseInt(request.getParameter("libro")));
 		Ejemplar ejemplar = new Ejemplar();
@@ -33,8 +34,7 @@ public class RegisterEjemplarServlet extends HttpServlet {
 		CRUD_ejemplar ce = new CRUD_ejemplar();
 		try {
 			ce.save(ejemplar);
-			LinkedList<Libro> libros = new LinkedList<>();
-			libros.add(libro);
+			LinkedList<Libro> libros = cl.getAll();
 			request.setAttribute("libros", libros);
 			request.setAttribute("messageType", "success");
             request.setAttribute("message", "Ejemplar registrado con éxito. FechaEdicion="+ejemplar.getFechaEdicion()+"IDLIBRO="+ejemplar.getLibro().getIdLibro()+"editorial="+ejemplar.getEditorial()+"NumeroEdicion="+ejemplar.getNroEdicion()+"paginas="+ejemplar.getCantPaginas());
