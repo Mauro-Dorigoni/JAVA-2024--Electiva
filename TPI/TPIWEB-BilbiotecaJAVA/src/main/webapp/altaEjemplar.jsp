@@ -26,10 +26,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+       html, body {
+		    height: 100%;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+        }
+         .footer {
+            background-color: #e08b72;
+		    padding: 20px;
+		    text-align: center;
+		    width: 100%;
+		    position: relative;
+		    bottom: 0;
+		    left: 0;
         }
 
         .header {
@@ -199,25 +211,15 @@
             background-color: #c76a57;
         }
 
-        .footer {
-            background-color: #e08b72;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            width: 100%;
-            bottom: 0;
-            box-sizing: border-box;
-        }
-
         .footer p {
             color: white;
             font-weight: bold;
             margin: 0;
         }
         .sidebar .active {
-        background-color: #3C7D93;
-        text-decoration: underline;
-	    }
+	        background-color: #3C7D93;
+	        text-decoration: underline;
+		    }
 	    .form-container {
 	        background-color: white;
 	        padding: 30px;
@@ -267,7 +269,7 @@
     </div>
 
     <div class="container-fluid">
-        <div class="sidebar">
+                <div class="sidebar">
             <a href="#" class="dropdown-btn">Categorías</a>
             <div class="dropdown-container">
                	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
@@ -296,10 +298,19 @@
             </div>
             <a href="#" class="dropdown-btn active">Ejemplares</a>
             <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
+                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
+            	</form>
+            	<script>
+	                function setActionAndSubmitEjemplares(actionValue) {
+	                	document.getElementById('actionEjemplares').value = actionValue;
+	                    document.getElementById('listadoEjemplaresForm').submit();
+	                }
+	            </script>
+                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#">Modificar Ejemplar</a>
-                <a href="#">Baja Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
             </div>
             <a href="#" class="dropdown-btn">Prestamos</a>
             <div class="dropdown-container">
@@ -307,18 +318,24 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Pagos</a>
+            <a href="#" class="dropdown-btn">Clientes</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+                	<input type="hidden" name="action" id="actionInput">
                 </form>
-                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
+    			<a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
+	            <script>
+				    function setActionAndSubmitClientes(actionValue) {
+				        document.getElementById('actionInput').value = actionValue;
+				        document.getElementById('listadoClientesForm').submit();
+				    }
+				</script>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">
-                <a href="#">Moderacion</a>
-            </div>
-            <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
             </div>
         </div>
 

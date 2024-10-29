@@ -14,7 +14,7 @@
     }
 
     Libro libro = (Libro) request.getAttribute("libro");
-	LinkedList<Review> reviews = new LinkedList<>();
+	LinkedList<Review> reviews = libro.getReviews();
     
 %>
 <!DOCTYPE html>
@@ -381,6 +381,7 @@
 	       <div class="info-row">
 	           <p>Autor: <%= libro.getAutor() %></p>
 	           <p>ISBN: <%= libro.getISBN() %></p>
+	           <p>Puntaje: <%= libro.getPuntaje() %></p>
 	       </div>
 	       <div class="info-row">
 	           <p>ID: <%= libro.getIdLibro() %></p>
@@ -399,6 +400,13 @@
 	       </div>
 	   </div>
 	  </div>
+	  <div style="margin-top: 20px;">
+			<form id="validateLoanForm"action="<%=request.getContextPath()%>/verifyPrestamo" method="POST">
+				<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
+				<input type="hidden" name="userEmail" value="<%= userEmail %>">
+				<input class="btn btn-custom btn-block btn-md" type="submit" value="SACAR A PRESTAMO" style="font-weight: bold; height: 50px;"/>
+			</form>
+		</div>
 	  	<div class="resenias-section" style="margin-top: 20px; background-color: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd;">
 		    <h5 style="color: #e08b72; font-size: 3rem; display: flex; justify-content: space-between; align-items: center;font-weight: bold">
 		        Reseñas
@@ -413,22 +421,34 @@
 		            } else {
 		                for (Review review : reviews) {
 		        %>
-		            <div class="resenia" style="margin-bottom: 15px;">
-		                <p><strong><%= review.getPrestamo().getCliente().getMail() %>:</strong> <%= review.getDescripcion() %></p>
-		            </div>
+		            <div class="detail-container">
+				       <div class="detail-content">
+				       <div class="info-row">
+				           <p><strong style="color:#e08b72"><%=review.getPrestamo().getCliente().getNombre()+" "+ review.getPrestamo().getCliente().getApellido()+": "%></strong><%=review.getPuntaje()+"/5" %></p>
+				           <p><%= review.getDescripcion() %></p>
+				       </div>
+				   </div>
+				  </div>
 		        <%
 		                }
 		            }
 		        %>
 		    </div>
 		</div>
-		<div style="margin-top: 20px;">
-			<form id="validateLoanForm"action="<%=request.getContextPath()%>/verifyPrestamo" method="POST">
-				<input type="hidden" name="idLibro" value="<%= libro.getIdLibro() %>">
-				<input type="hidden" name="userEmail" value="<%= userEmail %>">
-				<input class="btn btn-custom btn-block btn-md" type="submit" value="SACAR A PRESTAMO" style="font-weight: bold; height: 50px;"/>
-			</form>
-		</div>
+		<script>
+		    function toggleResenias() {
+		        var reseniasContent = document.getElementById('resenias-content');
+		        var arrow = document.getElementById('arrow');
+		        
+		        if (reseniasContent.style.display === "none" || reseniasContent.style.display === "") {
+		            reseniasContent.style.display = "block";
+		            arrow.innerHTML = "&#9650;"; // Cambiar la flecha hacia arriba
+		        } else {
+		            reseniasContent.style.display = "none";
+		            arrow.innerHTML = "&#9660;"; // Cambiar la flecha hacia abajo
+		        }
+		    }
+		</script>
     </div>
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

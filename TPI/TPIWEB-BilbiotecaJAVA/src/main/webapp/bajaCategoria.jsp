@@ -20,7 +20,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Listado de Categorías</title>
+    <title>Admin Dashboard - Baja de Categoria</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -28,6 +28,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+        html, body {
+		    height: 100%;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
@@ -261,10 +264,19 @@
             </div>
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
+                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
+            	</form>
+            	<script>
+	                function setActionAndSubmitEjemplares(actionValue) {
+	                	document.getElementById('actionEjemplares').value = actionValue;
+	                    document.getElementById('listadoEjemplaresForm').submit();
+	                }
+	            </script>
+                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#">Modificar Ejemplar</a>
-                <a href="#">Baja Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
             </div>
             <a href="#" class="dropdown-btn">Prestamos</a>
             <div class="dropdown-container">
@@ -272,18 +284,24 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Pagos</a>
+            <a href="#" class="dropdown-btn">Clientes</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+                	<input type="hidden" name="action" id="actionInput">
                 </form>
-                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
+    			<a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
+	            <script>
+				    function setActionAndSubmitClientes(actionValue) {
+				        document.getElementById('actionInput').value = actionValue;
+				        document.getElementById('listadoClientesForm').submit();
+				    }
+				</script>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">
-                <a href="#">Moderacion</a>
-            </div>
-            <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
             </div>
         </div>
 
@@ -292,7 +310,7 @@
             <div class="card-container">
                 <% for(Categoria_libro categoria : categorias) { %>
                 <div class="card">
-                    <img src="assets/categorias/<%categoria.getIdPhoto(); %>" alt="Imagen de <%= categoria.getNombre_categoria() %>">
+                    <img src="assets/categorias/<%=categoria.getIdPhoto() %>" alt="Imagen de <%= categoria.getNombre_categoria() %>">
                     <div class="card-content">
                         <h5><%= categoria.getNombre_categoria() %></h5>
                         <p>ID: <%= categoria.getIdCategoria() %></p>

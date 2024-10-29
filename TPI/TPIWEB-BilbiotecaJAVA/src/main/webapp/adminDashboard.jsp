@@ -24,10 +24,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
+        html, body {
+		    height: 100%;
+		}
         body {
             background-color: #f8f9fa;
             margin: 0;
             padding: 0;
+        }
+         .footer {
+            background-color: #e08b72;
+		    padding: 20px;
+		    text-align: center;
+		    width: 100%;
+		    position: relative;
+		    bottom: 0;
+		    left: 0;
         }
 
         .header {
@@ -147,14 +159,6 @@
         .info-box h1 {
             color: #e08b72;
         }
-        .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
-	    }
 	
 	    .footer p {
 	        color: white;
@@ -246,10 +250,7 @@
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">
-                <a href="#">Moderacion</a>
-            </div>
-            <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
             </div>
         </div>
 

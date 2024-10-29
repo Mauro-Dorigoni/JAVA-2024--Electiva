@@ -23,12 +23,12 @@ public class FilterPrestamosServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String estadoFilter = request.getParameter("estadoFilter");
-		LinkedList<Prestamo> prestamosFiltrados = new LinkedList();
+		EstadoPrestamo estadoFilter = EstadoPrestamo.valueOf(request.getParameter("estadoFilter"));
+		LinkedList<Prestamo> prestamosFiltrados = new LinkedList<>();
 		ControladorPrestamo cp = new ControladorPrestamo();
 		try {
 			LinkedList<Prestamo> prestamos = cp.getAll();
-			if (estadoFilter == null || estadoFilter.isEmpty()) {
+			if (estadoFilter == null) {
 	            prestamosFiltrados = prestamos; 
 	        } else {
 	            prestamosFiltrados = prestamos.stream()

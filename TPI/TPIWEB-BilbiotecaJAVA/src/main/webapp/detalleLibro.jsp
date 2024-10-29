@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="entidades.Libro" %>
+<%@ page import="entidades.*" %>
+<%@ page import="java.util.LinkedList" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 
 <%
@@ -11,6 +12,7 @@
         return;
     }
     Libro libro = (Libro) request.getAttribute("libro");
+	LinkedList<Review> reviews = libro.getReviews();
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -276,10 +278,19 @@
             </div>
             <a href="#" class="dropdown-btn">Ejemplares</a>
             <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
+                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
+            	</form>
+            	<script>
+	                function setActionAndSubmitEjemplares(actionValue) {
+	                	document.getElementById('actionEjemplares').value = actionValue;
+	                    document.getElementById('listadoEjemplaresForm').submit();
+	                }
+	            </script>
+                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
                 <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#">Modificar Ejemplar</a>
-                <a href="#">Baja Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
+                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
             </div>
             <a href="#" class="dropdown-btn">Prestamos</a>
             <div class="dropdown-container">
@@ -287,18 +298,24 @@
                 </form>
                 <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
             </div>
-            <a href="#" class="dropdown-btn">Pagos</a>
+            <a href="#" class="dropdown-btn">Clientes</a>
             <div class="dropdown-container">
                 <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+                	<input type="hidden" name="action" id="actionInput">
                 </form>
-                <a href="#" onclick="document.getElementById('listadoClientesForm').submit(); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
+    			<a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
+                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
+	            <script>
+				    function setActionAndSubmitClientes(actionValue) {
+				        document.getElementById('actionInput').value = actionValue;
+				        document.getElementById('listadoClientesForm').submit();
+				    }
+				</script>
             </div>
             <a href="#" class="dropdown-btn">Reseñas</a>
             <div class="dropdown-container">
-                <a href="#">Moderacion</a>
-            </div>
-            <div class="dropdown-container">
-                <a href="#">Listado</a>
+                <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
             </div>
         </div>
 
@@ -321,8 +338,50 @@
             </div>
         </div>
             </div>
-        </div>
+                    <div class="resenias-section" style="margin-top: 20px; background-color: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd;">
+		    <h5 style="color: #e08b72; font-size: 3rem; display: flex; justify-content: space-between; align-items: center;font-weight: bold">
+		        Reseñas
+		        <span id="arrow" style="cursor: pointer;" onclick="toggleResenias()">&#9660;</span>
+		    </h5>
+		    <div id="resenias-content" style="display:none;">
+		        <%
+		            if (reviews == null || reviews.isEmpty()) {
+		        %>
+		            <p>No hay reseñas aún</p>
+		        <%
+		            } else {
+		                for (Review review : reviews) {
+		        %>
+		            <div class="detail-container">
+				       <div class="detail-content">
+				       <div class="info-row">
+				           <p><strong style="color:#e08b72"><%=review.getPrestamo().getCliente().getNombre()+" "+ review.getPrestamo().getCliente().getApellido()+": "%></strong><%=review.getPuntaje()+"/5" %></p>
+				           <p><%= review.getDescripcion() %></p>
+				       </div>
+				   </div>
+				  </div>
+		        <%
+		                }
+		            }
+		        %>
+		    </div>
+		</div>
+		<script>
+		    function toggleResenias() {
+		        var reseniasContent = document.getElementById('resenias-content');
+		        var arrow = document.getElementById('arrow');
+		        
+		        if (reseniasContent.style.display === "none" || reseniasContent.style.display === "") {
+		            reseniasContent.style.display = "block";
+		            arrow.innerHTML = "&#9650;"; // Cambiar la flecha hacia arriba
+		        } else {
+		            reseniasContent.style.display = "none";
+		            arrow.innerHTML = "&#9660;"; // Cambiar la flecha hacia abajo
+		        }
+		    }
+		</script>
     </div>
+        </div>
 
     <!-- Footer -->
     <div class="footer">

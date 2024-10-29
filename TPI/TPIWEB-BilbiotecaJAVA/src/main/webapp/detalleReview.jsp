@@ -372,29 +372,42 @@
 		        Detalle Reseña
 		 </div>
     </div>
-<%if(review.getFechaReview()==null){ %>
-<p>Pasaron cosas</p>
-<%}else {%>
+<% if (review.getFechaReview() == null) { %>
+    <p>Pasaron cosas</p>
+<% } else { %>
     <div class="main-content">
-	  <div class="detail-container">
-	       <div class="detail-content">
-	       		<h5>Reseña de Libro: <%= review.getPrestamo().getEjemplar().getLibro().getTitulo() %></h5>
-	       <div class="info-row">
-	           <p>ID: <%= review.getIdReview() %></p>
-	           <p>Puntaje: <%= review.getPuntaje() + "/5"%></p>
-	           <p>Estado: <%= review.getEstado_review() %></p>
-	           <p>Fecha: <%= review.getFechaReview() %></p>
-	           <%if(review.getEstado_review()!=EstadoReviewEnum.PENDIENTE_REVISION){ %>
-	           <p>ID Admin Moderador: <% review.getAdministrativo().getId(); %></p>
-	           <%if(review.getEstado_review()==EstadoReviewEnum.RECHAZADA){ %>
-	           		<p>Motivo Rechazo: <% review.getObservacion_rechazo();}; %></p>
-	           <%} %>
-	           <p>Reseña: <%= review.getDescripcion() %></p>
-	       </div>
-	   </div>
-	  </div>
+        <div class="detail-container">
+            <div class="detail-content">
+                <h5>Reseña de Libro: <%= review.getPrestamo().getEjemplar().getLibro().getTitulo() %></h5>
+                <div class="info-row">
+                    <p>ID: <%= review.getIdReview() %></p>
+                    <p>Puntaje: <%= review.getPuntaje() + "/5" %></p>
+                    <p>Estado: <%= review.getEstado_review() %></p>
+                    <p>Fecha: <%= review.getFechaReview() %></p>
+
+                    <% if (review.getEstado_review() != EstadoReviewEnum.PENDIENTE_REVISION) { %>
+                        <% if (review.getAdministrativo() != null) { %>
+                            <p>ID Admin Moderador: <%= review.getAdministrativo().getId() %></p>
+                        <% } else { %>
+                            <p>ID Admin Moderador: No asignado</p>
+                        <% } %>
+                        
+                        <% if (review.getEstado_review() == EstadoReviewEnum.RECHAZADA) { %>
+                            <% if (review.getObservacion_rechazo() != null) { %>
+                                <p>Motivo Rechazo: <%= review.getObservacion_rechazo() %></p>
+                            <% } else { %>
+                                <p>Motivo Rechazo: No proporcionado</p>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                    
+                    <p>Reseña: <%= review.getDescripcion() %></p>
+                </div>
+            </div>
+        </div>
     </div>
-<%}; %>
+<% } %>
+
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

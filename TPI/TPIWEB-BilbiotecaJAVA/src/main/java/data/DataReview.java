@@ -199,6 +199,8 @@ public class DataReview {
                     c.setMail(rs.getString(15));
                     c.setNombre(rs.getString(13));
                     c.setApellido(rs.getString(14));
+                    Cliente admin = new Cliente();
+                    admin.setId(rs.getInt(10));
                     Libro l = new Libro();
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
@@ -216,6 +218,8 @@ public class DataReview {
                     r.setDescripcion(rs.getString(4));
                     r.setEstado_review(EstadoReviewEnum.valueOf(rs.getString(5)));
                     r.setPrestamo(p);
+                    r.setObservacion_rechazo(rs.getString(11));
+                    r.setAdministrativo(admin);
                     
 
                 }
@@ -260,8 +264,6 @@ public class DataReview {
                     c.setApellido(rs.getString(14));
                     Cliente admin = new Cliente();
                     admin.setId(rs.getInt(10));
-                    admin.setNombre(rs.getString(17));
-                    admin.setApellido(rs.getString(18));
                     Libro l = new Libro();
                     l.setIdLibro(rs.getInt(9));
                     l.setTitulo(rs.getString(16));
@@ -306,17 +308,13 @@ public class DataReview {
     	try {
 			stmt=DbConnector.getInstancia().getConn().
 					prepareStatement(
-							"update review set estado=?, idAdmin=?, motivo_rechazo=? where idReview=? and fechaRealizacion=? and idCliente=? and idEjemplar=? and idLibro=?;",
+							"update review set estado=?, idAdmin=?, motivo_rechazo=? where idReview=?;",
 							PreparedStatement.RETURN_GENERATED_KEYS
 							);
-			stmt.setString(1, EstadoReviewEnum.PUBLICADA.name());
+			stmt.setString(1, r.getEstado_review().name());
 			stmt.setInt(2, r.getAdministrativo().getId());
 			stmt.setString(3, r.getObservacion_rechazo());
-			stmt.setInt(2, r.getIdReview());
-			stmt.setObject(3, r.getPrestamo().getFechaRealizacion());
-			stmt.setInt(4, r.getPrestamo().getCliente().getId());
-			stmt.setInt(5, r.getPrestamo().getEjemplar().getIdEjemplar());
-			stmt.setInt(6, r.getPrestamo().getEjemplar().getLibro().getIdLibro());
+			stmt.setInt(4, r.getIdReview());
 			stmt.executeUpdate();
 			
 			keyResultSet=stmt.getGeneratedKeys();

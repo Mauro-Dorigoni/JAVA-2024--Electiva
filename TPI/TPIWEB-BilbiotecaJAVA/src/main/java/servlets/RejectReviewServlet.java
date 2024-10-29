@@ -1,0 +1,67 @@
+package servlets;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import logic.CRUD_Cliente;
+import logic.ControladorReview;
+
+import java.io.IOException;
+import java.util.LinkedList;
+
+import entidades.AppException;
+import entidades.Cliente;
+import entidades.EstadoReviewEnum;
+import entidades.Review;
+
+@WebServlet("/rejectReview")
+public class RejectReviewServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public RejectReviewServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ControladorReview cr = new ControladorReview();
+		CRUD_Cliente cc = new CRUD_Cliente();
+		try {
+			String mailAdmin = request.getParameter("mailAdmin");
+			Cliente admin = new Cliente();
+			admin.setMail(mailAdmin);
+			admin = cc.getByMail(admin);
+			Integer idReview = Integer.parseInt(request.getParameter("idReview"));
+			String motivoRechazo = request.getParameter("motivoRechazo");
+			Review review = new Review();
+			review.setIdReview(idReview);
+			review = cr.getOne(review);
+			review.setAdministrativo(admin);
+			review.setEstado_review(EstadoReviewEnum.RECHAZADA);
+			review.setObservacion_rechazo(motivoRechazo);
+			cr.alterState(review);
+			LinkedList<Review> reviews = cr.getPendientes();
+			request.setAttribute("messageType", "success");
+            request.setAttribute("message", "Se ha rechazado la reseña");
+            request.setAttribute("reviews", reviews);
+            request.getRequestDispatcher("moderarReviews.jsp").forward(request, response);
+			
+		} catch (AppException e) {
+			request.setAttribute("error", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
+	}
+
+}

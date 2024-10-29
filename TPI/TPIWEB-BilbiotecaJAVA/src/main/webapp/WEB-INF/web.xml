@@ -207,4 +207,26 @@
     <servlet-name>ListClienteReviewsServlet</servlet-name>
     <servlet-class>servlets.ListClienteReviewsServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>ListReviewsPendientes</display-name>
+    <servlet-name>ListReviewsPendientes</servlet-name>
+    <servlet-class>servlets.ListReviewsPendientes</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>PublishReviewServlet</display-name>
+    <servlet-name>PublishReviewServlet</servlet-name>
+    <servlet-class>servlets.PublishReviewServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PublishReviewServlet</servlet-name>
+    <url-pattern>/PublishReviewServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RejectReviewServlet</display-name>
+    <servlet-name>RejectReviewServlet</servlet-name>
+    <servlet-class>servlets.RejectReviewServlet</servlet-class>
+  </servlet>
 </web-app>

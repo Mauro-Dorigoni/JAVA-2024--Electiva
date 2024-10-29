@@ -62,4 +62,11 @@ public class ControladorReview {
 			throw e;
 		}
 	}
+	public LinkedList<Review> getPendientes() throws AppException {
+		try {
+			return dr.getPendientes();
+		} catch (AppException e) {
+			throw e;
+		}
+	}
 }
