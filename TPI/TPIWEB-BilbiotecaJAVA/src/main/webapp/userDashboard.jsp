@@ -190,9 +190,17 @@
         }
 
         .filter-sort select {
+            border-color: #e08b72;
+            border: 2px solid #e08b72;
+            border-radius: 4px;
             margin-left: 20px;
             padding: 5px;
         }
+        .filter-sort select:focus {
+		    outline: none; /* Elimina el borde predeterminado del navegador */
+		    border-color: #e08b72; /* Mantiene el color del borde al estar seleccionado */
+		    box-shadow: 0 0 0 2px rgba(224, 139, 114, 0.5); /* Opción para añadir un efecto de sombra suave */
+		}
 
         /* Main content area */
         .main-content {
@@ -202,11 +210,11 @@
         }
 
         .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 20px;
-    }
+	        display: flex;
+	        flex-wrap: wrap;
+	        justify-content: flex-start;
+	        gap: 20px;
+	    }
 
 	    .card {
 	        background-color: white;
@@ -281,19 +289,30 @@
 	        background-color: #c76a57;
 	    }
 	
-	        .footer {
-	             background-color: #e08b72;
-				 padding: 20px;
-				 text-align: center;
-				 width: 100%;
-				 position: relative; 
-	        }
-	
-	        .footer p {
-	            color: white;
-	            font-weight: bold;
-	            margin: 0;
-	        }
+        .footer {
+             background-color: #e08b72;
+			 padding: 20px;
+			 text-align: center;
+			 width: 100%;
+			 position: relative; 
+        }
+
+        .footer p {
+            color: white;
+            font-weight: bold;
+            margin: 0;
+        }
+        #botonFiltro{
+        	background-color:#e08b72;
+        	color: white;
+        	margin-right: 20px;
+        	border-color: #e08b72;
+            border: 2px solid #e08b72;
+            border-radius: 4px;
+            padding: 5px;
+        	
+        }
+        
     </style>
 </head>
 <body>
@@ -366,7 +385,7 @@
             </select>
         </div>
 
-        <input type="submit" value="Filtrar">
+        <input type="submit" id="botonFiltro" value="Filtrar">
     </form>
 
     <form id="sortForm" action="<%=request.getContextPath()%>/orderLibros" method="post">

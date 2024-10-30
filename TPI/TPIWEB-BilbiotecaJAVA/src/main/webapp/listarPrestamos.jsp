@@ -215,6 +215,18 @@
 		    margin-right: 20px;
 		    background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
 		}
+		.main-content select {
+            border-color: #e08b72;
+            border: 2px solid #e08b72;
+            border-radius: 4px;
+            margin-left: 20px;
+            padding: 5px;
+        }
+        .main-content select:focus {
+		    outline: none; /* Elimina el borde predeterminado del navegador */
+		    border-color: #e08b72; /* Mantiene el color del borde al estar seleccionado */
+		    box-shadow: 0 0 0 2px rgba(224, 139, 114, 0.5); /* Opción para añadir un efecto de sombra suave */
+		}
     </style>
 </head>
 <body>
