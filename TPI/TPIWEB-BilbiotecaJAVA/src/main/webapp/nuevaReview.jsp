@@ -406,7 +406,7 @@
                             
                             <div class="form-group">
                                 <label for="puntaje" class="text-info">Puntaje</label>
-                                <select name="puntaje" id="puntaje" class="form-control">
+                                <select name="puntaje" id="puntaje" class="form-control" required>
                                     <option value="">Selecciona un puntaje</option>
                                     <% for (int i = 1; i <= 5; i++) { %>
                                         <option value="<%= i %>"><%= i %></option>
