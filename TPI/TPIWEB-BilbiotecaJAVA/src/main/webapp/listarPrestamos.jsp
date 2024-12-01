@@ -287,7 +287,7 @@
                 <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
                 <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
             </div>
-            <a href="#" class="dropdown-btn">Prestamos</a>
+            <a href="#" class="dropdown-btn active">Prestamos</a>
             <div class="dropdown-container">
                 <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;">
                 </form>

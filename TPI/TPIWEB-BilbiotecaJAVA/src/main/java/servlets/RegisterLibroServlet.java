@@ -26,51 +26,63 @@ public class RegisterLibroServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uploadFilePath = UPLOAD_DIR;
-		String fileName = null;
-        // Get all the parts from request and write it to the file on server
-   	 for (Part part : request.getParts()) {
-            String originalFileName = getFileName(part);
-            // Check if the originalFileName contains a dot for the file extension
-            int dotIndex = originalFileName.lastIndexOf(".");
-            if (dotIndex > 0 && dotIndex < originalFileName.length() - 1) {
-                // Generate a unique file name using UUID and keep the original file extension
-                String fileExtension = originalFileName.substring(dotIndex);
-                fileName = UUID.randomUUID().toString() + fileExtension;
-            } else {
-                // If no extension is found, just use the UUID as the file name
-                fileName = UUID.randomUUID().toString();
-            }
-            part.write(uploadFilePath + File.separator + fileName);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uploadFilePath = UPLOAD_DIR;
+        String fileName = null;
+        String fileUuid = null;
+
+        // Crear el directorio si no existe
+        File uploadDir = new File(uploadFilePath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
         }
-   	 
-   	 Categoria_libro cat = new Categoria_libro();
-   	 cat.setIdCategoria(Integer.parseInt(request.getParameter("categoria")));
-   	 
-   	 Libro libro = new Libro();
-   	 libro.setTitulo(request.getParameter("titulo"));
-   	 libro.setISBN(request.getParameter("isbn"));
-   	 libro.setAutor(request.getParameter("autor"));
-   	 libro.setSumario(request.getParameter("sumario"));
-   	 libro.setCategoria(cat);
-   	 libro.setIdPhoto(fileName);
-   	 try {
-   		CRUD_libro cl = new CRUD_libro();
-      	 cl.save(libro);
-      	 
-      	 CRUD_categoria_libro cc = new CRUD_categoria_libro();
-      	 LinkedList<Categoria_libro> cats = cc.getAll();
-      	 
-      	request.setAttribute("messageType", "success");
-        request.setAttribute("message", "Libro registrado con éxito.");
-        request.setAttribute("categorias", cats);
-        request.getRequestDispatcher("altaLibro.jsp").forward(request, response);
-	} catch (AppException e) {
-		request.setAttribute("error", e);
-		request.getRequestDispatcher("error.jsp").forward(request, response);
-	}
- }
+
+        // Proceso la imagen
+        Part filePart = request.getPart("foto");
+        if (filePart != null) {
+            String originalFileName = getFileName(filePart);
+            if (originalFileName != null && !originalFileName.isEmpty()) {
+                int dotIndex = originalFileName.lastIndexOf(".");
+                if (dotIndex > 0 && dotIndex < originalFileName.length() - 1) {
+                    String fileExtension = originalFileName.substring(dotIndex);
+                    fileUuid = UUID.randomUUID().toString(); 
+                    fileName = fileUuid + fileExtension; 
+                } else {
+                    fileUuid = UUID.randomUUID().toString();
+                    fileName = fileUuid; 
+                }
+                filePart.write(uploadFilePath + File.separator + fileName);
+            }
+        }
+
+        // Proceso el resto del formulario
+        Categoria_libro cat = new Categoria_libro();
+        cat.setIdCategoria(Integer.parseInt(request.getParameter("categoria")));
+
+        Libro libro = new Libro();
+        libro.setTitulo(request.getParameter("titulo"));
+        libro.setISBN(request.getParameter("isbn"));
+        libro.setAutor(request.getParameter("autor"));
+        libro.setSumario(request.getParameter("sumario"));
+        libro.setCategoria(cat);
+        libro.setIdPhoto(fileUuid);
+
+        try {
+            CRUD_libro cl = new CRUD_libro();
+            cl.save(libro);
+
+            CRUD_categoria_libro cc = new CRUD_categoria_libro();
+            LinkedList<Categoria_libro> cats = cc.getAll();
+
+            request.setAttribute("messageType", "success");
+            request.setAttribute("message", "Libro registrado con éxito. UUID: " + fileUuid);
+            request.setAttribute("categorias", cats);
+            request.getRequestDispatcher("altaLibro.jsp").forward(request, response);
+        } catch (AppException e) {
+            request.setAttribute("error", e);
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+    }
 	
     private String getFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");

@@ -31,8 +31,7 @@ public class BajaLibroServlet extends HttpServlet {
 		libro.setIdLibro(Integer.parseInt(request.getParameter("idLibro")));
 		try {
 			cl.delete(libro);
-			LinkedList<Libro> libs = new LinkedList<>();
-			libs.add(libro);
+			LinkedList<Libro> libs = cl.getAll();
 			request.setAttribute("messageType", "success");
 		    request.setAttribute("message", "Libro eliminado con éxito.");
 		    request.setAttribute("libros", libs);
