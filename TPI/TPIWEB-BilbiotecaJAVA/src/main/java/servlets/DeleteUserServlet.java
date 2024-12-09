@@ -4,9 +4,8 @@ import jakarta.servlet.ServletException;
 import entidades.*;
 import logic.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 
 @WebServlet("/deleteUser")
@@ -28,6 +27,19 @@ public class DeleteUserServlet extends HttpServlet {
 
 //Este servlet recibe usuario y contrasena, valida y elimina logicamente este usuario
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    if(userEmail == null) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		//declaro los controladores necesarios
 		CRUD_Cliente cl = new CRUD_Cliente();
 		Login l = new Login();

@@ -2,9 +2,8 @@ package servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import entidades.*;
 import logic.*;
@@ -39,7 +38,20 @@ public class OrderLibroServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 String sortBy = request.getParameter("sortBy");
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    if(userEmail == null) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} 
+		String sortBy = request.getParameter("sortBy");
 		 String librosIdsParam = request.getParameter("librosIds");
 		 String[] librosIdsArray = librosIdsParam != null ? librosIdsParam.split(",") : new String[0];
 		 List<Integer> librosIds = Arrays.stream(librosIdsArray).map(Integer::parseInt).collect(Collectors.toList());

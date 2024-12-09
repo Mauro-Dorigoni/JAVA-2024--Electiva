@@ -4,9 +4,8 @@ import jakarta.servlet.ServletException;
 import logic.*;
 import entidades.*;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -24,6 +23,19 @@ public class ListEjemplaresServlet extends HttpServlet {
 
     //El GET de este Servlet se usa multiples veces a lo largo de la aplicacion para devolver todos los ejemplares de la biblioteca
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    if(userEmail == null) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		//Declaro los Controladores necesarios
 		CRUD_ejemplar ce = new CRUD_ejemplar();
 		try {

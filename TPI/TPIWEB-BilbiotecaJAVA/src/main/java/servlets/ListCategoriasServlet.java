@@ -2,9 +2,8 @@ package servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import entidades.*;
 import logic.CRUD_categoria_libro;
@@ -15,6 +14,19 @@ public class ListCategoriasServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    if(userEmail == null) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		CRUD_categoria_libro cl = new CRUD_categoria_libro();
 		LinkedList<Categoria_libro> categorias = new LinkedList<>();
 		try {

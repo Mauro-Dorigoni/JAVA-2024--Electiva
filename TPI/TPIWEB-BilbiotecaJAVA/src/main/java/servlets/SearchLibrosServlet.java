@@ -2,9 +2,8 @@ package servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import entidades.*;
@@ -22,6 +21,19 @@ public class SearchLibrosServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    if(userEmail == null) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
 		String query = request.getParameter("query");
 		CRUD_libro cl = new CRUD_libro();
 		CRUD_categoria_libro cc = new CRUD_categoria_libro();

@@ -2,9 +2,8 @@ package servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -29,6 +28,21 @@ public class BajaEjemplarServlet extends HttpServlet {
 
 	//Recibo el id de un ejemplar y hago una baja logica en la BD. Devuelvo un mensaje de exito en la misma pagina de la cual fueron enviados los datos
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Seguridad
+		try {
+			HttpSession session = request.getSession();
+			String userEmail = (String) session.getAttribute("userEmail");
+		    String userRole = (String) session.getAttribute("userRole");
+		    if(userEmail == null || !userRole.equals("admin")) {
+			    request.getRequestDispatcher("index.jsp").forward(request, response);
+		        return;
+		    }
+		} catch (Exception e) {
+			AppException ae = new AppException("Error: Error de autenticacion");
+			request.setAttribute("error", ae);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
+		}
+		
 		//Declaro los controladores necesarios
 		CRUD_ejemplar ce = new CRUD_ejemplar();
 		try {
