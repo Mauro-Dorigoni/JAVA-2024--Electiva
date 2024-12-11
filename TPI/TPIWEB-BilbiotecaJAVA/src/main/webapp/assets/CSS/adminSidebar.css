@@ -1,0 +1,51 @@
+ .sidebar {
+	   width: 250px;
+	   background-color: #4FA5BF;
+	   padding-top: 20px;
+	   display: flex;
+	   flex-direction: column;
+	   height: calc(100vh - 100px); /* Height minus header */
+	   position: fixed;
+	   top: 100px; /* Start sidebar just below the header */
+	   left: 0;
+	   bottom: 0;
+}
+
+.sidebar a {
+    color: white;
+    padding: 20px;
+    font-size: 1.25rem;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #3C7D93; /* Darker shade of #4FA5BF */
+   	text-decoration: underline; /* Subrayado al hacer hover */
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #3C7D93; /* Slightly darker for dropdown */
+    padding-left: 20px;
+}
+
+.dropdown-container a {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.dropdown-container a:hover {
+    text-decoration: underline; /* Subrayado al hacer hover en los subitems */
+}
+
+.sidebar .dropdown-btn {
+    cursor: pointer;
+}
+
+.sidebar .active {
+   background-color: #3C7D93;
+   text-decoration: underline;
+}

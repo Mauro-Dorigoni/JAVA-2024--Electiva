@@ -42,14 +42,11 @@ public class CategoriaDetailServlet extends HttpServlet {
             	
             }else {
             	request.getRequestDispatcher("detalleCategoria.jsp").forward(request, response);
-		    
-            	request.getRequestDispatcher("bajaCategoria.jsp").forward(request, response);}
+            }	
 		} catch (AppException e) {
 			request.setAttribute("error", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
 	}
-
-
 
 }

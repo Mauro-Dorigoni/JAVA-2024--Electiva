@@ -17,7 +17,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Categoría</title>
+    <title>Admin Dashboard - Detalle de Categoría</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -78,57 +78,6 @@
             padding: 0;
             margin: 0;
         }
-
-        .sidebar {
-            width: 250px;
-            background-color: #4FA5BF;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 100px); /* Height minus header */
-            position: fixed;
-            top: 100px; /* Start sidebar just below the header */
-            left: 0;
-            bottom: 0;
-        }
-
-        .sidebar a {
-            color: white;
-            padding: 20px;
-            font-size: 1.25rem;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: #3C7D93; /* Darker shade of #4FA5BF */
-            text-decoration: underline; /* Subrayado al hacer hover */
-        }
-
-        .dropdown-container {
-            display: none;
-            background-color: #3C7D93; /* Slightly darker for dropdown */
-            padding-left: 20px;
-        }
-
-        .dropdown-container a {
-            padding: 10px 20px;
-            font-size: 1rem;
-        }
-
-        .dropdown-container a:hover {
-            text-decoration: underline; /* Subrayado al hacer hover en los subitems */
-        }
-
-        .sidebar .dropdown-btn {
-            cursor: pointer;
-        }
-        .sidebar .active {
-	        background-color: #3C7D93;
-	        text-decoration: underline;
-	    }
 
         .main-content {
             margin-left: 250px;
@@ -228,76 +177,11 @@
     </div>
 
     <div class="container-fluid">
-        <div class="sidebar">
-            <a href="#" class="dropdown-btn active">Categorías</a>
-            <div class="dropdown-container">
-               	<form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
-					<input type="hidden" id="action" name="action" value="">
-				</form>
-                <a href="#" onclick="setActionAndSubmit('listado'); return false;">Listado</a>
-			    <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
-			    <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
-			    <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
-            </div>
-            <a href="#" class="dropdown-btn">Libros</a>
-            <div class="dropdown-container">
-                <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
-                	<input type="hidden" id="actionLibro" name="actionLibro" value="">
-            	</form>
-	            <script>
-	                function setActionAndSubmitLibros(actionValue) {
-	                	document.getElementById('actionLibro').value = actionValue;
-	                    document.getElementById('listadoLibrosForm').submit();
-	                }
-	            </script>
-                <a href="#" onclick="setActionAndSubmitLibros('listado'); return false;">Listado</a>
-                <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
-                <a href="#" onclick="setActionAndSubmitLibros('modificar'); return false;">Modificar Libro</a>
-                <a href="#" onclick="setActionAndSubmitLibros('baja'); return false;">Baja Libro</a>
-            </div>
-            <a href="#" class="dropdown-btn">Ejemplares</a>
-            <div class="dropdown-container">
-                <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
-                	<input type="hidden" id="actionEjemplares" name="actionEjemplares" value="">
-            	</form>
-            	<script>
-	                function setActionAndSubmitEjemplares(actionValue) {
-	                	document.getElementById('actionEjemplares').value = actionValue;
-	                    document.getElementById('listadoEjemplaresForm').submit();
-	                }
-	            </script>
-                <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
-                <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
-                <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
-            </div>
-            <a href="#" class="dropdown-btn">Prestamos</a>
-            <div class="dropdown-container">
-                <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;">
-                </form>
-                <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
-            </div>
-            <a href="#" class="dropdown-btn">Clientes</a>
-            <div class="dropdown-container">
-                <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
-                	<input type="hidden" name="action" id="actionInput">
-                </form>
-                <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
-    			<a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
-                <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
-	            <script>
-				    function setActionAndSubmitClientes(actionValue) {
-				        document.getElementById('actionInput').value = actionValue;
-				        document.getElementById('listadoClientesForm').submit();
-				    }
-				</script>
-            </div>
-            <a href="#" class="dropdown-btn">Reseñas</a>
-            <div class="dropdown-container">
-                <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
-            </div>
-        </div>
-
+     	
+     	<jsp:include page="adminSidebar.jsp">
+		    <jsp:param name="activeSection" value="categorias" />
+		</jsp:include> 
+		
         <!-- Main Content -->
         <div class="main-content">
             <div class="detail-container">
@@ -317,27 +201,5 @@
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var dropdowns = document.getElementsByClassName('dropdown-btn');
-            for (var i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].addEventListener('click', function () {
-                    this.classList.toggle('active');
-                    var dropdownContent = this.nextElementSibling;
-                    if (dropdownContent.style.display === 'block') {
-                        dropdownContent.style.display = 'none';
-                    } else {
-                        dropdownContent.style.display = 'block';
-                    }
-                });
-            }
-        });
-        
-        function setActionAndSubmit(actionValue) {
-            document.getElementById('action').value = actionValue;
-            document.getElementById('listadoCategoriasForm').submit();
-        }
-    </script>
 </body>
 </html>
