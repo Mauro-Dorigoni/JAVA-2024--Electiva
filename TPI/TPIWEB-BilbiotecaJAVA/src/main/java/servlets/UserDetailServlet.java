@@ -53,7 +53,6 @@ public class UserDetailServlet extends HttpServlet {
 			default:
 				break;
 			}
-			request.getRequestDispatcher("misPagos.jsp").forward(request, response);
 		} catch (AppException e) {
 			request.setAttribute("error", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);

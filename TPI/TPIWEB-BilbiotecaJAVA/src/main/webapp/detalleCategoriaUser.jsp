@@ -83,45 +83,6 @@
             padding: 10px 20px;
             background-color: #4FA5BF;
         }
-
-        .hamburger-menu {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
-            position: relative;
-        }
-        .hamburger-menu i {
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #4FA5BF;
-            top: 40px;
-            left: 0;
-            width: 150px;
-            z-index: 1;
-            border-radius: 5px;
-        }
-
-        .dropdown-menu a {
-            color: white;
-            padding: 10px;
-            display: block;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #3C7D93;
-        }
-
-        .hamburger-menu i:hover + .dropdown-menu, .dropdown-menu:hover {
-            display: block;
-        }
-
         .search-bar {
             padding: 8px;
             font-size: 0.9rem;
@@ -354,16 +315,9 @@
 
     <!-- Menu row -->
     <div class="menu-row">
-        <div class="hamburger-menu">
-            <i class="fas fa-bars"></i>
-            <div class="dropdown-menu">
-                <a href="<%= request.getContextPath() %>/userPrestamos?userEmail=<%= userEmail %>">Mis préstamos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=pagos">Mis pagos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=contra">Cambiar Contraseña</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=baja">Baja Cuenta</a>
-                <a href="<%= request.getContextPath() %>/listClienteReviews?userEmail=<%= userEmail %>">Mis reseñas</a>
-            </div>
-        </div>
+         <jsp:include page="hamburguerMenu.jsp">
+		    <jsp:param name="userEmail" value="<%= userEmail %>" />
+		</jsp:include>
         <div class="menu-title">
 		        Detalle Categoria
 		 </div>
@@ -400,54 +354,5 @@
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
-
-    <script>
-        window.onload = function() {
-            var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
-            if (sortBy) {
-                document.getElementById('sort').value = sortBy;
-            }
-        }
-        function handleFilterChange() {
-            var filterBy = document.getElementById('filter').value;
-            var categoryFilter = document.getElementById('categoryFilter');
-            var authorFilter = document.getElementById('authorFilter');
-            
-            if (filterBy === 'category') {
-                categoryFilter.style.display = 'block';
-                authorFilter.style.display = 'none';
-            } else if (filterBy === 'autor') {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'block';
-            } else {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'none';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
-            var filterBy = document.getElementById('filter').value;
-            var category = document.getElementById('category').value;
-            var author = document.getElementById('author').value;
-            
-            document.getElementById('hiddenFilterBy').value = filterBy;
-            document.getElementById('hiddenCategory').value = category;
-            document.getElementById('hiddenAuthor').value = author;
-        });
-        
-        function toggleResenias() {
-            var content = document.getElementById("resenias-content");
-            var arrow = document.getElementById("arrow");
-
-            if (content.style.display === "none") {
-                content.style.display = "block";
-                arrow.innerHTML = "&#9650;";  // Cambia la flecha hacia arriba
-            } else {
-                content.style.display = "none";
-                arrow.innerHTML = "&#9660;";  // Cambia la flecha hacia abajo
-            }
-        }
-    </script>
 </body>
 </html>

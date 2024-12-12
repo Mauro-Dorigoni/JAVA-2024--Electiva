@@ -90,7 +90,7 @@ public class DataLibro {
         Libro libro = new Libro();
         try {
 			stmt=DbConnector.getInstancia().getConn().prepareStatement(
-					"select * from libro lib inner join categoria_libro cat on lib.idCategoria=cat.idCategoria where idLibro = ?"
+					"select * from libro lib inner join categoria_libro cat on lib.idCategoria=cat.idCategoria where idLibro=? and lib.fechaBaja is null and cat.fechaBaja is null"
 					);
 			stmt.setString(1, Integer.toString(l.getIdLibro()));
 			rs=stmt.executeQuery();
@@ -108,7 +108,6 @@ public class DataLibro {
                     cat.setDescripcion_apliada(rs.getString(11));
                     cat.setIdPhoto(rs.getString(13));
                     cat.setFechaBaja(rs.getObject(12,LocalDate.class));
-                    if(cat.getFechaBaja()!=null) {cat=null;}
                     libro.setCategoria(cat); 
 
                 }

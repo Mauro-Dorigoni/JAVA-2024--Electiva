@@ -98,44 +98,6 @@
             background-color: #4FA5BF;
         }
 
-        .hamburger-menu {
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: white;
-            position: relative;
-        }
-        .hamburger-menu i {
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: #4FA5BF;
-            top: 40px;
-            left: 0;
-            width: 150px;
-            z-index: 1000;
-            border-radius: 5px;
-        }
-
-        .dropdown-menu a {
-            color: white;
-            padding: 10px;
-            display: block;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #3C7D93;
-        }
-
-        .hamburger-menu:hover .dropdown-menu, .dropdown-menu:hover {
-		    display: block;
-		}
-
         .search-bar {
             padding: 8px;
             font-size: 0.9rem;
@@ -335,17 +297,10 @@
 
     <!-- Menu row -->
     <div class="menu-row">
-        <div class="hamburger-menu">
-            <i class="fas fa-bars"></i>
-            <div class="dropdown-menu">
-                <a href="<%= request.getContextPath() %>/userPrestamos?userEmail=<%= userEmail %>">Mis préstamos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=pagos">Mis pagos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=contra">Cambiar Contraseña</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=baja">Baja Cuenta</a>
-                <a href="<%= request.getContextPath() %>/listClienteReviews?userEmail=<%= userEmail %>">Mis reseñas</a>
-                
-            </div>
-        </div>
+        
+        <jsp:include page="hamburguerMenu.jsp">
+		    <jsp:param name="userEmail" value="<%= userEmail %>" />
+		</jsp:include>
 
         <div class="search-bar">
 		    <form action="<%=request.getContextPath()%>/searchLibros" method="get">
@@ -471,61 +426,40 @@
     </div>
 
     <script>
-        window.onload = function() {
-            var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
-            if (sortBy) {
-                document.getElementById('sort').value = sortBy;
-            }
+    window.onload = function() {
+        var sortBy = "<%= request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "" %>";
+        if (sortBy) {
+            document.getElementById('sort').value = sortBy;
         }
-        function handleFilterChange() {
-            var filterBy = document.getElementById('filter').value;
-            var categoryFilter = document.getElementById('categoryFilter');
-            var authorFilter = document.getElementById('authorFilter');
-            
-            if (filterBy === 'category') {
-                categoryFilter.style.display = 'block';
-                authorFilter.style.display = 'none';
-            } else if (filterBy === 'autor') {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'block';
-            } else {
-                categoryFilter.style.display = 'none';
-                authorFilter.style.display = 'none';
-            }
+    }
+    function handleFilterChange() {
+        var filterBy = document.getElementById('filter').value;
+        var categoryFilter = document.getElementById('categoryFilter');
+        var authorFilter = document.getElementById('authorFilter');
+        
+        if (filterBy === 'category') {
+            categoryFilter.style.display = 'block';
+            authorFilter.style.display = 'none';
+        } else if (filterBy === 'autor') {
+            categoryFilter.style.display = 'none';
+            authorFilter.style.display = 'block';
+        } else {
+            categoryFilter.style.display = 'none';
+            authorFilter.style.display = 'none';
         }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
-            var filterBy = document.getElementById('filter').value;
-            var category = document.getElementById('category').value;
-            var author = document.getElementById('author').value;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Actualiza los valores ocultos en el formulario de ordenamiento con los valores del formulario de filtrado
+        var filterBy = document.getElementById('filter').value;
+        var category = document.getElementById('category').value;
+        var author = document.getElementById('author').value;
 
-            document.getElementById('hiddenFilterBy').value = filterBy;
-            document.getElementById('hiddenCategory').value = category;
-            document.getElementById('hiddenAuthor').value = author;
-
-            // Manejo del menú desplegable
-            var hamburgerIcon = document.querySelector('.hamburger-menu');
-            var dropdownMenu = document.querySelector('.dropdown-menu');
-
-            hamburgerIcon.addEventListener('click', function() {
-                // Alterna la visibilidad del menú desplegable
-                if (dropdownMenu.style.display === 'block') {
-                    dropdownMenu.style.display = 'none';
-                } else {
-                    dropdownMenu.style.display = 'block';
-                }
-            });
-
-            // Opcional: Cierra el menú si se hace clic fuera de él
-            document.addEventListener('click', function(event) {
-                if (!hamburgerIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    dropdownMenu.style.display = 'none';
-                }
-            });
-        });
-        
-        
+        document.getElementById('hiddenFilterBy').value = filterBy;
+        document.getElementById('hiddenCategory').value = category;
+        document.getElementById('hiddenAuthor').value = author; 
+    });
+    
     </script>
 </body>
 </html>

@@ -94,43 +94,6 @@
             padding: 10px 20px;
             background-color: #4FA5BF;
         }
-
-        .hamburger-menu {
-		    position: relative; /* Necesario para el posicionamiento absoluto del menú desplegable */
-		}
-		
-		.dropdown-menu {
-		    display: none;
-		    position: absolute;
-		    background-color: #4FA5BF;
-		    top: 100%; /* Ajuste para que el menú aparezca justo debajo del botón */
-		    left: 0;
-		    width: 150px;
-		    z-index: 1000;
-		    border-radius: 5px;
-		}
-		.hamburger-menu i {
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-        }
-		
-		.hamburger-menu:hover .dropdown-menu, .dropdown-menu:focus-within {
-		    display: block;
-		}
-		
-		.dropdown-menu a {
-		    color: white;
-		    padding: 10px;
-		    display: block;
-		    text-decoration: none;
-		    font-weight: bold;
-		}
-		
-		.dropdown-menu a:hover {
-		    background-color: #3C7D93;
-		}
-
         .search-bar {
             padding: 8px;
             font-size: 0.9rem;
@@ -376,16 +339,9 @@
 
     <!-- Menu row -->
     <div class="menu-row">
-        <div class="hamburger-menu">
-            <i class="fas fa-bars"></i>
-            <div class="dropdown-menu">
-                <a href="<%= request.getContextPath() %>/userPrestamos?userEmail=<%= userEmail %>">Mis préstamos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=pagos">Mis pagos</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=contra">Cambiar Contraseña</a>
-                <a href="<%= request.getContextPath() %>/userDetail?userEmail=<%= userEmail %>&action=baja">Baja Cuenta</a>
-                <a href="<%= request.getContextPath() %>/listClienteReviews?userEmail=<%= userEmail %>">Mis reseñas</a>
-            </div>
-        </div>
+         <jsp:include page="hamburguerMenu.jsp">
+		    <jsp:param name="userEmail" value="<%= userEmail %>" />
+		</jsp:include>
         <div class="menu-title">
 	        Cambio de Contraseña
 	    </div>
@@ -477,9 +433,5 @@
     <div class="footer">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
-
-    <script>
- 	
-    </script>
 </body>
 </html>

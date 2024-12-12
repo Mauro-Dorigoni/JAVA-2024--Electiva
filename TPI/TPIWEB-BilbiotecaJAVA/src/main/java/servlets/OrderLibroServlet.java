@@ -51,7 +51,7 @@ public class OrderLibroServlet extends HttpServlet {
 			request.setAttribute("error", ae);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} 
-		String sortBy = request.getParameter("sortBy");
+		 String sortBy = request.getParameter("sortBy");
 		 String librosIdsParam = request.getParameter("librosIds");
 		 String[] librosIdsArray = librosIdsParam != null ? librosIdsParam.split(",") : new String[0];
 		 List<Integer> librosIds = Arrays.stream(librosIdsArray).map(Integer::parseInt).collect(Collectors.toList());
