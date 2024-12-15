@@ -10,21 +10,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
+    <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <style>
         body {
             background-color: #f8f9fa;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #e08b72;
-        }
-
-        .header img {
-            height: 50px;
         }
 
         .nav-links {
@@ -62,20 +51,7 @@
         .info-box h1 {
             color: #e08b72;
         }
-        .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
-	    }
 
-	    .footer p {
-	        color: white;
-	        font-weight: bold;
-	        margin: 0;
-	    }
     </style>
 </head>
 <body>

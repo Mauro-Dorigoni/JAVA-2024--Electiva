@@ -1,0 +1,26 @@
+ .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #e08b72;
+    height: 100px;
+}
+
+.header img {
+    height: 50px;
+}
+.footer {
+	background-color: #e08b72;
+	padding: 20px;
+	text-align: center;
+	width: 100%;
+	position: relative;
+	bottom: 0;
+	left: 0;
+}
+.footer p {
+	color: white;
+	font-weight: bold;
+	margin: 0;
+}

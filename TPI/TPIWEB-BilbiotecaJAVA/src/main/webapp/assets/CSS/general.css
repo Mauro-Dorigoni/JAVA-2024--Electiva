@@ -40,3 +40,8 @@ body {
 .btn-custom:hover {
     background-color: #d07a5a; 
 }
+.container-fluid {
+	min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+}

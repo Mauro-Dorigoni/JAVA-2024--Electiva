@@ -1,12 +1,12 @@
 .hamburger-menu {
-position: relative; /* Necesario para el posicionamiento absoluto del menú desplegable */
+position: relative; 
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
     background-color: #4FA5BF;
-    top: 100%; /* Ajuste para que el menú aparezca justo debajo del botón */
+    top: 100%; 
     left: 0;
     width: 150px;
     z-index: 1000;

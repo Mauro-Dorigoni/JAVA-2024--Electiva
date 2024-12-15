@@ -27,6 +27,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
+    <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
@@ -43,19 +44,6 @@
             min-height: 100vh;
 		    display: flex;
 		    flex-direction: column;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: #e08b72;
-            height: 100px;
-        }
-
-        .header img {
-            height: 50px;
         }
 
         /* New row under header */
@@ -125,8 +113,6 @@
         }
 
         /* Main content area */
-        
-
         .card-container {
         display: flex;
         flex-wrap: wrap;
@@ -252,20 +238,6 @@
             color: black;
         }
 	
-	        .footer {
-	             margin-top: 600px;
-	             background-color: #e08b72;
-				 padding: 20px;
-				 text-align: center;
-				 width: 100%;
-				 position: relative; 
-	        }
-	
-	        .footer p {
-	            color: white;
-	            font-weight: bold;
-	            margin: 0;
-	        }
 	        .categoria-link:hover {
 		        text-decoration: underline;
 		    }
@@ -404,7 +376,7 @@
     });
 </script>
     <!-- Footer -->
-    <div class="footer">
+    <div class="footer" style="position: fixed">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 </body>

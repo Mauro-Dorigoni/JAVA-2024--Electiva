@@ -8,22 +8,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
-    <style>
-	    .footer {
-	        background-color: #e08b72;
-	        padding: 20px;
-	        text-align: center;
-	        position: fixed;
-	        width: 100%;
-	        bottom: 0;
-	    }
-	
-	    .footer p {
-	        color: white;
-	        font-weight: bold;
-	        margin: 0;
-    }
-</style>
+    <link rel="stylesheet" href="assets/CSS/header&footer.css">
 </head>
 <body>
     <div id="login">
@@ -73,7 +58,9 @@
         </div>
     </div>
 </div>
-
+<div class="footer" style="position: fixed">
+	<p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
+</div>
 <script>
     $(document).ready(function() {
         var messageType = '<%= request.getAttribute("messageType") != null ? request.getAttribute("messageType") : "" %>';
@@ -82,8 +69,5 @@
         }
     });
 </script>
-    <div class="footer">
-	    <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
-	</div>
 </body>
 </html>
