@@ -58,34 +58,6 @@
             height: 50px;
         }
 
-        .nav-links {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .nav-links .user-icon {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links .welcome-message {
-            color: white;
-            font-weight: bold;
-        }
-
-        .nav-links i {
-            margin-left: 8px;
-            font-size: 1.5rem;
-        }
-
         .container-fluid {
             display: flex;
             height: calc(100vh - 100px); /* Full height minus header */
@@ -210,12 +182,9 @@
         <a href="<%=request.getContextPath()%>/adminDashboard.jsp">
             <img src="assets/logojavabiblioteca.jpg" alt="Logo">
         </a>
-        <div class="nav-links">
-            <div class="user-icon">
-                <span class="welcome-message">Bienvenido <%= userEmail %></span>
-                <a href="#"><i class="fas fa-user"></i></a>
-            </div>
-        </div>
+        <jsp:include page="userOptions.jsp">
+		    <jsp:param name="userEmail" value="<%= userEmail %>" />
+		</jsp:include>
     </div>
 
     <div class="container-fluid">

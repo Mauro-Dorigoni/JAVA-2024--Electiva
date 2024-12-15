@@ -52,34 +52,6 @@
             height: 50px;
         }
 
-        .nav-links {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .nav-links .user-icon {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-links .welcome-message {
-            color: white;
-            font-weight: bold;
-        }
-
-        .nav-links i {
-            margin-left: 8px;
-            font-size: 1.5rem;
-        }
-
         /* New row under header */
         .menu-row {
             display: flex;
@@ -314,12 +286,9 @@
             <input type="hidden" name="actionLibro" value="userDashboard">
             <!-- Puedes agregar más campos ocultos aquí si es necesario -->
         </form>
-        <div class="nav-links">
-            <div class="user-icon">
-                <span class="welcome-message">Bienvenido <%= userEmail %></span>
-                <a href="#"><i class="fas fa-user"></i></a>
-            </div>
-        </div>
+        <jsp:include page="userOptions.jsp">
+		    <jsp:param name="userEmail" value="<%= userEmail %>" />
+		</jsp:include>
     </div>
 
     <!-- Menu row -->

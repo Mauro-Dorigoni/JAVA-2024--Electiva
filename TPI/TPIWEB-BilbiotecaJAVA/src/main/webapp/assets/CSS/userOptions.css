@@ -1,0 +1,41 @@
+.user-dropdown-menu {
+    position: absolute;
+    top: 40px; 
+    left: 50%; 
+    transform: translateX(-20%); 
+    background-color: #fff; 
+    border: 1px solid #ddd;
+    border-radius: 4px; 
+    padding: 10px;
+    z-index: 100;
+    width: 200px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.user-dropdown-menu a {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    padding: 8px 10px; 
+    font-size: 14px;
+    transition: color 0.3s, text-decoration 0.3s; 
+}
+
+.user-dropdown-menu a:hover {
+    color: #333; 
+    text-decoration: underline; 
+}
+
+.nav-links .user-icon i {
+    color: white; 
+    cursor: pointer; 
+}
+
+.nav-links .user-icon {
+    position: relative; 
+}
+
+.nav-links .welcome-message {
+    color: white;
+    font-weight: bold;
+}

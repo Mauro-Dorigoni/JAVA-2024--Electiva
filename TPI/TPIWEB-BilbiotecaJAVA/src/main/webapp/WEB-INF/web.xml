@@ -229,4 +229,10 @@
     <servlet-name>RejectReviewServlet</servlet-name>
     <servlet-class>servlets.RejectReviewServlet</servlet-class>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LogoutServlet</display-name>
+    <servlet-name>LogoutServlet</servlet-name>
+    <servlet-class>servlets.LogoutServlet</servlet-class>
+  </servlet>
 </web-app>
