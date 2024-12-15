@@ -1,0 +1,15 @@
+.info-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px;
+}
+
+.info-box h1 {
+    color: #e08b72;
+}
+.info-box p {
+    color: #6c757d;
+}

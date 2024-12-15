@@ -23,21 +23,10 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
+    <link rel="stylesheet" href="assets/CSS/vistaAdmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-        }
-
         .detail-container {
             display: flex;
             background-color: white;
@@ -46,6 +35,7 @@
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             align-items: flex-start; /* Align items to the top */
+            text-align: left;
         }
 
         .detail-container img {
@@ -134,7 +124,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
+    <div class="footer" style="position:fixed">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 </body>

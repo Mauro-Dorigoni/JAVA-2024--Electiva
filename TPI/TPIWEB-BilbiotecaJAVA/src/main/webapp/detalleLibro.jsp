@@ -24,30 +24,23 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
+    <link rel="stylesheet" href="assets/CSS/vistaAdmin.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-        }
-
         .detail-container {
-            display: flex;
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            align-items: flex-start; /* Align items to the top */
+            text-align: left;
+            display: flex;
+		    flex-direction: row;
+		    align-items: flex-start;
+		    margin-bottom: 40px; /* Separación con las reseñas */
+		    clear: both;
         }
 
         .detail-container img {
@@ -106,6 +99,15 @@
 		    flex-direction: column;
 		}
 		
+		.resenias-section{
+			width: 100%; /* Asegura que ocupe todo el ancho */
+		    display: block;
+		    margin-top: 20px;
+		    background-color: #fff;
+		    border-radius: 10px;
+		    padding: 20px;
+		    border: 1px solid #ddd;
+		}
 		.info-row {
 		    display: flex;
 		    justify-content: space-between;
@@ -144,47 +146,48 @@
             <div class="detail-container">
                 <img src="assets/libros/<%= libro.getIdPhoto() %>.jpg" alt="Imagen de <%= libro.getTitulo() %>">
                 <div class="detail-content">
-            <h5><%= libro.getTitulo() %></h5>
-            <div class="info-row">
-                <p>Autor: <%= libro.getAutor() %></p>
-                <p>ISBN: <%= libro.getISBN() %></p>
-            </div>
-            <div class="info-row">
-                <p>ID: <%= libro.getIdLibro() %></p>
-                <p>Categoría: <%= libro.getCategoria().getNombre_categoria() %></p>
-            </div>
-            <div class="description" style="text-align:left">
-                <p><%= libro.getSumario() %></p>
-            </div>
-        </div>
-            </div>
-                    <div class="resenias-section" style="margin-top: 20px; background-color: #fff; border-radius: 10px; padding: 20px; border: 1px solid #ddd;">
-		    <h5 style="color: #e08b72; font-size: 3rem; display: flex; justify-content: space-between; align-items: center;font-weight: bold">
-		        Reseñas
-		        <span id="arrow" style="cursor: pointer;" onclick="toggleResenias()">&#9660;</span>
-		    </h5>
-		    <div id="resenias-content" style="display:none;">
-		        <%
-		            if (reviews == null || reviews.isEmpty()) {
-		        %>
-		            <p>No hay reseñas aún</p>
-		        <%
-		            } else {
-		                for (Review review : reviews) {
-		        %>
-		            <div class="detail-container">
-				       <div class="detail-content">
-				       <div class="info-row">
-				           <p><strong style="color:#e08b72"><%=review.getPrestamo().getCliente().getNombre()+" "+ review.getPrestamo().getCliente().getApellido()+": "%></strong><%=review.getPuntaje()+"/5" %></p>
-				           <p><%= review.getDescripcion() %></p>
-				       </div>
-				   </div>
-				  </div>
-		        <%
-		                }
-		            }
-		        %>
-		    </div>
+		            <h5><%= libro.getTitulo() %></h5>
+		            <div class="info-row">
+		                <p>Autor: <%= libro.getAutor() %></p>
+		                <p>ISBN: <%= libro.getISBN() %></p>
+		            </div>
+		            <div class="info-row">
+		                <p>ID: <%= libro.getIdLibro() %></p>
+		                <p>Categoría: <%= libro.getCategoria().getNombre_categoria() %></p>
+		            </div>
+		            <div class="description" style="text-align:left">
+		                <p><%= libro.getSumario() %></p>
+		            </div>
+
+		            <div class="resenias-section">
+					    <h5 style="color: #e08b72; font-size: 3rem; display: flex; justify-content: space-between; align-items: center;font-weight: bold">
+					        Reseñas
+					        <span id="arrow" style="cursor: pointer;" onclick="toggleResenias()">&#9660;</span>
+					    </h5>
+					    <div id="resenias-content" style="display:none;">
+					        <%
+					            if (reviews == null || reviews.isEmpty()) {
+					        %>
+					            <p>No hay reseñas aún</p>
+					        <%
+					            } else {
+					                for (Review review : reviews) {
+					        %>
+					            <div class="detail-container">
+							       <div class="detail-content">
+							       <div class="info-row">
+							           <p><strong style="color:#e08b72"><%=review.getPrestamo().getCliente().getNombre()+" "+ review.getPrestamo().getCliente().getApellido()+": "%></strong><%=review.getPuntaje()+"/5" %></p>
+							           <p><%= review.getDescripcion() %></p>
+							       </div>
+							   </div>
+							  </div>
+					        <%
+					                }
+					            }
+					        %>
+					    </div>
+					</div>
+			  </div>
 		</div>
 		<script>
 		    function toggleResenias() {
@@ -201,10 +204,10 @@
 		    }
 		</script>
     </div>
-        </div>
+</div>
 
     <!-- Footer -->
-    <div class="footer">
+    <div class="footer" style="position:fixed">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 </body>
