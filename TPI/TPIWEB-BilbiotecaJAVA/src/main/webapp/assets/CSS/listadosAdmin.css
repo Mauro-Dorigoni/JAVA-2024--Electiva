@@ -64,15 +64,15 @@ body {
     transition: background-color 0.3s ease;
 }
 
-        .card button:hover {
-            background-color: #c76a57;
-        }
+.card button:hover {
+      background-color: #c76a57;
+}
 
-        .card img {
-		    height: 100px;
-		    width: 100px;
-		    object-fit: contain;
-		    border-radius: 10px;
-		    margin-right: 20px;
-		    background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
-		}
+  .card img {
+	height: 100px;
+	width: 100px;
+	object-fit: contain;
+	border-radius: 10px;
+	margin-right: 20px;
+	background-color: #f8f9fa; /* Fondo blanco o color que prefieras */
+}

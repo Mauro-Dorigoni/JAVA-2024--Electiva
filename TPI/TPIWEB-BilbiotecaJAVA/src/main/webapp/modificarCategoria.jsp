@@ -27,94 +27,10 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
+    <link rel="stylesheet" href="assets/CSS/adminForms.css">
+    <link rel="stylesheet" href="assets/CSS/vistaAdmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px;
-            width: 100%;
-        }
-
-        .form-container h1 {
-            color: #e08b72;
-            margin-bottom: 30px;
-            text-align: center; /* Centrar el título */
-        }
-
-        .form-group label {
-            font-weight: bold;
-            color: #e08b72; /* Color de los descriptores */
-            text-align: left;
-            display: block;
-        }
-
-        .form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .form-group input[type="text"]:focus, .form-group textarea:focus, .form-group input[type="file"]:focus {
-            border-color: #4FA5BF; /* Resaltado celeste */
-            outline: none;
-            box-shadow: 0 0 5px #4FA5BF;
-        }
-
-        .form-group button[type="submit"] {
-            background-color: #e08b72;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-group button[type="submit"]:hover {
-            background-color: #c76a57;
-        }
-
-	    .form-container {
-	        background-color: white;
-	        padding: 30px;
-	        border-radius: 2px;
-	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	        max-width: 600px;
-	        margin: 20px;
-	        width: 100%;
-	        border: 2px solid #e08b72;
-}
-    </style>
 </head>
 <body>
     <!-- Header -->
@@ -187,38 +103,9 @@
 </script>
 
 
-    <div class="footer">
+    <div class="footer" style="position:fixed">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 
-    <script>
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        var i;
-
-        for (i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function() {
-                // Primero, cerrar todos los dropdowns
-                for (var j = 0; j < dropdown.length; j++) {
-                    if (dropdown[j] !== this) {
-                        dropdown[j].classList.remove("active");
-                        dropdown[j].nextElementSibling.style.display = "none";
-                    }
-                }
-
-                // Alternar el estado del dropdown actual
-                this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
-        function setActionAndSubmit(actionValue) {
-            document.getElementById('action').value = actionValue;
-            document.getElementById('listadoCategoriasForm').submit();
-        }
-    </script>
 </body>
 </html>

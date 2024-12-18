@@ -25,80 +25,8 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
+    <link rel="stylesheet" href="assets/CSS/listadosAdmin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <style>
-        html, body {
-		    height: 100%;
-		}
-        body {
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .card-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .card img {
-            height: 100px;
-            width: 100px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
-
-        .card-content {
-            flex-grow: 1;
-        }
-
-        .card-content h5 {
-            margin: 0;
-            color: #e08b72;
-            font-weight: bold;
-        }
-
-        .card-content p {
-            margin: 5px 0;
-        }
-
-        .card button {
-            background-color: #e08b72;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .card button:hover {
-            background-color: #c76a57;
-        }
-
-    </style>
 </head>
 <body>
     <!-- Header -->

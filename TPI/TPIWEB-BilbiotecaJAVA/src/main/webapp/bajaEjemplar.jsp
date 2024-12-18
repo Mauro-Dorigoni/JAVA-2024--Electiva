@@ -26,101 +26,8 @@
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="assets/CSS/vistaAdmin.css">
+    <link rel="stylesheet" href="assets/CSS/adminForms.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-    <style>
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px;
-            width: 100%;
-        }
-
-        .form-container h1 {
-            color: #e08b72;
-            margin-bottom: 30px;
-            text-align: center; /* Centrar el título */
-        }
-
-        .form-group label {
-            font-weight: bold;
-            color: #e08b72; /* Color de los descriptores */
-            text-align: left;
-            display: block;
-        }
-
-        .form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .form-group input[type="text"]:focus, .form-group textarea:focus, .form-group input[type="file"]:focus {
-            border-color: #4FA5BF; /* Resaltado celeste */
-            outline: none;
-            box-shadow: 0 0 5px #4FA5BF;
-        }
-
-        .form-group button[type="submit"] {
-            background-color: #e08b72;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .form-group button[type="submit"]:hover {
-            background-color: #c76a57;
-        }
-
-
-	    .form-container {
-	        background-color: white;
-	        padding: 30px;
-	        border-radius: 2px;
-	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	        max-width: 600px;
-	        margin: 20px;
-	        width: 100%;
-	        border: 2px solid #e08b72;
-		}
-		.form-group select {
-		    width: 100%;
-		    padding: 10px;
-		    margin-top: 5px;
-		    margin-bottom: 15px;
-		    border: 1px solid #ccc;
-		    border-radius: 5px;
-		    box-sizing: border-box;
-		    white-space: nowrap; /* Evita que el texto se corte */
-		    overflow: hidden; /* Oculta cualquier desbordamiento de texto */
-		    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
-		}
-		.form-group select option {
-		    white-space: nowrap;
-		    overflow: hidden;
-		    text-overflow: ellipsis;
-		}
-		.form-group select:focus {
-		    border-color: #4FA5BF; /* Resaltado celeste */
-		    outline: none;
-		    box-shadow: 0 0 5px #4FA5BF;
-		}
-    </style>
 </head>
 <body>
     <!-- Header -->
@@ -216,7 +123,7 @@
     });
 </script>
 
-    <div class="footer">
+    <div class="footer" style="position:fixed">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 
