@@ -1,0 +1,76 @@
+.search-bar {
+   padding: 8px;
+   font-size: 0.9rem;
+   width: 1200px; /* Tamaño más pequeño de la barra de búsqueda */
+   border-radius: 5px;
+   border: 1px solid #ccc;
+      }
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+.input-group {
+	display: flex;
+	align-items: center;
+}
+
+.input-group input {
+    flex: 1; /* Ocupa todo el espacio disponible */
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	border-top-right-radius: 0; /* Elimina el radio en la esquina superior derecha */
+	border-bottom-right-radius: 0; /* Elimina el radio en la esquina inferior derecha */
+}
+
+.input-group button {
+    background-color: #e08b72; /* Cambia el color según el diseño */
+	border: 1px solid #e08b72;
+	border-radius: 5px;
+	border-top-left-radius: 0; /* Elimina el radio en la esquina superior izquierda */
+	border-bottom-left-radius: 0; /* Elimina el radio en la esquina inferior izquierda */
+    padding: 10px;
+    cursor: pointer;
+}
+
+.input-group button i {
+    color: white; /* Cambia el color del ícono según el diseño */
+    font-size: 1rem;
+}
+.input-group button:hover {
+    background-color: #d07a5a; /* Color al pasar el ratón sobre el botón */
+	border-color: #d07a5a; /* Asegura que el borde también cambie de color */
+}
+
+.filter-sort {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.filter-sort select {
+    border-color: #e08b72;
+    border: 2px solid #e08b72;
+    border-radius: 4px;
+    margin-left: 20px;
+    padding: 5px;
+}
+  .filter-sort select:focus {
+	outline: none; /* Elimina el borde predeterminado del navegador */
+	border-color: #e08b72; /* Mantiene el color del borde al estar seleccionado */
+	box-shadow: 0 0 0 2px rgba(224, 139, 114, 0.5); /* Opción para añadir un efecto de sombra suave */
+}
+#botonFiltro{
+	background-color:#e08b72;
+	color: white;
+	margin-right: 20px;
+	border-color: #e08b72;
+    border: 2px solid #e08b72;
+    border-radius: 4px;
+    padding: 5px;
+	
+}
