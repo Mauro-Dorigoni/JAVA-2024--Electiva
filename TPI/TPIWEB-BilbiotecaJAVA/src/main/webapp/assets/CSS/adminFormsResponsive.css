@@ -1,0 +1,12 @@
+/* Estilo para pantallas pequeñas */
+@media (max-width: 840px) {
+	.form-group select {
+		font-size: 0.7rem; /* Ajusta el tamaño del texto */
+	}
+
+	/* Forzar que el menú desplegable no se salga de la pantalla */
+	.form-group select {
+		max-width: 100%; /* Asegura que no sea más ancho que su contenedor */
+		overflow-x: auto; /* Habilita el scroll horizontal si es necesario */
+	}
+}

@@ -1,0 +1,30 @@
+@media (max-width: 840px) {
+    .detail-container {
+        flex-direction: column; /* Cambia la dirección a columna */
+        align-items: center; /* Centra el contenido */
+    }
+
+    .detail-container img {
+        width: 100%; /* Asegura que la imagen ocupe todo el ancho disponible */
+        max-width: none; /* Elimina cualquier restricción en el ancho */
+        margin: 0 0 20px 0; /* Margen inferior para separar de los textos */
+    }
+
+    .info-row {
+        flex-direction: column; /* Cambia los textos a una disposición vertical */
+        align-items: flex-start; /* Alinea el texto al inicio */
+        margin-bottom: 10px; /* Espacio adicional entre las filas */
+    }
+
+    .info-row p {
+        margin-bottom: 5px; /* Espaciado entre los párrafos */
+    }
+
+    .resenias-section .info-row {
+        flex-direction: column; /* Coloca el nombre, puntaje y descripción en filas */
+    }
+
+    .resenias-section .info-row p:first-child {
+        margin-bottom: 10px; /* Espaciado entre nombre/puntaje y la descripción */
+    }
+}

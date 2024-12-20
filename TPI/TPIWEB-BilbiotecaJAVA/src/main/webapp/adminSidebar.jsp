@@ -2,66 +2,70 @@
 <%@ page import="javax.servlet.http.HttpSession" %>
 
 <link rel="stylesheet" href="assets/CSS/adminSidebar.css">
-<div class="sidebar">
-    <!-- Categorías -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'categorias' == param.activeSection ? 'active' : ''}">Categorías</a>
-    <div class="dropdown-container">
-        <form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
-            <input type="hidden" id="action" name="action" value="">
-        </form>
-        <a href="#" onclick="setActionAndSubmit('listado'); return false;">Listado</a>
-        <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
-        <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
-        <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
-    </div>
-
-    <!-- Libros -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'libros' == param.activeSection ? 'active' : ''}">Libros</a>
-    <div class="dropdown-container">
-        <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
-            <input type="hidden" id="actionLibro" name="actionLibro" value=""/>
-        </form>
-        <a href="#" onclick="setActionAndSubmitLibros('listado'); return false;">Listado</a>
-        <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
-        <a href="#" onclick="setActionAndSubmitLibros('modificar'); return false;">Modificar Libro</a>
-        <a href="#" onclick="setActionAndSubmitLibros('baja'); return false;">Baja Libro</a>
-    </div>
-
-    <!-- Ejemplares -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'ejemplares' == param.activeSection ? 'active' : ''}">Ejemplares</a>
-    <div class="dropdown-container">
-        <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
-            <input type="hidden" id="actionEjemplares" name="actionEjemplares" value=""/>
-        </form>
-        <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
-        <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
-        <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
-        <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
-    </div>
-
-    <!-- Préstamos -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'prestamos' == param.activeSection ? 'active' : ''}">Prestamos</a>
-    <div class="dropdown-container">
-        <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;"></form>
-        <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
-    </div>
-
-    <!-- Clientes -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'clientes' == param.activeSection ? 'active' : ''}">Clientes</a>
-    <div class="dropdown-container">
-        <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
-            <input type="hidden" name="action" id="actionInput">
-        </form>
-        <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
-        <a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
-        <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
-    </div>
-
-    <!-- Reseñas -->
-    <a href="#" class="dropdown-btn ${param.activeSection == null || 'reviews' == param.activeSection ? 'active' : ''}">Reseñas</a>
-    <div class="dropdown-container">
-        <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
-    </div>
+<link rel="stylesheet" href="assets/CSS/vistaAdminResponsive.css">
+<div id="sidebar-container">
+    <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i><strong>  Menu</strong></button>
+	<div class="sidebar">
+	    <!-- Categorías -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'categorias' == param.activeSection ? 'active' : ''}">Categorías</a>
+	    <div class="dropdown-container">
+	        <form id="listadoCategoriasForm" action="<%=request.getContextPath()%>/listCategorias" method="get" style="display: none;">
+	            <input type="hidden" id="action" name="action" value="">
+	        </form>
+	        <a href="#" onclick="setActionAndSubmit('listado'); return false;">Listado</a>
+	        <a href="<%=request.getContextPath()%>/altaCategoria.jsp">Nueva Categoria</a>
+	        <a href="#" onclick="setActionAndSubmit('modificar'); return false;">Modificar Categoria</a>
+	        <a href="#" onclick="setActionAndSubmit('baja'); return false;">Baja Categoria</a>
+	    </div>
+	
+	    <!-- Libros -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'libros' == param.activeSection ? 'active' : ''}">Libros</a>
+	    <div class="dropdown-container">
+	        <form id="listadoLibrosForm" action="<%=request.getContextPath()%>/listLibros?action=user" method="get" style="display: none;">
+	            <input type="hidden" id="actionLibro" name="actionLibro" value=""/>
+	        </form>
+	        <a href="#" onclick="setActionAndSubmitLibros('listado'); return false;">Listado</a>
+	        <a href="#" onclick="setActionAndSubmit('altaLibro'); return false;">Nuevo Libro</a>
+	        <a href="#" onclick="setActionAndSubmitLibros('modificar'); return false;">Modificar Libro</a>
+	        <a href="#" onclick="setActionAndSubmitLibros('baja'); return false;">Baja Libro</a>
+	    </div>
+	
+	    <!-- Ejemplares -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'ejemplares' == param.activeSection ? 'active' : ''}">Ejemplares</a>
+	    <div class="dropdown-container">
+	        <form id="listadoEjemplaresForm" action="<%=request.getContextPath()%>/listEjemplares" method="get" style="display: none;">
+	            <input type="hidden" id="actionEjemplares" name="actionEjemplares" value=""/>
+	        </form>
+	        <a href="#" onclick="setActionAndSubmitEjemplares('listado'); return false;">Listado</a>
+	        <a href="#" onclick="setActionAndSubmitLibros('ejemplares'); return false;">Nuevo Ejemplar</a>
+	        <a href="#" onclick="setActionAndSubmitEjemplares('modificar'); return false;">Modificar Ejemplar</a>
+	        <a href="#" onclick="setActionAndSubmitEjemplares('baja'); return false;">Baja Ejemplar</a>
+	    </div>
+	
+	    <!-- Préstamos -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'prestamos' == param.activeSection ? 'active' : ''}">Prestamos</a>
+	    <div class="dropdown-container">
+	        <form id="listadoPrestamosForm" action="<%=request.getContextPath()%>/listPrestamos" method="get" style="display: none;"></form>
+	        <a href="#" onclick="document.getElementById('listadoPrestamosForm').submit(); return false;">Registrar Estado</a>
+	    </div>
+	
+	    <!-- Clientes -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'clientes' == param.activeSection ? 'active' : ''}">Clientes</a>
+	    <div class="dropdown-container">
+	        <form id="listadoClientesForm" action="<%=request.getContextPath()%>/listClientes" method="get" style="display: none;">
+	            <input type="hidden" name="action" id="actionInput">
+	        </form>
+	        <a href="#" onclick="setActionAndSubmitClientes('privilegios'); return false;">Otorgar Privilegios</a>
+	        <a href="#" onclick="setActionAndSubmitClientes('pago'); return false;">Registrar pago</a>
+	        <a href="#" onclick="setActionAndSubmitLibros('userDashboard'); return false;">Vista Usuario</a>
+	    </div>
+	
+	    <!-- Reseñas -->
+	    <a href="#" class="dropdown-btn ${param.activeSection == null || 'reviews' == param.activeSection ? 'active' : ''}">Reseñas</a>
+	    <div class="dropdown-container">
+	        <a href="<%=request.getContextPath()%>/listReviewsPendientes">Moderacion</a>
+	    </div>
+	</div>
 </div>
 
 <script>
@@ -104,5 +108,18 @@
         document.getElementById('actionInput').value = actionValue;
         document.getElementById('listadoClientesForm').submit();
     }
+	
+	function toggleSidebar() {
+	    const sidebar = document.querySelector('.sidebar');
+	    sidebar.classList.toggle('active'); // Alterna visibilidad de la barra lateral
+	}
+
+	// Manejo de submenús desplegables
+	document.querySelectorAll('.dropdown-btn').forEach((btn) => {
+	    btn.addEventListener('click', function () {
+	        const dropdownContainer = this.nextElementSibling; // Obtén el contenedor relacionado
+	        dropdownContainer.classList.toggle('active'); // Alterna visibilidad
+	    });
+	});
 
 </script>

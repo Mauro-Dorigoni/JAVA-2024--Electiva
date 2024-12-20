@@ -59,14 +59,14 @@ public class ChangePassServlet extends HttpServlet {
                 request.setAttribute("cliente", cin);
                 request.getRequestDispatcher("cambioContra.jsp").forward(request, response);
                 
-			}
+			}else {
 			//si es correcta, actualizo contra
 			c.setContra(contraNueva);
 			cl.updatePass(c);
 			request.setAttribute("messageType", "success");
             request.setAttribute("message", "Cambio realizado con exito. Por razones de seguridad, le pediremos que se loguee nuevamente");
             request.setAttribute("cliente", c);
-            request.getRequestDispatcher("cambioContra.jsp").forward(request, response);
+            request.getRequestDispatcher("cambioContra.jsp").forward(request, response);}
 		} catch (AppException e) {
 			request.setAttribute("error", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);

@@ -14,6 +14,11 @@
 
     // Recuperar la lista de categorías desde el request
     List<Prestamo> prestamos = (List<Prestamo>) request.getAttribute("prestamos");
+	String footerPosition = "relative";
+    if(prestamos.size()<4){
+     	footerPosition = "fixed";
+    }
+
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -27,21 +32,9 @@
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="assets/CSS/listadosAdmin.css">
+    <link rel="stylesheet" href="assets/CSS/listadoPrestamos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-		.main-content select {
-            border-color: #e08b72;
-            border: 2px solid #e08b72;
-            border-radius: 4px;
-            margin-left: 20px;
-            padding: 5px;
-        }
-        .main-content select:focus {
-		    outline: none; /* Elimina el borde predeterminado del navegador */
-		    border-color: #e08b72; /* Mantiene el color del borde al estar seleccionado */
-		    box-shadow: 0 0 0 2px rgba(224, 139, 114, 0.5); /* Opción para añadir un efecto de sombra suave */
-		}
-    </style>
+
 </head>
 <body>
     <!-- Header -->
@@ -144,7 +137,7 @@
     });
 </script>
     <!-- Footer -->
-    <div class="footer" style="position:fixed">
+    <div class="footer" style="position:<%=footerPosition%>">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 </body>

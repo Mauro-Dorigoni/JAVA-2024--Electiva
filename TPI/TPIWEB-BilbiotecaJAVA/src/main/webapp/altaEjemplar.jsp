@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="assets/CSS/vistaAdmin.css">
     <link rel="stylesheet" href="assets/CSS/adminForms.css">
+    <link rel="stylesheet" href="assets/CSS/adminFormsResponsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>

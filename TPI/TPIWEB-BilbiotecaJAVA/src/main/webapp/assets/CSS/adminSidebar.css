@@ -48,4 +48,5 @@
 .sidebar .active {
    background-color: #3C7D93;
    text-decoration: underline;
+   display: block;
 }

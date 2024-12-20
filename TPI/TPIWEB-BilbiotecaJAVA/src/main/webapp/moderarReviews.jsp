@@ -13,6 +13,10 @@
     }
 
    LinkedList<Review> reviews = (LinkedList<Review>) request.getAttribute("reviews");
+   String footerPosition = "relative";
+   if(reviews.size()<4){
+    	footerPosition = "fixed";
+   }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,6 +30,7 @@
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
     <link rel="stylesheet" href="assets/CSS/listadosAdmin.css">
+    <link rel="stylesheet" href="assets/CSS/moderacionResponsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
@@ -139,7 +144,7 @@
     });
 </script>
     <!-- Footer -->
-    <div class="footer" style="position:fixed">
+    <div class="footer" style="position:<%=footerPosition%>">
         <p>Todos los derechos reservados Universidad Tecnológica Nacional Facultad Regional Rosario</p>
     </div>
 </body>

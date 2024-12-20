@@ -1,0 +1,63 @@
+		.main-content select {
+            border-color: #e08b72;
+            border: 2px solid #e08b72;
+            border-radius: 4px;
+            margin-left: 20px;
+            padding: 5px;
+            width: auto; /* Ajusta al contenido */
+    		cursor: pointer;
+    		color:#666;
+        }
+        .main-content select:focus {
+		    outline: none; /* Elimina el borde predeterminado del navegador */
+		    border-color: #e08b72; /* Mantiene el color del borde al estar seleccionado */
+		    box-shadow: 0 0 0 2px rgba(224, 139, 114, 0.5); /* Opción para añadir un efecto de sombra suave */
+		}
+		.filter-form label {
+		    background-color: white; /* Fondo blanco */
+		    padding: 4px; /* Espaciado opcional */
+		    display: inline-block; /* Asegura que tome solo el espacio del texto */
+		    font-weight: bold;
+		    border: 2px solid #e08b72;
+            border-radius: 4px;
+            color:#666; /* Negrita para mayor visibilidad */
+		}
+		.card form {
+		    margin-left: 20px;
+		}
+		
+		.card select {
+		    padding: 8px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    background-color: #fff;
+		    color: #666;
+		    width: 200px;
+		}
+		
+		@media (max-width: 840px) {
+			.main-content select {
+	            margin-left: 0px;
+	            padding: 4px;
+	        }
+	        .filter-form label {
+			    display: inline-block; /* Asegura que tome solo el espacio del texto */
+			}
+			.card {
+		        flex-direction: column; /* Cambia el diseño a columna */
+		        align-items: flex-start; /* Alinea los elementos al inicio */
+		    }
+		
+		    .card img {
+		        margin: 0 auto 10px auto; /* Centra la imagen */
+		    }
+		
+		    .card form {
+		        width: 100%;
+		        margin-left: 0;
+		    }
+		
+		    .card select {
+		        width: 100%; /* Ocupa todo el ancho */
+		        margin-top: 10px; /* Espaciado entre el estado y el select */
+		    } 

@@ -26,7 +26,8 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/CSS/general.css">
     <link rel="stylesheet" href="assets/CSS/header&footer.css">
-     <link rel="stylesheet" href="assets/CSS/listadosAdmin.css">
+    <link rel="stylesheet" href="assets/CSS/listadosAdmin.css">
+    <link rel="stylesheet" href="assets/CSS/listadoAdminResponsive.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>

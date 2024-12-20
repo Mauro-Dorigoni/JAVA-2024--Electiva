@@ -39,3 +39,15 @@
     color: white;
     font-weight: bold;
 }
+
+@media (max-width: 840px){
+	.nav-links .welcome-message {
+    	display: none;
+	}
+	.user-dropdown-menu{
+		transform: translateX(-90%); 
+		
+		
+	}
+	
+}

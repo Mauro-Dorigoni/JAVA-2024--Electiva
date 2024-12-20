@@ -1,0 +1,22 @@
+@media (max-width: 840px) {
+   .card {
+       flex-direction: column; /* Cambia a disposición en columna */
+   }
+
+   .card-content {
+       margin-bottom: 10px; /* Agrega separación entre contenido y botones */
+   }
+
+   .d-flex {
+       flex-direction: column; /* Asegura que los botones estén en columna */
+       width: 100%; /* Que ocupen el ancho completo */
+   }
+
+   .btn-block {
+       width: 100%; /* Botones a lo ancho */
+   }
+
+   .btn-block + .btn-block {
+       margin-top: 10px; /* Espaciado entre botones */
+    }
+}

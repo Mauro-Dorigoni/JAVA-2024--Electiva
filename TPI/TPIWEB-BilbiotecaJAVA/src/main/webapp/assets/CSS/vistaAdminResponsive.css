@@ -1,0 +1,69 @@
+/* No me preguntes por que no anda si este css lo incluyo en adminSidebar.css o en vistaAdmin.css. Pero bueno, si lo pongo donde va, no anda, asi que aqui estamos */	
+	.toggle-btn {
+	    display: none;
+	}
+	.sidebar a:focus, 
+	.sidebar a:hover {
+	    text-decoration: underline;
+	    outline: none; /* Quitar el borde negro */
+	}
+@media (max-width: 840px) {
+    .sidebar-container{
+    	width:100%;
+        background-color: #4FA5BF;
+
+    }
+    .sidebar {
+        width: 100%; 
+        position: static; 
+        display: none;
+        background-color: #4FA5BF;
+        height: auto;
+        padding: 10px 0;
+        
+    }
+
+    
+    .sidebar.active {
+        display: block;
+    }
+
+  
+    .toggle-btn {
+        display: block; 
+        background-color: #4FA5BF;
+        color: white; 
+		border: none; 
+        padding: 10px 0;
+        cursor: pointer; 
+        font-size: 18px; 
+        text-align: center; 
+        width: 100%; 
+        text-align: left; 
+    }
+    .toggle-btn:focus {
+	    border: 2px solid #4FA5BF; /* Cambiar por el color deseado */ /* Añadir un borde redondeado si es necesario */
+}
+
+
+    .sidebar a {
+        padding: 10px 15px; 
+        font-size: 1rem;
+        background-color: transparent;
+        transition: background-color 0.3s ease; 
+    }
+
+    .dropdown-container {
+        display: none; 
+        padding-left: 15px; 
+    }
+
+    .dropdown-container.active {
+        display: block;
+    }
+    .main-content{
+    	margin-left: 0px;
+    	margin-top: 0px;
+    }
+
+}
